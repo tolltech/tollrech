@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Trash.cs" />
+    <Compile Include="TreeNodeExtensions.cs" />
     <Compile Include="UnitTestCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="package.nuspec" />

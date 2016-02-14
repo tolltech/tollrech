@@ -85,28 +85,43 @@ namespace Tollrech
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            var ctorExpression = error?.Reference.GetTreeNode() as IObjectCreationExpression;//IObjectCreationExpressiotn.Arguments = 0
+            var ctorTreeNode = error?.Reference.GetTreeNode();
+            var ctorExpression = ctorTreeNode as IObjectCreationExpression;//IObjectCreationExpressiotn.Arguments = 0
             var ctor = error?.Reference?.CurrentResolveResult?.DeclaredElement as IConstructor;// тут инфа о параметрах
             if (ctor == null || ctorExpression == null)
                 return null;
 
             var ctorParams = ctor.Parameters;
+            if (ctorParams.Count == 0)
+                return null;
 
             var factory = CSharpElementFactory.GetInstance(error.Reference.GetAccessContext().GetPsiModule());
 
             var argExpressions = new List<ICSharpExpression>();
+
+            var methodDeclaration = ctorTreeNode.FindParent<IMethodDeclaration>();
+            var classDeclaration = methodDeclaration?.FindParent<IClassDeclaration>();
             foreach (var ctorParam in ctorParams)
             {
-                var pattern = ctorParam.Type.IsInterfaceType() ? "NewMock<$0>()" : "new $0()";
-                var argExpression = factory.CreateExpression(pattern, ctorParam.Type);
+                if (!ctorParam.Type.IsInterfaceType())
+                    continue;
+
+                var argExpression = factory.CreateExpression($"NewMock<$0>();", ctorParam.Type);
                 argExpressions.Add(argExpression);
+                if (classDeclaration != null)
+                {
+                    classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(ctorParam.Type, ctorParam.ShortName));
+                    var initializer = factory.CreateObjectCreationExpressionMemberInitializer(ctorParam.ShortName, argExpression);
+                    //methodDeclaration. Body.AddStatementBefore(initializer, null);
+                }
             }
 
+            var names = ctorParams.Select(x => x.Type.IsInterfaceType() ? x.ShortName : "TODO");
             var argumentsPattern = string.Join(", ", Enumerable.Range(1, ctorParams.Count).Select(x => string.Format("${0}", x)));
-            var objArgExpressions = new object[] { ctor.GetContainingType() }.Concat(argExpressions).ToArray();
+            var objArgExpressions = new object[] { ctor.GetContainingType() }.Concat(names).ToArray();
             var newExpression = factory.CreateExpression($"new $0({argumentsPattern});", objArgExpressions);
 
-            ctorExpression.ReplaceBy(newExpression);
+            ctorExpression.ReplaceBy(factory.CreateExpression("$0", newExpression));
 
             return null;
         }
