@@ -68,11 +68,11 @@ namespace Tollrech
                 if (invocationExpression.Arguments.Count != 0)
                 {
 
-                //    argsExpression = CreateArrayCreationExpression(
-                //        TypeFactory.CreateTypeByCLRName(
-                //"System.Object",
-                //        accessExpression.GetPsiModule(),
-                //        accessExpression.GetResolveContext()), factory);
+                    //    argsExpression = CreateArrayCreationExpression(
+                    //        TypeFactory.CreateTypeByCLRName(
+                    //"System.Object",
+                    //        accessExpression.GetPsiModule(),
+                    //        accessExpression.GetResolveContext()), factory);
                     var arrayCreationExpression = argsExpression as IArrayCreationExpression;
                     foreach (var arg in invocationExpression.ArgumentsEnumerable)
                     {
@@ -82,7 +82,7 @@ namespace Tollrech
                 }
             }
             var reflectionExpression = factory.CreateExpression("typeof($0).InvokeMember(\"$1\", $2, null, $3, $4)",
-        
+
                 ((IClrDeclaredElement)_declaredElement).GetContainingType(),
                 _declaredElement.ShortName,
                 flags,
@@ -117,7 +117,7 @@ namespace Tollrech
                 UsingUtil.AddImportTo(importScope, reflectionNamespace);
             }
         }
-private static INamespace GetReflectionNamespace(CSharpElementFactory factory)
+        private static INamespace GetReflectionNamespace(CSharpElementFactory factory)
         {
             var usingDirective = factory.CreateUsingDirective("System.Reflection");
             var reference = usingDirective.ImportedSymbolName;

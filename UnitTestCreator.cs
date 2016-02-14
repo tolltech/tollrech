@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon.CSharp.Errors;
@@ -9,6 +10,7 @@ using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
 
@@ -95,11 +97,15 @@ namespace Tollrech
             var argExpressions = new List<ICSharpExpression>();
             foreach (var ctorParam in ctorParams)
             {
-                var argExpression = factory.CreateExpression("NewMock<$0>()", ctorParam.GetContainingType());
+                var pattern = ctorParam.Type.IsInterfaceType() ? "NewMock<$0>()" : "new $0()";
+                var argExpression = factory.CreateExpression(pattern, ctorParam.Type);
                 argExpressions.Add(argExpression);
             }
 
-            var newExpression = factory.CreateExpression("new $0($1)", ctor.GetContainingType(), argExpressions[0]);
+            var argumentsPattern = string.Join(", ", Enumerable.Range(1, ctorParams.Count).Select(x => string.Format("${0}", x)));
+            var objArgExpressions = new object[] { ctor.GetContainingType() }.Concat(argExpressions).ToArray();
+            var newExpression = factory.CreateExpression($"new $0({argumentsPattern});", objArgExpressions);
+
             ctorExpression.ReplaceBy(newExpression);
 
             return null;
