@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>Tolltech.Tollrech</id>
+		<version>0.0.5</version>
+		<authors>Tolltech</authors>
+		<owners>Tolltech</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>CoolerShmooler</description>
+		<tags>notags</tags>
+		<dependencies>
+			<dependency id="Wave" version="4.0" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="bin\Debug\Tollrech.dll" target="dotFiles\" />
+		<file src="bin\Debug\Tollrech.pdb" target="dotFiles\" />
+	</files>
+</package>

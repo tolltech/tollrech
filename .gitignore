@@ -1,0 +1,6 @@
+bin/*
+*.suo
+obj/*
+*.user
+Tolltech*.nupkg
+packages/*
