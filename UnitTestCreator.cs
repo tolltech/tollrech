@@ -86,8 +86,8 @@ namespace Tollrech
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var ctorTreeNode = error?.Reference.GetTreeNode();
-            var ctorExpression = ctorTreeNode as IObjectCreationExpression;//IObjectCreationExpressiotn.Arguments = 0
-            var ctor = error?.Reference?.CurrentResolveResult?.DeclaredElement as IConstructor;// тут инфа о параметрах
+            var ctorExpression = ctorTreeNode as IObjectCreationExpression;
+            var ctor = error?.Reference?.CurrentResolveResult?.DeclaredElement as IConstructor;
             if (ctor == null || ctorExpression == null)
                 return null;
 
@@ -97,8 +97,6 @@ namespace Tollrech
 
             var factory = CSharpElementFactory.GetInstance(error.Reference.GetAccessContext().GetPsiModule());
 
-            var argExpressions = new List<ICSharpExpression>();
-
             var methodDeclaration = ctorTreeNode.FindParent<IMethodDeclaration>();
             var classDeclaration = methodDeclaration?.FindParent<IClassDeclaration>();
             foreach (var ctorParam in ctorParams)
@@ -107,12 +105,12 @@ namespace Tollrech
                     continue;
 
                 var argExpression = factory.CreateExpression($"NewMock<$0>();", ctorParam.Type);
-                argExpressions.Add(argExpression);
+
                 if (classDeclaration != null)
                 {
                     classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(ctorParam.Type, ctorParam.ShortName));
-                    var initializer = factory.CreateObjectCreationExpressionMemberInitializer(ctorParam.ShortName, argExpression);
-                    //methodDeclaration. Body.AddStatementBefore(initializer, null);
+                    var ctorStatement = methodDeclaration.Body.Statements.FirstOrDefault(x => (x as IExpressionStatement)?.Expression == ctorExpression);
+                    methodDeclaration.Body.AddStatementBefore(factory.CreateStatement("$0 = $1;", ctorParam.ShortName, argExpression), ctorStatement);
                 }
             }
 
@@ -121,7 +119,7 @@ namespace Tollrech
             var objArgExpressions = new object[] { ctor.GetContainingType() }.Concat(names).ToArray();
             var newExpression = factory.CreateExpression($"new $0({argumentsPattern});", objArgExpressions);
 
-            ctorExpression.ReplaceBy(factory.CreateExpression("$0", newExpression));
+            ctorExpression.ReplaceBy(newExpression);
 
             return null;
         }
@@ -130,30 +128,16 @@ namespace Tollrech
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            return error?.Reference?.CurrentResolveResult?.DeclaredElement is IConstructor;
-        }
-    }
+            if (!(error?.Reference?.CurrentResolveResult?.DeclaredElement is IConstructor))
+                return false;
 
-    [QuickFix]
-    public class TrashFix : QuickFixBase
-    {
-        private readonly IncorrectArgumentNumberError error;
-
-        public TrashFix(IncorrectArgumentNumberError error)
-        {
-            this.error = error;
-        }
-
-        protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
-        {
-            return null;
-        }
-
-        public override string Text => "Tr";
-
-        public override bool IsAvailable(IUserDataHolder cache)
-        {
-            return false;
+            var ctorTreeNode = error?.Reference.GetTreeNode();
+            var classDeclaration = ctorTreeNode?.FindParent<IClassDeclaration>();
+            if (classDeclaration == null)
+                return false;
+            return true;
+            var methods = classDeclaration.SuperTypes.SelectMany(x => x.GetTypeElement()?.Methods);
+            return methods.Any(x => x.ShortName == "NewMock");
         }
     }
 }
