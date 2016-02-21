@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
@@ -10,6 +11,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
+using JetBrains.Util.Extension;
 
 namespace Tollrech
 {
@@ -17,6 +19,7 @@ namespace Tollrech
     public class MockedClassCreateFix : QuickFixBase
     {
         private readonly IncorrectArgumentNumberError error;
+        private const string QueryExecutroFactoryInterfaceName = "IQueryExecutorFactory";
 
         public MockedClassCreateFix(IncorrectArgumentNumberError error)
         {
@@ -39,29 +42,91 @@ namespace Tollrech
 
             var methodDeclaration = ctorTreeNode.FindParent<IMethodDeclaration>();
             var classDeclaration = methodDeclaration?.FindParent<IClassDeclaration>();
-            foreach (var ctorParam in ctorParams)
+
+            var mockInfos = new List<MockInfo>();
+            for (var i = 0; i < ctorParams.Count; ++i)
             {
-                if (!ctorParam.Type.IsInterfaceType())
+                var ctorParam = ctorParams[i];
+                var isArray = ctorParam.Type is IArrayType;
+
+                if (!ctorParam.Type.IsInterfaceType() && !(isArray && ctorParam.Type.GetScalarType().IsInterfaceType())
+                    || ctorParam.Type.GetScalarType().GetInterfaceType()?.ShortName == QueryExecutroFactoryInterfaceName)
                     continue;
 
-                var argExpression = factory.CreateExpression("NewMock<$0>();", ctorParam.Type);
-
-                if (classDeclaration != null)
+                var ctorParamName = ctorParam.ShortName;
+                if (isArray)
                 {
-                    classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(ctorParam.Type, ctorParam.ShortName));
-                    var ctorStatement = methodDeclaration.Body.Statements.FirstOrDefault(x => (x as IExpressionStatement)?.Expression == ctorExpression);
-                    methodDeclaration.Body.AddStatementBefore(factory.CreateStatement("$0 = $1;", ctorParam.ShortName, argExpression), ctorStatement);
+                    var scalarType = ctorParam.Type.GetScalarType().GetInterfaceType();
+                    var singleName = ctorParamName.EndsWith("es") ? ctorParamName.RemoveEnd("es") : ctorParamName.RemoveEnd("s");
+
+                    var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
+                    foreach (var arrayParamName in arrayParamNames)
+                    {
+                        var expression = factory.CreateExpression("NewMock<$0>();", scalarType.ShortName);
+                        mockInfos.Add(new MockInfo
+                        {
+                            Statement = factory.CreateStatement("$0 = $1;", arrayParamName, expression),
+                            Type = ((IArrayType) ctorParam.Type).ElementType,
+                            Name = arrayParamName
+                        });
+                    }
+
+                    mockInfos.Add(new MockInfo
+                    {
+                        Statement = factory.CreateStatement("$0 = $1;", ctorParam.ShortName, factory.CreateExpression($"new[] {{ {string.Join(", ", arrayParamNames)} }}")),
+                        Type = ctorParam.Type,
+                        Name = ctorParam.ShortName
+                    });
+                }
+                else
+                {
+                    mockInfos.Add(new MockInfo
+                    {
+                        Statement = factory.CreateStatement("$0 = $1;", ctorParam.ShortName, factory.CreateExpression("NewMock<$0>();", ctorParam.Type)),
+                        Type = ctorParam.Type,
+                        Name = ctorParam.ShortName
+                    });
                 }
             }
 
-            var names = ctorParams.Select(x => x.Type.IsInterfaceType() ? x.ShortName : "TODO");
-            var argumentsPattern = string.Join(", ", Enumerable.Range(1, ctorParams.Count).Select(x => $"${x}"));
+            var ctorStatement = methodDeclaration.Body.Statements.FirstOrDefault(x => (x as IExpressionStatement)?.Expression == ctorExpression);
+            foreach (var mockInfo in mockInfos)
+            {
+                classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(mockInfo.Type, mockInfo.Name));
+                methodDeclaration.Body.AddStatementBefore(mockInfo.Statement, ctorStatement);
+            }
+
+            var superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes).Select(x => x.GetClassType()).Where(x => x != null).ToArray();
+            var names = ctorParams.Select(x => GetCtorArgumentName(x, superTypes));
             var objArgExpressions = new object[] { ctor.GetContainingType() }.Concat(names).ToArray();
+            var argumentsPattern = string.Join(", ", Enumerable.Range(1, ctorParams.Count).Select(x => $"${x}"));
             var newExpression = factory.CreateExpression($"new $0({argumentsPattern});", objArgExpressions);
 
             ctorExpression.ReplaceBy(newExpression);
 
             return null;
+        }
+
+        private class MockInfo
+        {
+            public IType Type { get; set; }
+            public string Name { get; set; }
+            public ICSharpStatement Statement { get; set; }
+        }
+
+        private static string GetCtorArgumentName(IParameter ctorParam, IClass[] superTypes)
+        {
+            if (!ctorParam.Type.GetScalarType().IsInterfaceType())
+                return "TODO";
+
+            const string queryExecutorFactoryFieldName = "QueryExecutorFactory";
+            if (ctorParam.Type.GetInterfaceType()?.ShortName == QueryExecutroFactoryInterfaceName
+                    && superTypes.Any(x => x.Properties.Any(y => y.ShortName == queryExecutorFactoryFieldName)
+                                        || x.Fields.Any(y => y.ShortName == queryExecutorFactoryFieldName))
+                )
+                return queryExecutorFactoryFieldName;
+
+            return ctorParam.ShortName;
         }
 
         public override string Text => "Create mocked class";
