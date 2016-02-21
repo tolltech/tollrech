@@ -1,19 +1,24 @@
 ﻿<?xml version="1.0"?>
 <package>
-	<metadata>
-		<id>Tolltech.Tollrech</id>
-		<version>1.0.3</version>
-		<authors>Tolltech</authors>
-		<owners>Tolltech</owners>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>CoolerShmooler</description>
-		<tags>notags</tags>
-		<dependencies>
-			<dependency id="Wave" version="4.0" />
-		</dependencies>
-	</metadata>
-	<files>
-		<file src="bin\Debug\Tollrech.dll" target="dotFiles\" />
-		<file src="bin\Debug\Tollrech.pdb" target="dotFiles\" />
-	</files>
+  <metadata>
+    <id>Tolltech.Tollrech</id>
+    <title>Tollrech</title>
+    <version>1.1.0</version>
+    <authors>Tolltech</authors>
+    <copyright>Tolltech</copyright>
+    <owners>Tolltech</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Kontur.Billing Resharping</description>
+    <summary>Kontur.Billing Resharping</summary>
+    <iconUrl>https://git.skbkontur.ru/uploads/project/avatar/584/1593000154.jpg</iconUrl>
+    <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
+    <tags>skbkontur,konturbilling,konturresharping</tags>
+    <dependencies>
+      <dependency id="Wave" version="4.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Debug\Tollrech.dll" target="dotFiles\" />
+    <file src="bin\Debug\Tollrech.pdb" target="dotFiles\" />
+  </files>
 </package>
