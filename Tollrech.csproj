@@ -146,6 +146,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentInfo.cs" />
+    <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="MockInfo.cs" />
     <Compile Include="TreeNodeExtensions.cs" />
     <Compile Include="UnitTestCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
