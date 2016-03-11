@@ -104,13 +104,33 @@ namespace Tollrech
 
         private static void AddMocksToClassDeclaration(IMethodDeclaration methodDeclaration, IObjectCreationExpression ctorExpression, MockInfo[] mockInfos, IClassDeclaration classDeclaration, CSharpElementFactory factory)
         {
-            var ctorStatement = methodDeclaration.Body.Statements.FirstOrDefault(x => (x as IExpressionStatement)?.Expression == ctorExpression);
+            var ctorStatement = methodDeclaration.Body.Statements
+               .FirstOrDefault(x =>
+               {
+                   var expression = (x as IExpressionStatement)?.Expression;
+                   if (expression != null && (expression == ctorExpression || (expression as IAssignmentExpression)?.Source == ctorExpression))
+                       return true;
+
+                   var declarationStatement = (x as IDeclarationStatement);
+                   if (declarationStatement?.VariableDeclarations.Any(varDeclaration => (varDeclaration.Initial as IExpressionInitializer)?.Value == ctorExpression) ?? false)
+                       return true;
+
+                   return false;
+               });
+
             foreach (var mockInfo in mockInfos)
             {
                 if (classDeclaration.MemberDeclarations.All(x => x.DeclaredName != mockInfo.Name))
                     classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(mockInfo.Type, mockInfo.Name));
 
-                methodDeclaration.Body.AddStatementBefore(mockInfo.Statement, ctorStatement);
+                var elementHasAssigned = methodDeclaration.Body.Statements.Any(x =>
+                {
+                    var assignmentOperands = ((x as IExpressionStatement)?.Expression as IAssignmentExpression)?.OperatorOperands;
+                    return assignmentOperands != null && assignmentOperands.Any(operand => (operand as IReferenceExpression)?.NameIdentifier.Name == mockInfo.Name);
+                });
+
+                if (!elementHasAssigned)
+                    methodDeclaration.Body.AddStatementBefore(mockInfo.Statement, ctorStatement);
             }
         }
 
@@ -132,7 +152,7 @@ namespace Tollrech
                 if (isArray)
                 {
                     var scalarType = ctorParam.Type.GetScalarType().GetInterfaceType();
-                    var singleName = ctorParamName.EndsWith("es") ? ctorParamName.RemoveEnd("es") : ctorParamName.RemoveEnd("s");
+                    var singleName = GetSingleName(ctorParamName);
 
                     var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
                     foreach (var arrayParamName in arrayParamNames)
@@ -164,6 +184,12 @@ namespace Tollrech
                 }
             }
             return mockInfos.ToArray();
+        }
+
+        private static string GetSingleName(string ctorParamName)
+        {
+            var singleName = ctorParamName.EndsWith("es") && !ctorParamName.EndsWith("ervices") ? ctorParamName.RemoveEnd("es") : ctorParamName.RemoveEnd("s");
+            return singleName;
         }
 
         private const string queryExecutorFactoryFieldName = "QueryExecutorFactory";
