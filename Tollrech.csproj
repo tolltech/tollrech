@@ -153,6 +153,7 @@
     <Compile Include="UnitTestCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="package.nuspec" />
+    <Compile Include="UnitTestFiller.cs" />
     <Compile Include="ZoneMarker.cs" />
   </ItemGroup>
   <ItemGroup>
