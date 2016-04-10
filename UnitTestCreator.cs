@@ -23,6 +23,10 @@ namespace Tollrech
         private const string QueryExecutroFactoryInterfaceName = "IQueryExecutorFactory";
         private ITypeConversionRule cSharpTypeConversionRule;
 
+        private IConstructor ctor;
+        private IClassDeclaration classDeclaration;
+        private IDeclaredType[] superTypes;
+
         public MockedClassCreateFix(IncorrectArgumentNumberError error)
         {
             this.error = error;
@@ -32,7 +36,6 @@ namespace Tollrech
         {
             var ctorTreeNode = error?.Reference.GetTreeNode();
             var ctorExpression = ctorTreeNode as IObjectCreationExpression;
-            var ctor = error?.Reference?.CurrentResolveResult?.DeclaredElement as IConstructor;
             if (ctor == null || ctorExpression == null)
                 return null;
 
@@ -45,7 +48,6 @@ namespace Tollrech
             var factory = CSharpElementFactory.GetInstance(psiModule);
 
             var methodDeclaration = ctorTreeNode.FindParent<IMethodDeclaration>();
-            var classDeclaration = methodDeclaration?.FindParent<IClassDeclaration>();
 
             var existedArguments = ctorExpression.AllArguments(false)
                 .Select(x => new ArgumentInfo
@@ -56,12 +58,12 @@ namespace Tollrech
                 })
                 .ToArray();
 
-            var superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes).Select(x => x.GetClassType()).Where(x => x != null).ToArray();
+            var superClassTypes = superTypes.Select(x => x.GetClassType()).Where(x => x != null).ToArray();
 
-            var mockInfos = GenerateNewMockInfos(ctorParams, superTypes, existedArguments, factory);
+            var mockInfos = GenerateNewMockInfos(ctorParams, superClassTypes, existedArguments, factory);
             AddMocksToClassDeclaration(methodDeclaration, ctorExpression, mockInfos, classDeclaration, factory);
 
-            var argExpressions = GetCtorArgumentExpressions(ctor, existedArguments, ctorParams, superTypes);
+            var argExpressions = GetCtorArgumentExpressions(ctor, existedArguments, ctorParams, superClassTypes);
             var argumentsPattern = string.Join(", ", Enumerable.Range(1, ctorParams.Count).Select(x => $"${x}"));
             var newExpression = factory.CreateExpression($"new $0({argumentsPattern});", argExpressions.ToArray());
 
@@ -140,8 +142,9 @@ namespace Tollrech
             foreach (var ctorParam in ctorParams)
             {
                 var isArray = ctorParam.Type is IArrayType;
+                var interfaceType = ctorParam.Type.GetScalarType().GetInterfaceType();
 
-                if (!ctorParam.Type.IsInterfaceType() && !(isArray && ctorParam.Type.GetScalarType().IsInterfaceType())
+                if (!ctorParam.Type.IsInterfaceType() && !(isArray && interfaceType != null)
                     || ParamIsQeuryExecutorFactoryAndAvailable(ctorParam.Type, superTypes))
                     continue;
 
@@ -150,8 +153,8 @@ namespace Tollrech
 
                 var ctorParamName = ctorParam.ShortName;
                 if (isArray)
-                {
-                    var scalarType = ctorParam.Type.GetScalarType().GetInterfaceType();
+                {                    
+                    var scalarType = interfaceType;
                     var singleName = GetSingleName(ctorParamName);
 
                     var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
@@ -215,15 +218,16 @@ namespace Tollrech
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            if (!(error?.Reference?.CurrentResolveResult?.DeclaredElement is IConstructor))
+            ctor = error?.Reference?.CurrentResolveResult?.DeclaredElement as IConstructor;
+            if (ctor == null)
                 return false;
 
             var ctorTreeNode = error?.Reference.GetTreeNode();
-            var classDeclaration = ctorTreeNode.FindParent<IClassDeclaration>();
+            classDeclaration = ctorTreeNode.FindParent<IClassDeclaration>();
             if (classDeclaration == null)
                 return false;
 
-            var superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes);
+            superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes).ToArray();
             return superTypes.Any(x => x.GetClassType()?.Methods.Any(y => y.ShortName == "NewMock") ?? false);
         }
     }
