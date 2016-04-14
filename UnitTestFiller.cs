@@ -3,8 +3,8 @@ using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
-using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Impl.reflection2.elements.Compiled;
 using JetBrains.TextControl;
 using JetBrains.Util;
 
@@ -44,10 +44,12 @@ namespace Tollrech
 
         private void Work()
         {
-            var statement = Provider.GetSelectedElement<IExpressionStatement>();
-            var expresssion = (IInvocationExpression)statement.Expression;
-            expresssion.
-            var type1 = expresssion.TypeArguments[0];
+            var expression = Provider.GetSelectedElement<IInvocationExpression>();
+            var declaredElement = expression.Reference.CurrentResolveResult.DeclaredElement;
+            var d = (Method) declaredElement;
+
+            //expresssion.
+            //var type1 = expresssion.TypeArguments;
 
             //IMethodDeclaration method = Provider.GetSelectedElement<IMethodDeclaration>();
 
