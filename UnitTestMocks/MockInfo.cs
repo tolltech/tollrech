@@ -1,7 +1,7 @@
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 
-namespace Tollrech
+namespace Tollrech.UnitTestMocks
 {
     public struct MockInfo
     {

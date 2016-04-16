@@ -146,14 +146,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentInfo.cs" />
     <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="MockInfo.cs" />
     <Compile Include="TreeNodeExtensions.cs" />
-    <Compile Include="UnitTestCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="package.nuspec" />
-    <Compile Include="UnitTestFiller.cs" />
+    <Compile Include="UnitTestMockFiller\UnitTestFiller.cs" />
+    <Compile Include="UnitTestMocks\ArgumentInfo.cs" />
+    <Compile Include="UnitTestMocks\MockInfo.cs" />
+    <Compile Include="UnitTestMocks\UnitTestCreator.cs" />
     <Compile Include="ZoneMarker.cs" />
   </ItemGroup>
   <ItemGroup>

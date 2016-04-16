@@ -14,7 +14,7 @@ using JetBrains.TextControl;
 using JetBrains.Util;
 using JetBrains.Util.Extension;
 
-namespace Tollrech
+namespace Tollrech.UnitTestMocks
 {
     [QuickFix]
     public class MockedClassCreateFix : QuickFixBase
