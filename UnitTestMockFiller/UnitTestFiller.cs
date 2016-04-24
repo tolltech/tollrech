@@ -30,6 +30,8 @@ namespace Tollrech.UnitTestMockFiller
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
+            return false;
+
             var method = Provider.GetSelectedElement<IMethodDeclaration>();            
 
             var insideOfMethod = method != null;
