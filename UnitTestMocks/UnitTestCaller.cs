@@ -35,7 +35,7 @@ namespace Tollrech.UnitTestMocks
         {
             var callTreeNode = error?.Reference.GetTreeNode();
             var callExpression = callTreeNode as IReferenceExpression;
-            var ctorArgumentOwner = callTreeNode as IInvocationExpression;
+            var ctorArgumentOwner = callTreeNode.Parent as IInvocationExpression;
             if (callMethod == null || callExpression == null)
                 return null;
 
@@ -108,7 +108,7 @@ namespace Tollrech.UnitTestMocks
                .FirstOrDefault(x =>
                {
                    var expression = (x as IExpressionStatement)?.Expression;
-                   if (expression != null && (expression == callExpression || (expression as IAssignmentExpression)?.Source == callExpression))
+                   if (expression != null && (expression == callExpression || expression == callExpression.Parent || (expression as IAssignmentExpression)?.Source == callExpression))
                        return true;
 
                    var declarationStatement = (x as IDeclarationStatement);
@@ -158,7 +158,7 @@ namespace Tollrech.UnitTestMocks
                         var expression = factory.CreateExpression("$0;", GetParamValue(scalarType.ToIType(), arrayParamName));
                         mockInfos.Add(new MockInfo
                         {
-                            Statement = factory.CreateStatement("$0 = $1;", arrayParamName, expression),
+                            Statement = factory.CreateStatement("var $0 = $1;", arrayParamName, expression),
                             Type = ((IArrayType)callParam.Type).ElementType,
                             Name = arrayParamName
                         });
@@ -166,7 +166,7 @@ namespace Tollrech.UnitTestMocks
 
                     mockInfos.Add(new MockInfo
                     {
-                        Statement = factory.CreateStatement("$0 = $1;", callParam.ShortName, factory.CreateExpression($"new[] {{ {string.Join(", ", arrayParamNames)} }}")),
+                        Statement = factory.CreateStatement("var $0 = $1;", callParam.ShortName, factory.CreateExpression($"new[] {{ {string.Join(", ", arrayParamNames)} }}")),
                         Type = callParam.Type,
                         Name = callParam.ShortName
                     });
@@ -175,7 +175,7 @@ namespace Tollrech.UnitTestMocks
                 {
                     mockInfos.Add(new MockInfo
                     {
-                        Statement = factory.CreateStatement("$0 = $1;", callParam.ShortName, factory.CreateExpression("$0;", GetParamValue(callParam.Type, callParam.ShortName))),
+                        Statement = factory.CreateStatement("var $0 = $1;", callParam.ShortName, factory.CreateExpression("$0;", GetParamValue(callParam.Type, callParam.ShortName))),
                         Type = callParam.Type,
                         Name = callParam.ShortName
                     });
@@ -191,6 +191,9 @@ namespace Tollrech.UnitTestMocks
         }
 
         private int intValue = 42;
+        private long longValue = 42L;
+        private decimal decimalValue = 42m;
+        private double doubleValue = 42;
         private DateTime dateTimeValue = new DateTime(2010, 10, 10);
         private string GetParamValue(IType scalarType, string paramName)
         {
@@ -198,13 +201,16 @@ namespace Tollrech.UnitTestMocks
                 return $"{intValue--}";
 
             if (scalarType.IsDecimal())
-                return $"{intValue--}m";
+                return $"{decimalValue--}m";
 
             if (scalarType.IsLong())
-                return $"{intValue--}L";
+                return $"{longValue--}L";
 
             if (scalarType.IsShort())
                 return $"{intValue--}";
+
+            if (scalarType.IsDouble())
+                return $"{doubleValue--}";
 
             if (scalarType.IsString())
                 return paramName;
