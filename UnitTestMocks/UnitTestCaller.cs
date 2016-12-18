@@ -59,20 +59,20 @@ namespace Tollrech.UnitTestMocks
                 .ToArray();
 
             var mockInfos = GenerateNewMockInfos(callParams, existedArguments, factory);
-            AddMocksToClassDeclaration(methodDeclaration, callExpression, mockInfos);
+            AddMocksToClassDeclaration(methodDeclaration, ctorArgumentOwner, mockInfos);
 
             var argExpressions = GetCtorArgumentExpressions(callMethod, existedArguments, callParams);
-            var argumentsPattern = string.Join(", ", Enumerable.Range(1, callParams.Count).Select(x => $"${x}"));
-            var newExpression = factory.CreateExpression($"new $0({argumentsPattern});", Enumerable.ToArray(argExpressions));
+            var argumentsPattern = string.Join(", ", Enumerable.Range(2, argExpressions.Length).Select(x => $"${x}"));
+            var newExpression = factory.CreateExpression($"$0.$1({argumentsPattern});", new [] { callExpression.FirstChild, callExpression.LastChild }.Concat(argExpressions).ToArray());
 
-            callExpression.ReplaceBy(newExpression);
+            ctorArgumentOwner.ReplaceBy(newExpression);
 
             return null;
         }
 
         private object[] GetCtorArgumentExpressions(IParametersOwner ctor, ArgumentInfo[] existedArguments, IList<IParameter> ctorParams)
         {
-            var argExpressions = new List<object> { ctor.GetContainingType() };
+            var argExpressions = new List<object>();
             var existedArgumentsByType = existedArguments.Where(x => x.Expression != null).GroupBy(x => x.Type).ToDictionary(x => x.Key, x => x.ToList());
 
             foreach (var ctorParam in ctorParams)
@@ -102,7 +102,7 @@ namespace Tollrech.UnitTestMocks
             return argExpressions.ToArray();
         }
 
-        private static void AddMocksToClassDeclaration(IMethodDeclaration methodDeclaration, IReferenceExpression callExpression, MockInfo[] mockInfos)
+        private static void AddMocksToClassDeclaration(IMethodDeclaration methodDeclaration, ICSharpExpression callExpression, MockInfo[] mockInfos)
         {
             var callStatement = methodDeclaration.Body.Statements
                .FirstOrDefault(x =>
@@ -153,6 +153,23 @@ namespace Tollrech.UnitTestMocks
                     var singleName = GetSingleName(ctorParamName);
 
                     var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
+
+                    var existedParamNames = mockInfos.Select(x => x.Name).ToHashSet();
+                    while (true)
+                    {
+                        if (arrayParamNames.Any(x => existedParamNames.Contains(x)))
+                        {
+                            for (var i = 0; i < arrayParamNames.Length; ++i)
+                            {
+                                arrayParamNames[i] = $"{arrayParamNames[i]}{i + 1}";
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
                     foreach (var arrayParamName in arrayParamNames)
                     {
                         var expression = factory.CreateExpression("$0;", GetParamValue(scalarType.ToIType(), arrayParamName));
@@ -213,7 +230,7 @@ namespace Tollrech.UnitTestMocks
                 return $"{doubleValue--}";
 
             if (scalarType.IsString())
-                return paramName;
+                return $"\"{paramName}\"";
 
             if (scalarType.IsDateTime())
             {
