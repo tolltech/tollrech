@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Application.Progress;
+using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon.CSharp.Errors;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
@@ -9,6 +10,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
@@ -25,6 +27,8 @@ namespace Tollrech.UnitTestMocks
         private IParametersOwner callMethod;
         private IClassDeclaration classDeclaration;
         private IDeclaredType[] superTypes;
+        private ICSharpFile file;
+
 
         public UnitTestCaller(IncorrectArgumentNumberError error)
         {
@@ -63,11 +67,25 @@ namespace Tollrech.UnitTestMocks
 
             var argExpressions = GetCtorArgumentExpressions(callMethod, existedArguments, callParams);
             var argumentsPattern = string.Join(", ", Enumerable.Range(2, argExpressions.Length).Select(x => $"${x}"));
-            var newExpression = factory.CreateExpression($"$0.$1({argumentsPattern});", new [] { callExpression.FirstChild, callExpression.LastChild }.Concat(argExpressions).ToArray());
+            var newExpression = factory.CreateExpression($"$0.$1({argumentsPattern});", new[] { callExpression.FirstChild, callExpression.LastChild }.Concat(argExpressions).ToArray());
 
             ctorArgumentOwner.ReplaceBy(newExpression);
 
+            AddUsings(mockInfos, factory);
+
             return null;
+        }
+
+        private void AddUsings(MockInfo[] mockInfos, CSharpElementFactory factory)
+        {
+            var usingSymbolDirectives = file.ImportsEnumerable.OfType<IUsingSymbolDirective>().ToArray();
+            var namespaces = mockInfos.Select(x => x.Type.GetScalarType()?.GetClrName().GetNamespaceName()).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToArray();
+            foreach (var namespaceName in namespaces)
+            {
+                var taskUsing = factory.CreateUsingDirective(namespaceName);
+                if (usingSymbolDirectives.All(i => i.ImportedSymbolName.QualifiedName != namespaceName))
+                    file.AddImport(taskUsing, true);
+            }
         }
 
         private object[] GetCtorArgumentExpressions(IParametersOwner ctor, ArgumentInfo[] existedArguments, IList<IParameter> ctorParams)
@@ -212,6 +230,7 @@ namespace Tollrech.UnitTestMocks
         private decimal decimalValue = 42m;
         private double doubleValue = 42;
         private DateTime dateTimeValue = new DateTime(2010, 10, 10);
+
         private string GetParamValue(IType scalarType, string paramName)
         {
             if (scalarType.IsInt())
@@ -260,6 +279,10 @@ namespace Tollrech.UnitTestMocks
             var callTreeNode = error?.Reference.GetTreeNode();
             classDeclaration = callTreeNode.FindParent<IClassDeclaration>();
             if (classDeclaration == null)
+                return false;
+
+            file = callTreeNode.GetContainingFile() as ICSharpFile;
+            if (file == null)
                 return false;
 
             superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes).ToArray();
