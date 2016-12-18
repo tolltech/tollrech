@@ -280,6 +280,7 @@
     <Compile Include="UnitTestMockFiller\UnitTestFiller.cs" />
     <Compile Include="UnitTestMocks\ArgumentInfo.cs" />
     <Compile Include="UnitTestMocks\MockInfo.cs" />
+    <Compile Include="UnitTestMocks\UnitTestCaller.cs" />
     <Compile Include="UnitTestMocks\UnitTestCreator.cs" />
     <Compile Include="ZoneMarker.cs" />
   </ItemGroup>
