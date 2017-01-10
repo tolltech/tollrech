@@ -261,6 +261,9 @@ namespace Tollrech.UnitTestMocks
                 return $"new DateTime({d.Year}, {d.Month}, {d.Day})";
             }
 
+            if (scalarType.IsGuid())
+                return $"Guid.NewGuid()";
+
             var classType = scalarType.GetClassType();
             if (classType != null)
                 return $"new {classType.ShortName}()";
