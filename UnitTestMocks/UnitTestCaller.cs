@@ -233,6 +233,9 @@ namespace Tollrech.UnitTestMocks
 
         private string GetParamValue(IType scalarType, string paramName)
         {
+            if (scalarType.IsNullable())
+                scalarType = scalarType.GetNullableUnderlyingType();
+
             if (scalarType.IsInt())
                 return $"{intValue--}";
 
