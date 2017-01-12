@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Kontur.Billing Resharping</description>
     <summary>Kontur.Billing Resharping</summary>
-    <iconUrl>https://git.skbkontur.ru/uploads/project/avatar/584/1593000154.jpg</iconUrl>
+    <iconUrl>file://images/icon.png</iconUrl>
     <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
