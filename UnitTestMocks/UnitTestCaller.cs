@@ -264,6 +264,9 @@ namespace Tollrech.UnitTestMocks
             if (scalarType.IsGuid())
                 return $"Guid.NewGuid()";
 
+            if (scalarType.IsBool())
+                return "true";
+
             var classType = scalarType.GetClassType();
             if (classType != null)
                 return $"new {classType.ShortName}()";
