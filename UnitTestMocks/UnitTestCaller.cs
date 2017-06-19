@@ -48,7 +48,7 @@ namespace Tollrech.UnitTestMocks
                 return null;
 
             var psiModule = error.Reference.GetAccessContext().GetPsiModule();
-            cSharpTypeConversionRule = new CSharpTypeConversionRule(psiModule);
+            cSharpTypeConversionRule = psiModule.GetTypeConversionRule();
             var factory = CSharpElementFactory.GetInstance(psiModule);
 
             var methodDeclaration = callTreeNode.FindParent<IMethodDeclaration>();
@@ -281,7 +281,7 @@ namespace Tollrech.UnitTestMocks
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            callMethod = error?.Reference?.CurrentResolveResult?.DeclaredElement as IParametersOwner;
+            callMethod = error?.Reference?.Resolve().DeclaredElement as IParametersOwner;
             if (callMethod == null)
                 return false;
 
