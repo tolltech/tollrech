@@ -109,7 +109,7 @@ namespace Tollrech.UnitTestMocks
                 List<ArgumentInfo> args;
                 if (existedArgumentsByType.TryGetValue(argumentType, out args) && args.Count > 0)
                 {
-                    var argument = existedArgumentsByType[argumentType].Pop();
+                    var argument = existedArgumentsByType[argumentType].Pop(x => true);
                     argExpressions.Add(argument.Expression);
                 }
                 else
