@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Kontur.Billing Resharping</description>
     <summary>Kontur.Billing Resharping</summary>
-    <iconUrl>https://pp.vk.me/c626527/v626527980/4e720/D4PSe7IhzN8.jpg</iconUrl>
+    <iconUrl>https://pp.userapi.com/c837734/v837734541/58877/4lz6rWAHHgY.jpg</iconUrl>
     <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
@@ -18,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Debug\Tollrech.dll" target="dotFiles\" />
-    <file src="bin\Debug\Tollrech.pdb" target="dotFiles\" />
+    <file src="bin\Release\Tollrech.dll" target="dotFiles\" />
+    <file src="bin\Release\Tollrech.pdb" target="dotFiles\" />
   </files>
 </package>
