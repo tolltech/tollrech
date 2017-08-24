@@ -3,14 +3,14 @@
   <metadata>
     <id>Tolltech.Tollrech</id>
     <title>Tollrech</title>
-    <version>2017.1.2</version>
+    <version>2017.1.3</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Kontur.Billing Resharping</description>
     <summary>Kontur.Billing Resharping</summary>
-    <iconUrl>https://pp.userapi.com/c837734/v837734541/58877/4lz6rWAHHgY.jpg</iconUrl>
+    <iconUrl>https://pp.userapi.com/c837734/v837734541/58885/1BTnIETQxB8.jpg</iconUrl>
     <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
