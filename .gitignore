@@ -6,3 +6,4 @@ Tolltech*.nupkg
 .idea
 .vs
 **/packages
+**/*.tmp

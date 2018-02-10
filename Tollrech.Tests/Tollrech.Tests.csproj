@@ -8,6 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Packages\**" />
+    <None Remove="**\*.tmp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\Data\**\*.cs" />
