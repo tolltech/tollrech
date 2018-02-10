@@ -8,7 +8,7 @@ using JetBrains.ReSharper.Daemon.CSharp.Errors;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.Impl;
+using JetBrains.ReSharper.Psi.CSharp.Conversions;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
@@ -188,7 +188,7 @@ namespace Tollrech.UnitTestMocks
 
                     var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
 
-                    var existedParamNames = mockInfos.Select(x => x.Name).ToHashSet();
+                    var existedParamNames = new HashSet<string>(mockInfos.Select(x => x.Name));
                     while (true)
                     {
                         if (arrayParamNames.Any(x => existedParamNames.Contains(x)))
