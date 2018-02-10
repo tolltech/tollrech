@@ -1,6 +1,9 @@
-bin/*
+**/bin/*
 *.suo
-obj/*
+**/obj/*
 *.user
 Tolltech*.nupkg
-packages/*
+.idea
+.vs
+**/packages
+**/*.tmp

@@ -9,9 +9,15 @@ namespace Tollrech
             while (true)
             {
                 if (node.Parent == null)
+                {
                     return default(T);
+                }
 
-                if (node.Parent is T) return (T) node.Parent;
+                if (node.Parent is T)
+                {
+                    return (T) node.Parent;
+                }
+
                 node = node.Parent;
             }
         }

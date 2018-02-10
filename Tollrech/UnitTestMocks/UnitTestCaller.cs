@@ -8,7 +8,7 @@ using JetBrains.ReSharper.Daemon.CSharp.Errors;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.Impl;
+using JetBrains.ReSharper.Psi.CSharp.Conversions;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
@@ -38,14 +38,23 @@ namespace Tollrech.UnitTestMocks
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var callTreeNode = error?.Reference.GetTreeNode();
-            var callExpression = callTreeNode as IReferenceExpression;
-            var ctorArgumentOwner = callTreeNode.Parent as IInvocationExpression;
-            if (callMethod == null || callExpression == null)
+            if (callTreeNode == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (callMethod == null
+                || !(callTreeNode is IReferenceExpression callExpression)
+                || !(callTreeNode.Parent is IInvocationExpression ctorArgumentOwner))
+            {
                 return null;
+            }
 
             var callParams = callMethod.Parameters;
             if (callParams.Count == 0)
+            {
                 return null;
+            }
 
             var psiModule = error.Reference.GetAccessContext().GetPsiModule();
             cSharpTypeConversionRule = psiModule.GetTypeConversionRule();
@@ -65,7 +74,7 @@ namespace Tollrech.UnitTestMocks
             var mockInfos = GenerateNewMockInfos(callParams, existedArguments, factory);
             AddMocksToClassDeclaration(methodDeclaration, ctorArgumentOwner, mockInfos);
 
-            var argExpressions = GetCtorArgumentExpressions(callMethod, existedArguments, callParams);
+            var argExpressions = GetCtorArgumentExpressions(existedArguments, callParams);
             var argumentsPattern = string.Join(", ", Enumerable.Range(2, argExpressions.Length).Select(x => $"${x}"));
             var newExpression = factory.CreateExpression($"$0.$1({argumentsPattern});", new[] { callExpression.FirstChild, callExpression.LastChild }.Concat(argExpressions).ToArray());
 
@@ -84,11 +93,13 @@ namespace Tollrech.UnitTestMocks
             {
                 var taskUsing = factory.CreateUsingDirective(namespaceName);
                 if (usingSymbolDirectives.All(i => i.ImportedSymbolName.QualifiedName != namespaceName))
+                {
                     file.AddImport(taskUsing, true);
+                }
             }
         }
 
-        private object[] GetCtorArgumentExpressions(IParametersOwner ctor, ArgumentInfo[] existedArguments, IList<IParameter> ctorParams)
+        private object[] GetCtorArgumentExpressions(ArgumentInfo[] existedArguments, IList<IParameter> ctorParams)
         {
             var argExpressions = new List<object>();
             var existedArgumentsByType = existedArguments.Where(x => x.Expression != null).GroupBy(x => x.Type).ToDictionary(x => x.Key, x => x.ToList());
@@ -106,8 +117,7 @@ namespace Tollrech.UnitTestMocks
                     }
                 }
 
-                List<ArgumentInfo> args;
-                if (existedArgumentsByType.TryGetValue(argumentType, out args) && args.Count > 0)
+                if (existedArgumentsByType.TryGetValue(argumentType, out var args) && args.Count > 0)
                 {
                     var argument = existedArgumentsByType[argumentType].Pop(x => true);
                     argExpressions.Add(argument.Expression);
@@ -127,11 +137,15 @@ namespace Tollrech.UnitTestMocks
                {
                    var expression = (x as IExpressionStatement)?.Expression;
                    if (expression != null && (expression == callExpression || expression == callExpression.Parent || (expression as IAssignmentExpression)?.Source == callExpression))
+                   {
                        return true;
+                   }
 
                    var declarationStatement = (x as IDeclarationStatement);
                    if (declarationStatement?.VariableDeclarations.Any(varDeclaration => (varDeclaration.Initial as IExpressionInitializer)?.Value == callExpression) ?? false)
+                   {
                        return true;
+                   }
 
                    return false;
                });
@@ -145,7 +159,9 @@ namespace Tollrech.UnitTestMocks
                 });
 
                 if (!elementHasAssigned)
+                {
                     methodDeclaration.Body.AddStatementBefore(mockInfo.Statement, callStatement);
+                }
             }
         }
 
@@ -172,7 +188,7 @@ namespace Tollrech.UnitTestMocks
 
                     var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
 
-                    var existedParamNames = mockInfos.Select(x => x.Name).ToHashSet();
+                    var existedParamNames = new HashSet<string>(mockInfos.Select(x => x.Name));
                     while (true)
                     {
                         if (arrayParamNames.Any(x => existedParamNames.Contains(x)))
@@ -234,25 +250,39 @@ namespace Tollrech.UnitTestMocks
         private string GetParamValue(IType scalarType, string paramName)
         {
             if (scalarType.IsNullable())
+            {
                 scalarType = scalarType.GetNullableUnderlyingType();
+            }
 
             if (scalarType.IsInt())
+            {
                 return $"{intValue--}";
+            }
 
             if (scalarType.IsDecimal())
+            {
                 return $"{decimalValue--}m";
+            }
 
             if (scalarType.IsLong())
+            {
                 return $"{longValue--}L";
+            }
 
             if (scalarType.IsShort())
+            {
                 return $"{intValue--}";
+            }
 
             if (scalarType.IsDouble())
+            {
                 return $"{doubleValue--}";
+            }
 
             if (scalarType.IsString())
+            {
                 return $"\"{paramName}\"";
+            }
 
             if (scalarType.IsDateTime())
             {
@@ -262,17 +292,26 @@ namespace Tollrech.UnitTestMocks
             }
 
             if (scalarType.IsGuid())
+            {
                 return $"Guid.NewGuid()";
+            }
 
             if (scalarType.IsBool())
+            {
                 return "true";
+            }
 
             var classType = scalarType.GetClassType();
             if (classType != null)
+            {
                 return $"new {classType.ShortName}()";
+            }
+
             var structType = scalarType.GetStructType();
             if (structType != null)
+            {
                 return $"new {structType.ShortName}()";
+            }
 
             return "TODO";
         }
@@ -283,16 +322,22 @@ namespace Tollrech.UnitTestMocks
         {
             callMethod = error?.Reference?.Resolve().DeclaredElement as IParametersOwner;
             if (callMethod == null)
+            {
                 return false;
+            }
 
             var callTreeNode = error?.Reference.GetTreeNode();
             classDeclaration = callTreeNode.FindParent<IClassDeclaration>();
             if (classDeclaration == null)
+            {
                 return false;
+            }
 
             file = callTreeNode.GetContainingFile() as ICSharpFile;
             if (file == null)
+            {
                 return false;
+            }
 
             superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes).ToArray();
             return superTypes.Any(x => x.GetClassType()?.Methods.Any(y => y.ShortName == "NewMock") ?? false);
