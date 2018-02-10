@@ -13,13 +13,7 @@
     <Content Include="Test\Data\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Platform.Tests.Framework.Shell, Version=111.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325">
-      <HintPath>..\packages\JetBrains.Platform.Tests.Framework.111.0.20171225.72236\DotFiles\JetBrains.Platform.Tests.Framework.Shell.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2017.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tollrech\Tollrech.csproj">
@@ -28,6 +22,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Test\Data" />
+    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2017.3.0" />
   </ItemGroup>
 </Project>
