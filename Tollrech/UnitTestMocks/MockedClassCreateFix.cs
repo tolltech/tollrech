@@ -35,8 +35,7 @@ namespace Tollrech.UnitTestMocks
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
             var ctorTreeNode = error?.Reference.GetTreeNode();
-            var ctorExpression = ctorTreeNode as IObjectCreationExpression;
-            if (ctor == null || ctorExpression == null)
+            if (ctor == null || !(ctorTreeNode is IObjectCreationExpression ctorExpression))
             {
                 return null;
             }

@@ -1,0 +1,33 @@
+﻿namespace Tollrech.Tests.Test.Data.MockedClassCreateFixTests
+{
+    public class Simple : Base
+    {
+      private IMockedInterface1 m11;
+      private IMockedInterface1 m12;
+      private IMockedInterface1[] m1;
+      private IMockedInterface2 m2;
+
+      public void Method()
+      {
+        m11 = NewMock<IMockedInterface1>();
+        m12 = NewMock<IMockedInterface1>();
+        m1 = new[] {m11, m12};
+        m2 = NewMock<IMockedInterface2>();
+        new MockingClass({caret}m1, m2);
+      }
+    }
+
+    public abstract class Base
+    {
+        protected void NewMock<T>() { }
+    }
+
+    public class MockingClass
+    {
+        public MockingClass(IMockedInterface1[] m1, IMockedInterface2 m2) { }
+    }
+
+    public interface IMockedInterface1 { }
+
+    public interface IMockedInterface2 { }
+}
