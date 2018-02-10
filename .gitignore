@@ -3,5 +3,5 @@
 **/obj/*
 *.user
 Tolltech*.nupkg
-packages/*
 .idea
+.vs

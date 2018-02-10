@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net46</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Packages\**" />
-    <Compile Remove="TestData\**" />
+    <Compile Remove="Test\Data\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestData\**\*.cs" />
+    <Content Include="Test\Data\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Platform.Tests.Framework.Shell, Version=111.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325">
@@ -22,9 +22,12 @@
     <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2017.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tollrech.csproj">
+    <ProjectReference Include="..\Tollrech\Tollrech.csproj">
       <Project>{7eefb9e9-045a-4cc9-9c0e-f37c2cd32024}</Project>
       <Name>Tollrech</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test\Data" />
   </ItemGroup>
 </Project>
