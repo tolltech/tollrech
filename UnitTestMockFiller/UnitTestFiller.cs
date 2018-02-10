@@ -3,7 +3,6 @@ using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
-using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
 
@@ -31,7 +30,7 @@ namespace Tollrech.UnitTestMockFiller
         {
             return false;
 
-            var method = Provider.GetSelectedElement<IMethodDeclaration>();            
+            /*var method = Provider.GetSelectedElement<IMethodDeclaration>();
 
             var insideOfMethod = method != null;
 
@@ -40,12 +39,11 @@ namespace Tollrech.UnitTestMockFiller
                 return true;
             }
 
-            return false;
+            return false;*/
         }
 
         private void Work()
         {
-          
             //var expression = Provider.GetSelectedElement<IInvocationExpression>();
             //var declaredElement = expression?.Reference?.CurrentResolveResult?.DeclaredElement;
             //var methodName = (declaredElement as Method)?.ShortName;
