@@ -7,3 +7,4 @@ Tolltech*.nupkg
 .vs
 **/packages
 **/*.tmp
+*.zip

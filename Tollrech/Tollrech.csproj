@@ -4,7 +4,7 @@
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.ReSharper.SDK" Version="2017.3.0" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Rider.SDK" Version="2017.3.0" PrivateAssets="All" />
     <PackageReference Include="Wave" Version="[11.0]" />
   </ItemGroup>
   <ItemGroup>

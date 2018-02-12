@@ -14,7 +14,7 @@
     <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
-      <dependency id="Wave" version="4.0" />
+      <dependency id="Wave" version="10.0" />
     </dependencies>
   </metadata>
   <files>
