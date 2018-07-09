@@ -3,7 +3,7 @@
   <metadata>
     <id>Tolltech.Tollrech</id>
     <title>Tollrech</title>
-    <version>2017.3.0</version>
+    <version>2018.1.3.2</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
@@ -14,11 +14,11 @@
     <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
-      <dependency id="Wave" version="10.0" />
+      <dependency id="Wave" version="12.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Tollrech\bin\Release\net46\Tollrech.dll" target="lib\net46\" />
-    <file src="Tollrech\bin\Release\net46\Tollrech.pdb" target="lib\net46\" />
+    <file src="Tollrech\bin\Release\net461\Tollrech.dll" target="lib\net461\" />
+    <file src="Tollrech\bin\Release\net461\Tollrech.pdb" target="lib\net461\" />
   </files>
 </package>
