@@ -32,7 +32,7 @@ namespace Tollrech.EFClass
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            if (!classDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == "Table"))
+            if (!classDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Table))
             {
                 AddTableAttribute();
             }
@@ -46,12 +46,12 @@ namespace Tollrech.EFClass
         {
             foreach (var propertyDeclaration in classDeclaration.PropertyDeclarations)
             {
-                if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == "Column"))
+                if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Column))
                 {
                     continue;
                 }
 
-                var columnAttribute = CreateSchemaAttribute("Column");
+                var columnAttribute = CreateSchemaAttribute(Constants.Column);
 
                 if (columnAttribute == null)
                 {
@@ -64,7 +64,7 @@ namespace Tollrech.EFClass
                 columnAttribute.AddArgumentBefore(columnNameArgument, null);
 
                 var propertyType = propertyDeclaration.Type;
-                var typeNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateExpression("TypeName = $0", GetMappingTypeName(propertyType)));
+                var typeNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateExpression($"{Constants.TypeName} = $0", GetMappingTypeName(propertyType)));
                 columnAttribute.AddArgumentBefore(typeNameArgument, null);
 
                 propertyDeclaration.AddAttributeAfter(columnAttribute, propertyDeclaration.Attributes.LastOrDefault());
@@ -76,12 +76,12 @@ namespace Tollrech.EFClass
         private void AddAnnotationAttributesIfNeed([NotNull] IPropertyDeclaration propertyDeclaration)
         {
             var propertyType = propertyDeclaration.Type;
-            if (propertyDeclaration.NameIdentifier.Name == "Id")
+            if (propertyDeclaration.NameIdentifier.Name == Constants.Id)
             {
-                AddAnnotationAttribute(propertyDeclaration, "Key");
+                AddAnnotationAttribute(propertyDeclaration, Constants.Key);
             }
 
-            AddAnnotationAttribute(propertyDeclaration, "ConcurrencyCheck");
+            AddAnnotationAttribute(propertyDeclaration, Constants.ConcurrencyCheck);
 
             if (!propertyType.IsNullable())
             {
@@ -89,10 +89,10 @@ namespace Tollrech.EFClass
 
                 if (propertyType.IsString())
                 {
-                    requiredAttributeArguments = new List<ICSharpExpression> { factory.CreateExpression("AllowEmptyStrings = true") };
+                    requiredAttributeArguments = new List<ICSharpExpression> { factory.CreateExpression($"{Constants.AllowEmptyStrings} = true") };
                 }
 
-                AddAnnotationAttribute(propertyDeclaration, "Required", requiredAttributeArguments?.ToArray() ?? Array.Empty<ICSharpExpression>());
+                AddAnnotationAttribute(propertyDeclaration, Constants.Required, requiredAttributeArguments?.ToArray() ?? Array.Empty<ICSharpExpression>());
             }
 
             if (propertyType.IsDecimal())
@@ -103,12 +103,12 @@ namespace Tollrech.EFClass
                                              factory.CreateExpression("2"),
                                          };
 
-                AddAnnotationAttribute(propertyDeclaration, "SKBKontur.Billy.Core.Common.Quering.Attributes.DecimalPrecision", precisionArguments);
+                AddAnnotationAttribute(propertyDeclaration, $"SKBKontur.Billy.Core.Common.Quering.Attributes.{Constants.DecimalPrecision}", precisionArguments);
             }
 
             if (propertyType.IsString())
             {
-                AddAnnotationAttribute(propertyDeclaration, "MaxLength", factory.CreateExpression("TODO"));
+                AddAnnotationAttribute(propertyDeclaration, Constants.MaxLength, factory.CreateExpression("TODO"));
             }
         }
 
@@ -130,37 +130,37 @@ namespace Tollrech.EFClass
 
             if (scalarType.IsInt() || scalarType.IsEnumType())
             {
-                return createExpression("Int");
+                return createExpression(Constants.Int);
             }
 
             if (scalarType.IsGuid())
             {
-                return createExpression("UniqueIdentifier");
+                return createExpression(Constants.UniqueIdentifier);
             }
 
             if (scalarType.IsString())
             {
-                return createExpression("NVarChar");
+                return createExpression(Constants.NVarChar);
             }
 
             if (scalarType.IsBool())
             {
-                return createExpression("Bit");
+                return createExpression(Constants.Bit);
             }
 
             if (scalarType.IsDateTime())
             {
-                return createExpression("DateTime2");
+                return createExpression(Constants.DateTime2);
             }
 
             if (scalarType.IsLong())
             {
-                return createExpression("BigInt");
+                return createExpression(Constants.BigInt);
             }
 
             if (scalarType.IsDecimal())
             {
-                return createExpression("Decimal");
+                return createExpression(Constants.Decimal);
             }
 
             return factory.CreateExpression("TODO");
@@ -187,7 +187,7 @@ namespace Tollrech.EFClass
 
         private void AddTableAttribute()
         {
-            var tableAttribute = CreateSchemaAttribute("Table");
+            var tableAttribute = CreateSchemaAttribute(Constants.Table);
 
             if (tableAttribute == null)
             {
