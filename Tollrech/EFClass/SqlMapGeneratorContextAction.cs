@@ -98,17 +98,30 @@ namespace Tollrech.EFClass
             {
                 var precisionArguments = new[]
                                          {
-                                             factory.CreateExpression("$0", factory.CreateStringLiteralExpression("18")),
-                                             factory.CreateExpression("$0", factory.CreateStringLiteralExpression("2")),
+                                             factory.CreateExpression("18"),
+                                             factory.CreateExpression("2"),
                                          };
 
-                AddAnnotationAttribute(propertyDeclaration, "DecimalPrecision", precisionArguments);
+                AddAnnotationAttribute(propertyDeclaration, "SKBKontur.Billy.Core.Common.Quering.Attributes.DecimalPrecision", precisionArguments);
+            }
+
+            if (propertyType.IsString())
+            {
+                AddAnnotationAttribute(propertyDeclaration, "MaxLength", factory.CreateExpression("TODO"));
             }
         }
 
         [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
+            var columnTypeNameClass = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames"), provider.PsiModule);
+            var columnTypeNameClassType = columnTypeNameClass.GetTypeElement();
+
+            // ReSharper disable once InconsistentNaming
+            ICSharpExpression createExpression(string x) => columnTypeNameClassType != null
+                ? factory.CreateReferenceExpression("$0.$1", columnTypeNameClassType.ShortName, x)
+                : factory.CreateExpression($"ColumnTypeNames.{x}");
+
             if (scalarType.IsNullable())
             {
                 scalarType = scalarType.GetNullableUnderlyingType();
@@ -116,40 +129,40 @@ namespace Tollrech.EFClass
 
             if (scalarType.IsInt() || scalarType.IsEnumType())
             {
-                return factory.CreateExpression("ColumnTypeNames.Int");
+                return createExpression("Int");
             }
 
             if (scalarType.IsGuid())
             {
-                return factory.CreateExpression("ColumnTypeNames.UniqueIdentifier");
+                return createExpression("UniqueIdentifier");
             }
 
             if (scalarType.IsString())
             {
-                return factory.CreateExpression("ColumnTypeNames.NVarChar");
+                return createExpression("NVarChar");
             }
 
             if (scalarType.IsBool())
             {
-                return factory.CreateExpression("ColumnTypeNames.Bit");
+                return createExpression("Bit");
             }
 
             if (scalarType.IsDateTime())
             {
-                return factory.CreateExpression("ColumnTypeNames.DateTime2");
+                return createExpression("DateTime2");
             }
 
             if (scalarType.IsLong())
             {
-                return factory.CreateExpression("ColumnTypeNames.BigInt");
+                return createExpression("BigInt");
             }
 
             if (scalarType.IsDecimal())
             {
-                return factory.CreateExpression("ColumnTypeNames.Decimal");
+                return createExpression("Decimal");
             }
 
-            return factory.CreateStringLiteralExpression("TODO");
+            return factory.CreateExpression("TODO");
         }
 
         private void AddAnnotationAttribute(IPropertyDeclaration propertyDeclaration, string attributeName, params ICSharpExpression[] argumentsExpressions)
@@ -202,14 +215,20 @@ namespace Tollrech.EFClass
         }
 
         [CanBeNull]
-        private IAttribute CreateAnnotationAttribute(string attributeShortTypeName)
+        private IAttribute CreateAnnotationAttribute(string attributeTypeName)
         {
-            var attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"System.ComponentModel.DataAnnotations.{attributeShortTypeName}Attribute"), provider.PsiModule);
+            var attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute"), provider.PsiModule);
             var attributeTypeElement = attributeType.GetTypeElement();
 
             if (attributeTypeElement == null)
             {
-                return null;
+                attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"{attributeTypeName}Attribute"), provider.PsiModule);
+                attributeTypeElement = attributeType.GetTypeElement();
+
+                if (attributeTypeElement == null)
+                {
+                    return null;
+                }
             }
 
             return factory.CreateAttribute(attributeTypeElement);
