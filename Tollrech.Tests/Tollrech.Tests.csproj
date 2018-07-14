@@ -6,6 +6,9 @@
     <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
     <OutputPath>bin\Debug\net461\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\net461\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Packages\**" />
     <Compile Remove="Test\Data\**" />
@@ -16,6 +19,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\Data\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold" />
+    <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
+    <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
+    <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\MockedClassCreateFixTests\Simple.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -29,5 +52,24 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2018.1.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Test\Data\MockedClassCreateFixTests\BigTest.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\MockedClassCreateFixTests\MockArray.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\MockedClassCreateFixTests\Simple.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlMapGeneratorTests\SqlEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Test\Data\nuget.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

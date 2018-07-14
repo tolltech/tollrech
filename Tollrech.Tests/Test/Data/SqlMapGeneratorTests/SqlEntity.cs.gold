@@ -7,4 +7,10 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
     {
         
     }
+
+	[Table("EntityForReferenceLibrary")]
+    public class EntityForReferenceLibrary
+    {
+
+    }
 }
