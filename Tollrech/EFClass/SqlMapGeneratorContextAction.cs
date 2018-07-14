@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
@@ -114,7 +115,7 @@ namespace Tollrech.EFClass
         [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
-            var columnTypeNameClass = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames"), provider.PsiModule);
+            var columnTypeNameClass = GetCachedType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
             var columnTypeNameClassType = columnTypeNameClass.GetTypeElement();
 
             // ReSharper disable once InconsistentNaming
@@ -200,10 +201,16 @@ namespace Tollrech.EFClass
             classDeclaration.AddAttributeBefore(tableAttribute, null);
         }
 
+        private static ConcurrentDictionary<string, IDeclaredType> cachedAttributes = new ConcurrentDictionary<string, IDeclaredType>();
+        private IDeclaredType GetCachedType(string attributeName)
+        {
+            return cachedAttributes.GetOrAdd(attributeName, x => TypeFactory.CreateTypeByCLRName(new ClrTypeName(attributeName), provider.PsiModule));
+        }
+
         [CanBeNull]
         private IAttribute CreateSchemaAttribute(string attributeShortTypeName)
         {
-            var attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute"), provider.PsiModule);
+            var attributeType = GetCachedType($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute");
             var attributeTypeElement = attributeType.GetTypeElement();
 
             if (attributeTypeElement == null)
@@ -217,12 +224,12 @@ namespace Tollrech.EFClass
         [CanBeNull]
         private IAttribute CreateAnnotationAttribute(string attributeTypeName)
         {
-            var attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute"), provider.PsiModule);
+            var attributeType = GetCachedType($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute");
             var attributeTypeElement = attributeType.GetTypeElement();
 
             if (attributeTypeElement == null)
             {
-                attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"{attributeTypeName}Attribute"), provider.PsiModule);
+                attributeType = GetCachedType($"{attributeTypeName}Attribute");
                 attributeTypeElement = attributeType.GetTypeElement();
 
                 if (attributeTypeElement == null)
