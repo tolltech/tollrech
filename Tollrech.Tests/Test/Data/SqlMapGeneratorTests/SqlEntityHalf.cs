@@ -1,62 +1,14 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SKBKontur.Billy.Core.Common.Quering.Attributes;
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    [Table("SqlEntities")]
     public class SqlEntity{caret}
     {
         [Column("Int", TypeName = ColumnTypeNames.Int)]
         [ConcurrencyCheck]
         [Required]
         public int Int { get; set; }
-        [Column("Decimal", TypeName = ColumnTypeNames.Decimal)]
-        [ConcurrencyCheck]
-        [Required]
-        [DecimalPrecision(18, 2)]
         public decimal Decimal { get; set; }
-        [Column("String", TypeName = ColumnTypeNames.NVarChar)]
-        [ConcurrencyCheck]
-        [Required(AllowEmptyStrings = true)]
-        [MaxLength(TODO)]
-        public string String { get; set; }
-        [Column("NullableDecimal", TypeName = ColumnTypeNames.Decimal)]
-        [ConcurrencyCheck]
-        public decimal? NullableDecimal { get; set; }
-        [Column("MyEnum", TypeName = ColumnTypeNames.Int)]
-        [ConcurrencyCheck]
-        public MyEnum? MyEnum { get; set; }
-        [Column("DateTime", TypeName = ColumnTypeNames.DateTime2)]
-        [ConcurrencyCheck]
-        [Required]
-        public DateTime DateTime { get; set; }
-        [Column("NotId", TypeName = ColumnTypeNames.UniqueIdentifier)]
-        [ConcurrencyCheck]
-        [Required]
-        public Guid NotId { get; set; }
-        [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier)]
-        [Key]
-        [ConcurrencyCheck]
-        [Required]
-        public Guid Id { get; set; }
-        [Column("Bool", TypeName = ColumnTypeNames.Bit)]
-        [ConcurrencyCheck]
-        [Required]
-        public bool Bool { get; set; }
-        [Column("Long", TypeName = ColumnTypeNames.BigInt)]
-        [ConcurrencyCheck]
-        [Required]
-        public long Long { get; set; }
-        public long LongGet { get; }
-        public long LongSet { set; }
-        public long LongField;
-        public long LongFunction()
-        {
-
-        }
-        public long LongFunction() => 42L;
     }
 
     public enum MyEnum

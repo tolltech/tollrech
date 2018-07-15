@@ -33,7 +33,7 @@ namespace Tollrech.EFClass
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            if (!classDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Table))
+            if (classDeclaration.Attributes.FindAttribute(Constants.Table) == null)
             {
                 AddTableAttribute();
             }
@@ -272,7 +272,7 @@ namespace Tollrech.EFClass
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            return classDeclaration != null && classDeclaration.PropertyDeclarations.Count > 0;
+            return classDeclaration != null && classDeclaration.PropertyDeclarations.Any(x => x.HasGetSet());
         }
     }
 }

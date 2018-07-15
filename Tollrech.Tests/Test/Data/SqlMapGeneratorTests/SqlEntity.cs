@@ -14,6 +14,14 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
         public Guid Id { get; set; }
         public bool Bool { get; set; }
         public long Long { get; set; }
+        public long LongGet { get; }
+        public long LongSet { set; }
+        public long LongField;
+        public long LongFunction()
+        {
+
+        }
+        public long LongFunction() => 42L;
     }
 
     public enum MyEnum

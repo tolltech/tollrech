@@ -102,6 +102,7 @@ namespace Tollrech.EFClass
             var tableName = attribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
             var properties = classDeclaration.PropertyDeclarations
                 .Where(x => x.HasGetSet())
+                .Where(x => x.Attributes.FindAttribute(Constants.Column) != null)
                 .Select(GetPropertyInfo)
                 .ToArray();
 
