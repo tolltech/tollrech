@@ -28,6 +28,7 @@
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntityHalf.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs.gold" />
+    <None Remove="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs.gold" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold">
@@ -52,6 +53,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptGeneratorTests\SqlEntity2.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptGeneratorTests\SqlEntity2Property.cs.gold">
@@ -94,6 +98,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlScriptGeneratorTests\SqlEntity3Property.cs">
