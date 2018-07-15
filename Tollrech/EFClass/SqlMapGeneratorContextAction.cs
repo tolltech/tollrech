@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
@@ -31,7 +32,7 @@ namespace Tollrech.EFClass
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            if (!classDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == "Table"))
+            if (!classDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Table))
             {
                 AddTableAttribute();
             }
@@ -45,12 +46,12 @@ namespace Tollrech.EFClass
         {
             foreach (var propertyDeclaration in classDeclaration.PropertyDeclarations)
             {
-                if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == "Column"))
+                if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Column))
                 {
                     continue;
                 }
 
-                var columnAttribute = CreateSchemaAttribute("Column");
+                var columnAttribute = CreateSchemaAttribute(Constants.Column);
 
                 if (columnAttribute == null)
                 {
@@ -63,7 +64,7 @@ namespace Tollrech.EFClass
                 columnAttribute.AddArgumentBefore(columnNameArgument, null);
 
                 var propertyType = propertyDeclaration.Type;
-                var typeNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateExpression("TypeName = $0", GetMappingTypeName(propertyType)));
+                var typeNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateExpression($"{Constants.TypeName} = $0", GetMappingTypeName(propertyType)));
                 columnAttribute.AddArgumentBefore(typeNameArgument, null);
 
                 propertyDeclaration.AddAttributeAfter(columnAttribute, propertyDeclaration.Attributes.LastOrDefault());
@@ -75,12 +76,12 @@ namespace Tollrech.EFClass
         private void AddAnnotationAttributesIfNeed([NotNull] IPropertyDeclaration propertyDeclaration)
         {
             var propertyType = propertyDeclaration.Type;
-            if (propertyDeclaration.NameIdentifier.Name == "Id")
+            if (propertyDeclaration.NameIdentifier.Name == Constants.Id)
             {
-                AddAnnotationAttribute(propertyDeclaration, "Key");
+                AddAnnotationAttribute(propertyDeclaration, Constants.Key);
             }
 
-            AddAnnotationAttribute(propertyDeclaration, "ConcurrencyCheck");
+            AddAnnotationAttribute(propertyDeclaration, Constants.ConcurrencyCheck);
 
             if (!propertyType.IsNullable())
             {
@@ -88,27 +89,40 @@ namespace Tollrech.EFClass
 
                 if (propertyType.IsString())
                 {
-                    requiredAttributeArguments = new List<ICSharpExpression> { factory.CreateExpression("AllowEmptyStrings = true") };
+                    requiredAttributeArguments = new List<ICSharpExpression> { factory.CreateExpression($"{Constants.AllowEmptyStrings} = true") };
                 }
 
-                AddAnnotationAttribute(propertyDeclaration, "Required", requiredAttributeArguments?.ToArray() ?? Array.Empty<ICSharpExpression>());
+                AddAnnotationAttribute(propertyDeclaration, Constants.Required, requiredAttributeArguments?.ToArray() ?? Array.Empty<ICSharpExpression>());
             }
 
             if (propertyType.IsDecimal())
             {
                 var precisionArguments = new[]
                                          {
-                                             factory.CreateExpression("$0", factory.CreateStringLiteralExpression("18")),
-                                             factory.CreateExpression("$0", factory.CreateStringLiteralExpression("2")),
+                                             factory.CreateExpression("18"),
+                                             factory.CreateExpression("2"),
                                          };
 
-                AddAnnotationAttribute(propertyDeclaration, "DecimalPrecision", precisionArguments);
+                AddAnnotationAttribute(propertyDeclaration, $"SKBKontur.Billy.Core.Common.Quering.Attributes.{Constants.DecimalPrecision}", precisionArguments);
+            }
+
+            if (propertyType.IsString())
+            {
+                AddAnnotationAttribute(propertyDeclaration, Constants.MaxLength, factory.CreateExpression("TODO"));
             }
         }
 
         [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
+            var columnTypeNameClass = GetCachedType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
+            var columnTypeNameClassType = columnTypeNameClass.GetTypeElement();
+
+            // ReSharper disable once InconsistentNaming
+            ICSharpExpression createExpression(string x) => columnTypeNameClassType != null
+                ? factory.CreateReferenceExpression("$0.$1", columnTypeNameClassType.ShortName, x)
+                : factory.CreateExpression($"ColumnTypeNames.{x}");
+
             if (scalarType.IsNullable())
             {
                 scalarType = scalarType.GetNullableUnderlyingType();
@@ -116,40 +130,40 @@ namespace Tollrech.EFClass
 
             if (scalarType.IsInt() || scalarType.IsEnumType())
             {
-                return factory.CreateExpression("ColumnTypeNames.Int");
+                return createExpression(Constants.Int);
             }
 
             if (scalarType.IsGuid())
             {
-                return factory.CreateExpression("ColumnTypeNames.UniqueIdentifier");
+                return createExpression(Constants.UniqueIdentifier);
             }
 
             if (scalarType.IsString())
             {
-                return factory.CreateExpression("ColumnTypeNames.NVarChar");
+                return createExpression(Constants.NVarChar);
             }
 
             if (scalarType.IsBool())
             {
-                return factory.CreateExpression("ColumnTypeNames.Bit");
+                return createExpression(Constants.Bit);
             }
 
             if (scalarType.IsDateTime())
             {
-                return factory.CreateExpression("ColumnTypeNames.DateTime2");
+                return createExpression(Constants.DateTime2);
             }
 
             if (scalarType.IsLong())
             {
-                return factory.CreateExpression("ColumnTypeNames.BigInt");
+                return createExpression(Constants.BigInt);
             }
 
             if (scalarType.IsDecimal())
             {
-                return factory.CreateExpression("ColumnTypeNames.Decimal");
+                return createExpression(Constants.Decimal);
             }
 
-            return factory.CreateStringLiteralExpression("TODO");
+            return factory.CreateExpression("TODO");
         }
 
         private void AddAnnotationAttribute(IPropertyDeclaration propertyDeclaration, string attributeName, params ICSharpExpression[] argumentsExpressions)
@@ -173,7 +187,7 @@ namespace Tollrech.EFClass
 
         private void AddTableAttribute()
         {
-            var tableAttribute = CreateSchemaAttribute("Table");
+            var tableAttribute = CreateSchemaAttribute(Constants.Table);
 
             if (tableAttribute == null)
             {
@@ -187,10 +201,16 @@ namespace Tollrech.EFClass
             classDeclaration.AddAttributeBefore(tableAttribute, null);
         }
 
+        private static ConcurrentDictionary<string, IDeclaredType> cachedAttributes = new ConcurrentDictionary<string, IDeclaredType>();
+        private IDeclaredType GetCachedType(string attributeName)
+        {
+            return cachedAttributes.GetOrAdd(attributeName, x => TypeFactory.CreateTypeByCLRName(new ClrTypeName(attributeName), provider.PsiModule));
+        }
+
         [CanBeNull]
         private IAttribute CreateSchemaAttribute(string attributeShortTypeName)
         {
-            var attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute"), provider.PsiModule);
+            var attributeType = GetCachedType($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute");
             var attributeTypeElement = attributeType.GetTypeElement();
 
             if (attributeTypeElement == null)
@@ -202,14 +222,20 @@ namespace Tollrech.EFClass
         }
 
         [CanBeNull]
-        private IAttribute CreateAnnotationAttribute(string attributeShortTypeName)
+        private IAttribute CreateAnnotationAttribute(string attributeTypeName)
         {
-            var attributeType = TypeFactory.CreateTypeByCLRName(new ClrTypeName($"System.ComponentModel.DataAnnotations.{attributeShortTypeName}Attribute"), provider.PsiModule);
+            var attributeType = GetCachedType($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute");
             var attributeTypeElement = attributeType.GetTypeElement();
 
             if (attributeTypeElement == null)
             {
-                return null;
+                attributeType = GetCachedType($"{attributeTypeName}Attribute");
+                attributeTypeElement = attributeType.GetTypeElement();
+
+                if (attributeTypeElement == null)
+                {
+                    return null;
+                }
             }
 
             return factory.CreateAttribute(attributeTypeElement);

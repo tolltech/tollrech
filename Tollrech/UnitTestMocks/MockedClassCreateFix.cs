@@ -175,6 +175,7 @@ namespace Tollrech.UnitTestMocks
                     var arrayParamNames = Enumerable.Range(1, 2).Select(x => $"{singleName}{x}").ToArray();
                     foreach (var arrayParamName in arrayParamNames)
                     {
+                        // ReSharper disable once PossibleNullReferenceException
                         var expression = factory.CreateExpression("NewMock<$0>();", scalarType.ShortName);
                         mockInfos.Add(new MockInfo
                         {
@@ -243,6 +244,7 @@ namespace Tollrech.UnitTestMocks
                 return false;
             }
 
+            // ReSharper disable once PossibleNullReferenceException
             var ctorTreeNode = error?.Reference.GetTreeNode();
             classDeclaration = ctorTreeNode.FindParent<IClassDeclaration>();
             if (classDeclaration == null)

@@ -206,6 +206,7 @@ namespace Tollrech.UnitTestMocks
 
                     foreach (var arrayParamName in arrayParamNames)
                     {
+                        // ReSharper disable once PossibleNullReferenceException
                         var expression = factory.CreateExpression("$0;", GetParamValue(scalarType.ToIType(), arrayParamName));
                         mockInfos.Add(new MockInfo
                         {
@@ -326,6 +327,7 @@ namespace Tollrech.UnitTestMocks
                 return false;
             }
 
+            // ReSharper disable once PossibleNullReferenceException
             var callTreeNode = error?.Reference.GetTreeNode();
             classDeclaration = callTreeNode.FindParent<IClassDeclaration>();
             if (classDeclaration == null)
@@ -333,6 +335,7 @@ namespace Tollrech.UnitTestMocks
                 return false;
             }
 
+            // ReSharper disable once AssignNullToNotNullAttribute
             file = callTreeNode.GetContainingFile() as ICSharpFile;
             if (file == null)
             {
