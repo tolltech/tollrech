@@ -13,6 +13,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
+using Tollrech.Common;
 
 namespace Tollrech.EFClass
 {
@@ -47,6 +48,11 @@ namespace Tollrech.EFClass
             foreach (var propertyDeclaration in classDeclaration.PropertyDeclarations)
             {
                 if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Column))
+                {
+                    continue;
+                }
+
+                if (!propertyDeclaration.HasGetSet())
                 {
                     continue;
                 }
@@ -201,7 +207,7 @@ namespace Tollrech.EFClass
             classDeclaration.AddAttributeBefore(tableAttribute, null);
         }
 
-        private static ConcurrentDictionary<string, IDeclaredType> cachedAttributes = new ConcurrentDictionary<string, IDeclaredType>();
+        private static readonly ConcurrentDictionary<string, IDeclaredType> cachedAttributes = new ConcurrentDictionary<string, IDeclaredType>();
         private IDeclaredType GetCachedType(string attributeName)
         {
             return cachedAttributes.GetOrAdd(attributeName, x => TypeFactory.CreateTypeByCLRName(new ClrTypeName(attributeName), provider.PsiModule));
@@ -266,7 +272,7 @@ namespace Tollrech.EFClass
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            return classDeclaration != null;
+            return classDeclaration != null && classDeclaration.PropertyDeclarations.Count > 0;
         }
     }
 }

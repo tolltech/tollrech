@@ -57,7 +57,7 @@ namespace Tollrech.EFClass
 
         private void AddXmlComment(ITypeMemberDeclaration declaration, string text)
         {
-            var  docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
+            var docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
 
             if (docCommentBlockOwnerNode == null)
             {
@@ -101,6 +101,7 @@ namespace Tollrech.EFClass
         {
             var tableName = attribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
             var properties = classDeclaration.PropertyDeclarations
+                .Where(x => x.HasGetSet())
                 .Select(GetPropertyInfo)
                 .ToArray();
 
@@ -132,17 +133,17 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        private static (string ColumnName,string ColumnType, bool Required,bool Key,string MaxLength,string Precision1, string Precision2)
+        private static (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2)
             GetPropertyInfo([NotNull] IPropertyDeclaration propertyDeclaration)
         {
             return (
-                ColumnName: propertyDeclaration.Attributes.FindAttriobute(Constants.Column)?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName",
+                ColumnName: propertyDeclaration.Attributes.FindAttribute(Constants.Column)?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName",
                 ColumnType: GetColumnType(propertyDeclaration),
                 Required: propertyDeclaration.Attributes.HasAttriobute(Constants.Required),
                 Key: propertyDeclaration.Attributes.HasAttriobute(Constants.Key),
-                MaxLength: propertyDeclaration.Attributes.FindAttriobute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision1: propertyDeclaration.Attributes.FindAttriobute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision2: propertyDeclaration.Attributes.FindAttriobute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText()
+                MaxLength: propertyDeclaration.Attributes.FindAttribute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
+                Precision1: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
+                Precision2: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText()
             );
         }
 
@@ -173,7 +174,7 @@ namespace Tollrech.EFClass
         [NotNull]
         private static string GetColumnType([NotNull] IPropertyDeclaration pD)
         {
-            var typeNameExpression = pD.Attributes.FindAttriobute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;
+            var typeNameExpression = pD.Attributes.FindAttribute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;
             if (typeNameExpression is ICSharpLiteralExpression literalExpression)
             {
                 return literalExpression.GetText().Trim('"');
@@ -200,12 +201,12 @@ namespace Tollrech.EFClass
                                                                     {Constants.Date, "date" }
                                                                 };
 
-        public override string Text => "Generate sql-script to clipboard";
+        public override string Text => "Generate sql-script";
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttriobute(Constants.Column);
-            tableAttribute = classDeclaration?.Attributes.FindAttriobute(Constants.Table);
+            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
+            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table);
             return tableAttribute != null;
         }
 
