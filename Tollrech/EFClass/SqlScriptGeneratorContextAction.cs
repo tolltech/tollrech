@@ -57,7 +57,7 @@ namespace Tollrech.EFClass
 
         private void AddXmlComment(ITypeMemberDeclaration declaration, string text)
         {
-            var  docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
+            var docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
 
             if (docCommentBlockOwnerNode == null)
             {
@@ -89,7 +89,7 @@ namespace Tollrech.EFClass
             {
                 sb.AppendLine("-- Put it in covertDb.sql, sir");
                 sb.AppendLine($"IF EXISTS(SELECT* FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME = '{propertyInfo.ColumnName}' and COLUMN_DEFAULT IS NOT NULL)");
-                sb.AppendLine($"    ALTER TABLE[{tableName}] DROP CONSTRAINT[DF_{tableName}_{propertyInfo.ColumnName}]");
+                sb.AppendLine($"    ALTER TABLE [{tableName}] DROP CONSTRAINT [DF_{tableName}_{propertyInfo.ColumnName}]");
                 sb.AppendLine("GO");
             }
 
@@ -101,6 +101,8 @@ namespace Tollrech.EFClass
         {
             var tableName = attribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
             var properties = classDeclaration.PropertyDeclarations
+                .Where(x => x.HasGetSet())
+                .Where(x => x.Attributes.FindAttribute(Constants.Column) != null)
                 .Select(GetPropertyInfo)
                 .ToArray();
 
@@ -111,7 +113,7 @@ namespace Tollrech.EFClass
 
             foreach (var property in properties)
             {
-                sb.Append($"    ");
+                sb.Append($"   ");
 
 
                 AddPropertyTypeInfo(sb, property);
@@ -132,23 +134,23 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        private static (string ColumnName,string ColumnType, bool Required,bool Key,string MaxLength,string Precision1, string Precision2)
+        private static (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2)
             GetPropertyInfo([NotNull] IPropertyDeclaration propertyDeclaration)
         {
             return (
-                ColumnName: propertyDeclaration.Attributes.FindAttriobute(Constants.Column)?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName",
+                ColumnName: propertyDeclaration.Attributes.FindAttribute(Constants.Column)?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName",
                 ColumnType: GetColumnType(propertyDeclaration),
                 Required: propertyDeclaration.Attributes.HasAttriobute(Constants.Required),
                 Key: propertyDeclaration.Attributes.HasAttriobute(Constants.Key),
-                MaxLength: propertyDeclaration.Attributes.FindAttriobute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision1: propertyDeclaration.Attributes.FindAttriobute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision2: propertyDeclaration.Attributes.FindAttriobute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText()
+                MaxLength: propertyDeclaration.Attributes.FindAttribute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
+                Precision1: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
+                Precision2: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText()
             );
         }
 
         private void AddPropertyTypeInfo([NotNull] StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2) property)
         {
-            sb.Append($"[{property.ColumnName}] [{property.ColumnType}]");
+            sb.Append($" [{property.ColumnName}] [{property.ColumnType}]");
             if (!string.IsNullOrWhiteSpace(property.MaxLength))
             {
                 sb.Append($" ({property.MaxLength})");
@@ -173,7 +175,7 @@ namespace Tollrech.EFClass
         [NotNull]
         private static string GetColumnType([NotNull] IPropertyDeclaration pD)
         {
-            var typeNameExpression = pD.Attributes.FindAttriobute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;
+            var typeNameExpression = pD.Attributes.FindAttribute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;
             if (typeNameExpression is ICSharpLiteralExpression literalExpression)
             {
                 return literalExpression.GetText().Trim('"');
@@ -200,12 +202,12 @@ namespace Tollrech.EFClass
                                                                     {Constants.Date, "date" }
                                                                 };
 
-        public override string Text => "Generate sql-script to clipboard";
+        public override string Text => "Generate sql-script";
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttriobute(Constants.Column);
-            tableAttribute = classDeclaration?.Attributes.FindAttriobute(Constants.Table);
+            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
+            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table);
             return tableAttribute != null;
         }
 
