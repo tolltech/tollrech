@@ -89,7 +89,7 @@ namespace Tollrech.EFClass
             {
                 sb.AppendLine("-- Put it in covertDb.sql, sir");
                 sb.AppendLine($"IF EXISTS(SELECT* FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME = '{propertyInfo.ColumnName}' and COLUMN_DEFAULT IS NOT NULL)");
-                sb.AppendLine($"    ALTER TABLE[{tableName}] DROP CONSTRAINT[DF_{tableName}_{propertyInfo.ColumnName}]");
+                sb.AppendLine($"    ALTER TABLE [{tableName}] DROP CONSTRAINT [DF_{tableName}_{propertyInfo.ColumnName}]");
                 sb.AppendLine("GO");
             }
 
@@ -111,7 +111,7 @@ namespace Tollrech.EFClass
 
             foreach (var property in properties)
             {
-                sb.Append($"    ");
+                sb.Append($"   ");
 
 
                 AddPropertyTypeInfo(sb, property);
@@ -148,7 +148,7 @@ namespace Tollrech.EFClass
 
         private void AddPropertyTypeInfo([NotNull] StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2) property)
         {
-            sb.Append($"[{property.ColumnName}] [{property.ColumnType}]");
+            sb.Append($" [{property.ColumnName}] [{property.ColumnType}]");
             if (!string.IsNullOrWhiteSpace(property.MaxLength))
             {
                 sb.Append($" ({property.MaxLength})");
