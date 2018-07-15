@@ -13,6 +13,7 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
         public Guid NotId { get; set; }
         public Guid Id { get; set; }
         public bool Bool { get; set; }
+        public long Long { get; set; }
     }
 
     public enum MyEnum
@@ -25,12 +26,24 @@ namespace System.ComponentModel.DataAnnotations.Schema
 {
     public class TableAttribute : Attribute
     {
+        private readonly string name;
 
+        public TableAttribute(string name)
+        {
+            this.name = name;
+        }
     }
 
     public class ColumnAttribute : Attribute
     {
+        private readonly string name;
 
+        public ColumnAttribute(string name)
+        {
+            this.name = name;
+        }
+
+        public string TypeName { get; set; }
     }
 }
 
@@ -48,12 +61,17 @@ namespace System.ComponentModel.DataAnnotations
 
     public class RequiredAttribute : Attribute
     {
-
+        public bool AllowEmptyStrings { get; set; }
     }
 
     public class MaxLengthAttribute : Attribute
     {
+        private readonly int i;
 
+        public MaxLengthAttribute(int i)
+        {
+            this.i = i;
+        }
     }
 }
 
