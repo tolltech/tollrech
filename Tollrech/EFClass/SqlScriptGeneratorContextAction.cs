@@ -9,7 +9,7 @@ using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+using JetBrains.ReSharper.Psi.CSharp.Util;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
@@ -20,7 +20,6 @@ namespace Tollrech.EFClass
     [ContextAction(Name = "SqlScriptGenerator", Description = "Generate Sql script for class-entity", Group = "C#", Disabled = false, Priority = 1)]
     public class SqlScriptGeneratorContextAction : ContextActionBase
     {
-        private readonly ICSharpContextActionDataProvider provider;
         private readonly IClassDeclaration classDeclaration;
         private readonly IPropertyDeclaration propertyDeclaration;
         private readonly CSharpElementFactory factory;
@@ -29,7 +28,6 @@ namespace Tollrech.EFClass
 
         public SqlScriptGeneratorContextAction(ICSharpContextActionDataProvider provider)
         {
-            this.provider = provider;
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>(); ;
             propertyDeclaration = provider.GetSelectedElement<IPropertyDeclaration>();
@@ -37,18 +35,37 @@ namespace Tollrech.EFClass
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
+            (string Script, ITypeMemberDeclaration Declaration) result;
             if (propertyColumnAttribute != null)
             {
-                var propertyScript = GeneratePropertyScript();
-                ModificationUtil.AddChildBefore(classDeclaration.ClassKeyword, factory.CreateComment(propertyScript));
+                result.Script = GeneratePropertyScript();
+                result.Declaration = propertyDeclaration;
             }
             else if (tableAttribute != null)
             {
-                var tableScript = GenerateTableScript(tableAttribute);
-                ModificationUtil.AddChildBefore(classDeclaration.ClassKeyword, factory.CreateComment(tableScript));
+                result.Script = GenerateTableScript(tableAttribute);
+                result.Declaration = classDeclaration;
+            }
+            else
+            {
+                return null;
             }
 
+            AddXmlComment(result.Declaration, result.Script);
             return null;
+        }
+
+        private void AddXmlComment(ITypeMemberDeclaration declaration, string text)
+        {
+            var  docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
+
+            if (docCommentBlockOwnerNode == null)
+            {
+                return;
+            }
+
+            var comment = factory.CreateDocCommentBlock(text);
+            docCommentBlockOwnerNode.SetDocCommentBlock(comment);
         }
 
         [NotNull]
@@ -62,7 +79,7 @@ namespace Tollrech.EFClass
             sb.Append($"    ALTER TABLE [{tableName}] ADD");
             AddPropertyTypeInfo(sb, propertyInfo);
 
-            sb.Append(!propertyInfo.Required ? "NULL" : $" CONSTRAINT DF_{tableName}_{propertyInfo.ColumnName} default (0) NOT NULL");
+            sb.Append(!propertyInfo.Required ? " NULL" : $" CONSTRAINT DF_{tableName}_{propertyInfo.ColumnName} default (0) NOT NULL");
 
             sb.AppendLine(";");
             sb.AppendLine("GO");
