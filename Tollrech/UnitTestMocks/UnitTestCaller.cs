@@ -15,6 +15,7 @@ using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using JetBrains.Util.Extension;
+using Tollrech.Common;
 
 namespace Tollrech.UnitTestMocks
 {
@@ -169,6 +170,9 @@ namespace Tollrech.UnitTestMocks
         {
             var existedArgumentsList = existedArguments.ToList();
             var mockInfos = new List<MockInfo>();
+
+            var dummyHelper = new DummyHelper();
+
             foreach (var callParam in callParams)
             {
                 var isArray = callParam.Type is IArrayType;
@@ -207,7 +211,7 @@ namespace Tollrech.UnitTestMocks
                     foreach (var arrayParamName in arrayParamNames)
                     {
                         // ReSharper disable once PossibleNullReferenceException
-                        var expression = factory.CreateExpression("$0;", GetParamValue(scalarType.ToIType(), arrayParamName));
+                        var expression = factory.CreateExpression("$0;", dummyHelper.GetParamValue(scalarType.ToIType(), arrayParamName));
                         mockInfos.Add(new MockInfo
                         {
                             Statement = factory.CreateStatement("var $0 = $1;", arrayParamName, expression),
@@ -227,7 +231,7 @@ namespace Tollrech.UnitTestMocks
                 {
                     mockInfos.Add(new MockInfo
                     {
-                        Statement = factory.CreateStatement("var $0 = $1;", callParam.ShortName, factory.CreateExpression("$0;", GetParamValue(callParam.Type, callParam.ShortName))),
+                        Statement = factory.CreateStatement("var $0 = $1;", callParam.ShortName, factory.CreateExpression("$0;", dummyHelper.GetParamValue(callParam.Type, callParam.ShortName))),
                         Type = callParam.Type,
                         Name = callParam.ShortName
                     });
@@ -240,81 +244,6 @@ namespace Tollrech.UnitTestMocks
         {
             var singleName = ctorParamName.EndsWith("es") && !ctorParamName.EndsWith("ervices") ? ctorParamName.RemoveEnd("es") : ctorParamName.RemoveEnd("s");
             return singleName;
-        }
-
-        private int intValue = 42;
-        private long longValue = 42L;
-        private decimal decimalValue = 42m;
-        private double doubleValue = 42;
-        private DateTime dateTimeValue = new DateTime(2010, 10, 10);
-
-        private string GetParamValue(IType scalarType, string paramName)
-        {
-            if (scalarType.IsNullable())
-            {
-                scalarType = scalarType.GetNullableUnderlyingType();
-            }
-
-            if (scalarType.IsInt())
-            {
-                return $"{intValue--}";
-            }
-
-            if (scalarType.IsDecimal())
-            {
-                return $"{decimalValue--}m";
-            }
-
-            if (scalarType.IsLong())
-            {
-                return $"{longValue--}L";
-            }
-
-            if (scalarType.IsShort())
-            {
-                return $"{intValue--}";
-            }
-
-            if (scalarType.IsDouble())
-            {
-                return $"{doubleValue--}";
-            }
-
-            if (scalarType.IsString())
-            {
-                return $"\"{paramName}\"";
-            }
-
-            if (scalarType.IsDateTime())
-            {
-                var d = dateTimeValue;
-                dateTimeValue = dateTimeValue.AddMonths(1).AddDays(1).AddYears(1);
-                return $"new DateTime({d.Year}, {d.Month}, {d.Day})";
-            }
-
-            if (scalarType.IsGuid())
-            {
-                return $"Guid.NewGuid()";
-            }
-
-            if (scalarType.IsBool())
-            {
-                return "true";
-            }
-
-            var classType = scalarType.GetClassType();
-            if (classType != null)
-            {
-                return $"new {classType.ShortName}()";
-            }
-
-            var structType = scalarType.GetStructType();
-            if (structType != null)
-            {
-                return $"new {structType.ShortName}()";
-            }
-
-            return "TODO";
         }
 
         public override string Text => "Create dummy call";
