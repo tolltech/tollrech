@@ -41,6 +41,17 @@ namespace Tollrech.Common
 
             return true;
         }
+
+        [NotNull]
+        public static IEnumerable<IDeclaredType> GetAllSuperTypes([CanBeNull] this IClassDeclaration classDeclaration)
+        {
+            if (classDeclaration == null)
+            {
+                return Enumerable.Empty<IDeclaredType>();
+            }
+
+            return classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes);
+        }
     }
 
     public class DummyHelper

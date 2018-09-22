@@ -2,7 +2,7 @@
 
 namespace Tollrech.Tests.Test.Data.CtorPropertyInitializerContextActionTests
 {
-    public class SimpleCtor
+    public class SimpleCtor : TestBase
     {
         public void F()
         {
@@ -17,5 +17,10 @@ namespace Tollrech.Tests.Test.Data.CtorPropertyInitializerContextActionTests
     {
         public int Int { get; set; }
         public Guid Guid { get; set; }
+    }
+
+    class TestBase
+    {
+        
     }
 }

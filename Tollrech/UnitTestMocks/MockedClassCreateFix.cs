@@ -13,6 +13,7 @@ using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using JetBrains.Util.Extension;
+using Tollrech.Common;
 
 namespace Tollrech.UnitTestMocks
 {
@@ -252,7 +253,7 @@ namespace Tollrech.UnitTestMocks
                 return false;
             }
 
-            superTypes = classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes).ToArray();
+            superTypes = classDeclaration.GetAllSuperTypes().ToArray();
             return superTypes.Any(x => x.GetClassType()?.Methods.Any(y => y.ShortName == "NewMock") ?? false);
         }
     }
