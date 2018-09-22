@@ -6,10 +6,7 @@ namespace Tollrech.Tests.Test.Data.CtorPropertyInitializerContextActionTests
     {
         public void F()
         {
-            var s = new PropertyClass(){caret}
-            {
-                Guid = Guid.NewGuid()
-            };
+            var s = new PropertyClass(){caret};
         }
     }
 
