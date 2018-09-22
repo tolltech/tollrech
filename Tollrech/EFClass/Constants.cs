@@ -9,6 +9,7 @@
         public const string DecimalPrecision = "DecimalPrecision";
         public const string Table = "Table";
         public const string Column = "Column";
+        public const string TimestampAttribute = "Timestamp";
         public const string TypeName = "TypeName";
         public const string Id = "Id";
         public const string AllowEmptyStrings = "AllowEmptyStrings";
@@ -20,5 +21,7 @@
         public const string BigInt = "BigInt";
         public const string Decimal = "Decimal";
         public const string Date = "Date";
+        public const string Image = "Image";
+        public const string VarBinary = "VarBinary";
     }
 }
