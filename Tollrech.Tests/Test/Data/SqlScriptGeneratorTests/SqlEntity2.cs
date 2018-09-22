@@ -29,6 +29,9 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
 
         [Column("IsDeleted", TypeName = ColumnTypeNames.Bit), Required, ConcurrencyCheck]
         public bool IsDeleted { get; set; }
+
+        [Column("Timestamp2"), Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public byte[] Timestamp2 { get; set; }
     }
 
     public enum MyEnum2

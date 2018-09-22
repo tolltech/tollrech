@@ -21,6 +21,9 @@
     <Content Include="Test\Data\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
+    <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs.gold" />
+    <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
@@ -31,6 +34,15 @@
     <None Remove="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs.gold" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -79,6 +91,15 @@
     <PackageReference Include="JetBrains.Rider.SDK.Tests" Version="2018.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Test\Data\MockedClassCreateFixTests\BigTest.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
