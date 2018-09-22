@@ -13,7 +13,7 @@
     <None Remove="Tollrech.Tests\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="jetbrains.resharper.sdk" Version="2018.2.0" />
+    <PackageReference Include="jetbrains.resharper.sdk" Version="2018.2.3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
