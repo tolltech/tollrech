@@ -134,7 +134,7 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        private static (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2)
+        private static (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2, bool IsTimestamp)
             GetPropertyInfo([NotNull] IPropertyDeclaration propertyDeclaration)
         {
             return (
@@ -144,11 +144,12 @@ namespace Tollrech.EFClass
                 Key: propertyDeclaration.Attributes.HasAttriobute(Constants.Key),
                 MaxLength: propertyDeclaration.Attributes.FindAttribute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
                 Precision1: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision2: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText()
+                Precision2: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText(),
+                IsTimestamp: propertyDeclaration.Attributes.FindAttribute(Constants.TimestampAttribute) != null
             );
         }
 
-        private void AddPropertyTypeInfo([NotNull] StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2) property)
+        private void AddPropertyTypeInfo([NotNull] StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2, bool IsTimestamp) property)
         {
             sb.Append($" [{property.ColumnName}] [{property.ColumnType}]");
             if (!string.IsNullOrWhiteSpace(property.MaxLength))
@@ -162,9 +163,9 @@ namespace Tollrech.EFClass
             }
         }
 
-        private void AddRequiredInfo(StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2) property)
+        private void AddRequiredInfo(StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2, bool IsTimestamp) property)
         {
-            if (property.Required)
+            if (property.Required || property.IsTimestamp)
             {
                 sb.Append(" NOT");
             }
@@ -187,6 +188,11 @@ namespace Tollrech.EFClass
                 return codedTypes.TryGetValue(codedType, out var value) ? value : codedType.ToLower();
             }
 
+            if (pD.Attributes.FindAttribute(Constants.TimestampAttribute) != null)
+            {
+                return "rowversion";
+            }
+
             return "TODOColumnType";
         }
 
@@ -199,7 +205,9 @@ namespace Tollrech.EFClass
                                                                     {Constants.Int, "int" },
                                                                     {Constants.UniqueIdentifier, "uniqueidentifier" },
                                                                     {Constants.NVarChar, "nvarchar" },
-                                                                    {Constants.Date, "date" }
+                                                                    {Constants.Date, "date" },
+                                                                    {Constants.Image, "image" },
+                                                                    {Constants.VarBinary, "varbinary" },
                                                                 };
 
         public override string Text => "Generate sql-script";
