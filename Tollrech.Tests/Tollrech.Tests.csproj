@@ -88,7 +88,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2018.2.3" />
+    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2018.3.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
