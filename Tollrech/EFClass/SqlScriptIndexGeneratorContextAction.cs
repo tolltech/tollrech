@@ -33,14 +33,19 @@ namespace Tollrech.EFClass
             var text = GetIndexScript();
             propertyDeclaration.AddXmlComment(text, factory);
 
-            throw new NotImplementedException();
+            return null;
         }
 
         private string GetIndexScript()
         {
-            //var propertyInfo = propertyDeclaration.GetPropertyInfo();
+            var columnName = propertyColumnAttribute?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName";
+            var tableName = tableAttribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
+            var indexName = $"IX_{tableName}_{columnName}";
 
-            throw new NotImplementedException();
+            return $"IF NOT EXISTS(SELECT * FROM sys.indexes WHERE NAME ='{indexName}' AND object_id = OBJECT_ID('{tableName}'))\r\n" +
+            $"   CREATE INDEX[{indexName}] ON[{tableName}]([{columnName}])\r\n" +
+            "   with(online = on)\r\n" +
+            "GO";
         }
 
         public override string Text => "Generate sql index script";

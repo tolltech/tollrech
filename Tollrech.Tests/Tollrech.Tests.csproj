@@ -27,6 +27,7 @@
     <None Remove="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
+    <None Remove="Test\Data\SqlIndexSinglePropertyGeneratorTests\SqlEntity2Property.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntityHalf.cs.gold" />
@@ -50,6 +51,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\MockedClassCreateFixTests\Simple.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlIndexSinglePropertyGeneratorTests\SqlEntity2Property.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs.gold">
@@ -107,6 +111,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\MockedClassCreateFixTests\Simple.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlIndexSinglePropertyGeneratorTests\SqlEntity2Property.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs">
