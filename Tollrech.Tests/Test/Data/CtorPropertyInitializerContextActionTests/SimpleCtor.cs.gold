@@ -8,8 +8,7 @@ namespace Tollrech.Tests.Test.Data.CtorPropertyInitializerContextActionTests
         {
             var s = new PropertyClass(){caret}
             {
-              Guid = Guid.NewGuid(),
-              Int = 42
+              Guid = Guid.NewGuid(), Int = 42
             };
         }
     }
