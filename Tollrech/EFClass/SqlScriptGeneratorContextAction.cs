@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
@@ -9,7 +8,6 @@ using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.CSharp.Util;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
@@ -51,27 +49,14 @@ namespace Tollrech.EFClass
                 return null;
             }
 
-            AddXmlComment(result.Declaration, result.Script);
+            result.Declaration.AddXmlComment(result.Script, factory);
             return null;
-        }
-
-        private void AddXmlComment(ITypeMemberDeclaration declaration, string text)
-        {
-            var docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
-
-            if (docCommentBlockOwnerNode == null)
-            {
-                return;
-            }
-
-            var comment = factory.CreateDocCommentBlock(text);
-            docCommentBlockOwnerNode.SetDocCommentBlock(comment);
         }
 
         [NotNull]
         private string GeneratePropertyScript()
         {
-            var propertyInfo = GetPropertyInfo(propertyDeclaration);
+            var propertyInfo = propertyDeclaration.GetPropertyInfo();
             var tableName = tableAttribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
 
             var sb = new StringBuilder();
@@ -103,7 +88,7 @@ namespace Tollrech.EFClass
             var properties = classDeclaration.PropertyDeclarations
                 .Where(x => x.HasGetSet())
                 .Where(x => x.Attributes.FindAttribute(Constants.Column) != null)
-                .Select(GetPropertyInfo)
+                .Select(x => x.GetPropertyInfo())
                 .ToArray();
 
             var sb = new StringBuilder();
@@ -134,24 +119,9 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        private static (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2, bool IsTimestamp)
-            GetPropertyInfo([NotNull] IPropertyDeclaration propertyDeclaration)
+        private void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
         {
-            return (
-                ColumnName: propertyDeclaration.Attributes.FindAttribute(Constants.Column)?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName",
-                ColumnType: GetColumnType(propertyDeclaration),
-                Required: propertyDeclaration.Attributes.HasAttriobute(Constants.Required),
-                Key: propertyDeclaration.Attributes.HasAttriobute(Constants.Key),
-                MaxLength: propertyDeclaration.Attributes.FindAttribute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision1: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
-                Precision2: propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText(),
-                IsTimestamp: propertyDeclaration.Attributes.FindAttribute(Constants.TimestampAttribute) != null
-            );
-        }
-
-        private void AddPropertyTypeInfo([NotNull] StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2, bool IsTimestamp) property)
-        {
-            sb.Append($" [{property.ColumnName}] [{property.ColumnType}]");
+            sb.Append($" [{property.ColumnName}] [{property.GetColumnType()}]");
             if (!string.IsNullOrWhiteSpace(property.MaxLength))
             {
                 sb.Append($" ({property.MaxLength})");
@@ -163,7 +133,7 @@ namespace Tollrech.EFClass
             }
         }
 
-        private void AddRequiredInfo(StringBuilder sb, (string ColumnName, string ColumnType, bool Required, bool Key, string MaxLength, string Precision1, string Precision2, bool IsTimestamp) property)
+        private void AddRequiredInfo([NotNull] StringBuilder sb, PropertyInfo property)
         {
             if (property.Required || property.IsTimestamp)
             {
@@ -173,44 +143,7 @@ namespace Tollrech.EFClass
             sb.Append(" NULL");
         }
 
-        [NotNull]
-        private static string GetColumnType([NotNull] IPropertyDeclaration pD)
-        {
-            var typeNameExpression = pD.Attributes.FindAttribute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;
-            if (typeNameExpression is ICSharpLiteralExpression literalExpression)
-            {
-                return literalExpression.GetText().Trim('"');
-            }
-
-            if (typeNameExpression is IReferenceExpression referenceExpression)
-            {
-                var codedType = referenceExpression.NameIdentifier.Name;
-                return codedTypes.TryGetValue(codedType, out var value) ? value : codedType.ToLower();
-            }
-
-            if (pD.Attributes.FindAttribute(Constants.TimestampAttribute) != null)
-            {
-                return "rowversion";
-            }
-
-            return "TODOColumnType";
-        }
-
-        private static readonly Dictionary<string, string> codedTypes = new Dictionary<string, string>
-                                                                {
-                                                                    {Constants.BigInt, "bigint" },
-                                                                    {Constants.Bit, "bit" },
-                                                                    {Constants.DateTime2, "datetime2" },
-                                                                    {Constants.Decimal, "decimal" },
-                                                                    {Constants.Int, "int" },
-                                                                    {Constants.UniqueIdentifier, "uniqueidentifier" },
-                                                                    {Constants.NVarChar, "nvarchar" },
-                                                                    {Constants.Date, "date" },
-                                                                    {Constants.Image, "image" },
-                                                                    {Constants.VarBinary, "varbinary" },
-                                                                };
-
-        public override string Text => "Generate sql-script";
+        public override string Text => "Generate sql script";
 
         public override bool IsAvailable(IUserDataHolder cache)
         {

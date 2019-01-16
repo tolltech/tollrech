@@ -8,3 +8,5 @@ Tolltech*.nupkg
 **/packages
 **/*.tmp
 *.zip
+/ReSharper.DotSettings
+*.DotSettings
