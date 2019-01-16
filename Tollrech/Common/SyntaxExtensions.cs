@@ -3,20 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
+using JetBrains.ReSharper.Psi.CSharp.Util;
+using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
+using Tollrech.EFClass;
 
 namespace Tollrech.Common
 {
     public static class SyntaxExtensions
     {
+        public static PropertyInfo GetPropertyInfo([NotNull] this IPropertyDeclaration propertyDeclaration)
+        {
+            return new PropertyInfo
+                   {
+                       ColumnName = propertyDeclaration.Attributes.FindAttribute(Constants.Column)?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName",
+                       Required = propertyDeclaration.Attributes.HasAttribute(Constants.Required),
+                       Key = propertyDeclaration.Attributes.HasAttribute(Constants.Key),
+                       MaxLength = propertyDeclaration.Attributes.FindAttribute(Constants.MaxLength)?.Arguments.FirstOrDefault().GetLiteralText(),
+                       Precision1 = propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.FirstOrDefault().GetLiteralText(),
+                       Precision2 = propertyDeclaration.Attributes.FindAttribute(Constants.DecimalPrecision)?.Arguments.LastOrDefault().GetLiteralText(),
+                       IsTimestamp = propertyDeclaration.Attributes.FindAttribute(Constants.TimestampAttribute) != null,
+                       Declaration = propertyDeclaration
+                   };
+        }
+
+        public static void AddXmlComment(this ITypeMemberDeclaration declaration, string text, CSharpElementFactory factory)
+        {
+            var docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
+
+            if (docCommentBlockOwnerNode == null)
+            {
+                return;
+            }
+
+            var comment = factory.CreateDocCommentBlock(text);
+            docCommentBlockOwnerNode.SetDocCommentBlock(comment);
+        }
+
         [CanBeNull]
         public static IAttribute FindAttribute([NotNull] this IEnumerable<IAttribute> src, string name)
         {
             return src.FirstOrDefault(x => x.Name.NameIdentifier.Name == name);
         }
 
-        public static bool HasAttriobute([NotNull] this IEnumerable<IAttribute> src, string name)
+        public static bool HasAttribute([NotNull] this IEnumerable<IAttribute> src, string name)
         {
             return src.Any(x => x.Name.NameIdentifier.Name == name);
         }
