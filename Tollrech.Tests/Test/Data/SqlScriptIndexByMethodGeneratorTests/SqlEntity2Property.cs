@@ -15,6 +15,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         }
     }
 
+    [Table("OnlinePaymentSessionDbos")]
     public class OnlinePaymentSessionDbo
     {
         public Guid Id { get; set; }
