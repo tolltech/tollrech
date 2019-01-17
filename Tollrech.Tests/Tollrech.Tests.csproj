@@ -33,6 +33,8 @@
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntityHalf.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\SqlEntity2Property.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\TestEntity.cs.gold" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold">
@@ -80,6 +82,12 @@
     <Content Include="Test\Data\SqlScriptGeneratorTests\SqlEntity3Property.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\TestEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\SqlEntity2Property.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -92,7 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2018.3.1" />
+    <PackageReference Include="JetBrains.Rider.SDK.Tests" Version="2018.3.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
@@ -138,6 +146,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlScriptGeneratorTests\SqlEntity2.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\TestEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\SqlEntity2Property.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

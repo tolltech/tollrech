@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
@@ -83,6 +84,43 @@ namespace Tollrech.Common
             }
 
             return classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes);
+        }
+
+        public static IEnumerable<ITreeNode> GetAllDescendants([CanBeNull] this ITreeNode root, [CanBeNull] StringBuilder sb = null, int level = 0)
+        {
+            if (root == null)
+            {
+                yield break;
+            }
+            sb?.AppendLine("{");
+            if (root.Descendants().Any())
+            {
+                sb?.AppendLine("\"Childs\":[");
+            }
+
+            foreach (var descendant in root.Descendants())
+            {
+                var valueStr = descendant.ToString().Replace("\r", "").Replace("\n", "").Trim();
+                sb?.AppendLine("{");
+                //sb?.AppendLine($"{string.Join("\t", Enumerable.Range(0, level).Select(x => string.Empty))}{valueStr}\t{descendant.GetType().Name}");
+                sb?.AppendLine($"\"Type\":\"{descendant.GetType().Name}\",");
+                sb?.AppendLine($"\"Value\":\"{valueStr.Replace("\"","'")}\"");
+
+                yield return descendant;
+
+                sb?.AppendLine("},");
+                foreach (var child in descendant.GetAllDescendants(sb, level + 1))
+                {
+                    yield return child;
+                }
+            }
+
+            if (root.Descendants().Any())
+            {
+                sb?.AppendLine("]");
+            }
+
+            sb?.AppendLine("},");
         }
     }
 
