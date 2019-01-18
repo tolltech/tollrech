@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
@@ -86,41 +85,36 @@ namespace Tollrech.Common
             return classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes);
         }
 
-        public static IEnumerable<ITreeNode> GetAllDescendants([CanBeNull] this ITreeNode root, [CanBeNull] StringBuilder sb = null, int level = 0)
+        public static IEnumerable<ITreeNode> GetAllDescendants([CanBeNull] this ITreeNode root, HashSet<ITreeNode> visitedNodes = null)
         {
             if (root == null)
             {
                 yield break;
             }
-            sb?.AppendLine("{");
-            if (root.Descendants().Any())
-            {
-                sb?.AppendLine("\"Childs\":[");
-            }
+
+            visitedNodes = visitedNodes ?? new HashSet<ITreeNode>();
 
             foreach (var descendant in root.Descendants())
             {
-                var valueStr = descendant.ToString().Replace("\r", "").Replace("\n", "").Trim();
-                sb?.AppendLine("{");
-                //sb?.AppendLine($"{string.Join("\t", Enumerable.Range(0, level).Select(x => string.Empty))}{valueStr}\t{descendant.GetType().Name}");
-                sb?.AppendLine($"\"Type\":\"{descendant.GetType().Name}\",");
-                sb?.AppendLine($"\"Value\":\"{valueStr.Replace("\"","'")}\"");
+                if (visitedNodes.Contains(descendant))
+                {
+                    continue;
+                }
 
+                visitedNodes.Add(descendant);
                 yield return descendant;
 
-                sb?.AppendLine("},");
-                foreach (var child in descendant.GetAllDescendants(sb, level + 1))
+                foreach (var child in descendant.GetAllDescendants())
                 {
+                    if (visitedNodes.Contains(child))
+                    {
+                        continue;
+                    }
+
+                    visitedNodes.Add(child);
                     yield return child;
                 }
             }
-
-            if (root.Descendants().Any())
-            {
-                sb?.AppendLine("]");
-            }
-
-            sb?.AppendLine("},");
         }
     }
 

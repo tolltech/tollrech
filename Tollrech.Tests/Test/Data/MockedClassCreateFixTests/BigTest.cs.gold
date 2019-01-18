@@ -3,27 +3,27 @@
     public class Class1 : TestBase
     {
         private MockedClass mockedClass;
-      private IArrayed arrayed1;
-      private IArrayed arrayed2;
-      private IArrayed[] arrayeds;
-      private IClass clas;
-      private IClass clas2;
-      private IArrayed arrayeds21;
-      private IArrayed arrayeds22;
-      private IArrayed[] arrayeds2;
+        private IArrayed arrayed1;
+        private IArrayed arrayed2;
+        private IArrayed[] arrayeds;
+        private IClass clas;
+        private IClass clas2;
+        private IArrayed arrayeds21;
+        private IArrayed arrayeds22;
+        private IArrayed[] arrayeds2;
 
-      void Some()
-      {
-        arrayed1 = NewMock<IArrayed>();
-        arrayed2 = NewMock<IArrayed>();
-        arrayeds = new[] {arrayed1, arrayed2};
-        clas = NewMock<IClass>();
-        clas2 = NewMock<IClass>();
-        arrayeds21 = NewMock<IArrayed>();
-        arrayeds22 = NewMock<IArrayed>();
-        arrayeds2 = new[] {arrayeds21, arrayeds22};
-        mockedClass = new MockedClass({caret}QueryExecutorFactory, TODO, arrayeds, clas, clas2, arrayeds2, TODO);
-      }
+        void Some()
+        {
+          arrayed1 = NewMock<IArrayed>();
+          arrayed2 = NewMock<IArrayed>();
+          arrayeds = new[] {arrayed1, arrayed2};
+          clas = NewMock<IClass>();
+          clas2 = NewMock<IClass>();
+          arrayeds21 = NewMock<IArrayed>();
+          arrayeds22 = NewMock<IArrayed>();
+          arrayeds2 = new[] {arrayeds21, arrayeds22};
+          mockedClass = new MockedClass({caret}QueryExecutorFactory, TODO, arrayeds, clas, clas2, arrayeds2, TODO);
+        }
 
         public void Test()
         {

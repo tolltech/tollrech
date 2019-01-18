@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
-using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -18,25 +16,6 @@ using IReferenceExpression = JetBrains.ReSharper.Psi.CSharp.Tree.IReferenceExpre
 
 namespace Tollrech.EFClass
 {
-    //IF NOT EXISTS(SELECT* FROM sys.indexes WHERE NAME = 'IX_OnlinePaymentSession_State_Date' AND object_id = OBJECT_ID('OnlinePaymentSession'))
-    //    CREATE INDEX[IX_OnlinePaymentSession_State_Date] ON[OnlinePaymentSession] ([State], [Date])
-    //    with(online = on)
-    //GO
-
-    //public Task<OnlinePaymentSessionDbo[]> SelectAsync(DateTime exclusiveFromDate, PaymentState[] states, DateTime? exclusiveToDate = null)
-    //{
-    //var query = GetTable()
-    //        .Where(x => states.Contains(x.State))
-    //        .Where(x => x.Date > exclusiveFromDate);
-
-    //    if (exclusiveToDate.HasValue)
-    //{
-    //    query = query.Where(x => x.Date < exclusiveToDate.Value);
-    //}
-
-    //return query.OrderBy(x => x.Date).ToArrayAsync();
-    //}
-
     [ContextAction(Name = "SqlScriptIndexByMethodGeneratorContextAction", Description = "Generate Sql script index for handler methods", Group = "C#", Disabled = false, Priority = 1)]
     public class SqlScriptIndexByMethodGeneratorContextAction : ContextActionBase
     {
@@ -63,10 +42,9 @@ namespace Tollrech.EFClass
         [NotNull]
         private string GetIndexScript()
         {
-            var sb = new StringBuilder();
-            var lambdas = methodDeclaration.Body.GetAllDescendants(sb).OfType<ILambdaExpression>().ToArray();
+            var lambdas = methodDeclaration.Body.GetAllDescendants().OfType<ILambdaExpression>().ToArray();
 
-            var r = "";
+            string tableName = null;
             var lambdaExpressions = lambdas.Distinct().ToArray();
             var indexProperties = new List<string>(lambdaExpressions.Length);
             foreach (var lambdaExpression in lambdaExpressions)
@@ -79,7 +57,13 @@ namespace Tollrech.EFClass
                     continue;
                 }
 
-                var tableName = GetTableNameFromAttribute(parameterDeclaration);
+                var currentTableName = GetTableNameFromAttribute(parameterDeclaration);
+                if (tableName != null && tableName != currentTableName)
+                {
+                    continue;
+                }
+
+                tableName = currentTableName;
 
                 var lambdaParameterName = parameterDeclaration.NameIdentifier.Name;
                 var referenceExpressions = childNodes.OfType<IReferenceExpression>().Where(x => x.NameIdentifier.Name == lambdaParameterName).Distinct().ToArray();
@@ -97,30 +81,25 @@ namespace Tollrech.EFClass
             }
 
             var distinctedPropertyNames = indexProperties.Distinct().ToArray();
-
-            var indexName = $"IX_OnlinePaymentSession_{string.Join("_", distinctedPropertyNames)}";
-            return $"IF NOT EXISTS(SELECT* FROM sys.indexes WHERE NAME = '{indexName}' AND object_id = OBJECT_ID('OnlinePaymentSession'))" +
-                   $"   CREATE INDEX[{indexName}] ON[OnlinePaymentSession] ({string.Join(", ", distinctedPropertyNames.Select(x => $"[{x}]"))})" +
-                   "   with(online = on)" +
+            var realTableName = tableName ?? "TODOTableName";
+            var indexName = $"IX_{realTableName}_{string.Join("_", distinctedPropertyNames)}";
+            return $"IF NOT EXISTS(SELECT* FROM sys.indexes WHERE NAME = '{indexName}' AND object_id = OBJECT_ID('{realTableName}'))\r\n" +
+                   $"   CREATE INDEX[{indexName}] ON[{realTableName}] ({string.Join(", ", distinctedPropertyNames.Select(x => $"[{x}]"))})\r\n" +
+                   "   with(online = on)\r\n" +
                    "GO";
         }
 
-        [NotNull]
+        [CanBeNull]
         private static string GetTableNameFromAttribute([NotNull] ILambdaParameterDeclaration parameterDeclaration)
         {
+            const string tableNameAttribute = "Table";
+
             var parameterScalarType = parameterDeclaration.DeclaredElement.Type.GetScalarType();
-            var parameterTypeElement = parameterScalarType?.GetTypeElement();
-
-            var attribures = parameterTypeElement?.GetAttributeInstances(true).ToArray();
-            //todo: trye get table attributeValue
-
             var resolveResult = parameterScalarType?.Resolve();
             var declarations = resolveResult?.DeclaredElement?.GetDeclarations().ToArray() ?? Array.Empty<IDeclaration>();
-            var classDeclaration = declarations.FirstOrDefault();
-            //todo: trye get table attributeValue
-            //((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.CSharpExpressionBase)((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.CSharpArgument)((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.AttributeStub)((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.ClassDeclarationStub)declarations[0]).Attributes.myNodes[0]).Arguments.myNodes[0]).Value).ConstantValue.Value
-
-            return string.Empty;
+            var classDeclaration = declarations.OfType<IAttributesOwnerDeclaration>().FirstOrDefault();
+            var tableAttribute = classDeclaration?.Attributes.FirstOrDefault(x => x.Name.NameIdentifier.Name == tableNameAttribute);
+            return tableAttribute?.Arguments.FirstOrDefault()?.Value?.ConstantValue.Value?.ToString();
         }
 
         public override string Text => "Generate sql index script";

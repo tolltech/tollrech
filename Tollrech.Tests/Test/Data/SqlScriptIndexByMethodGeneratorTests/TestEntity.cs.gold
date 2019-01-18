@@ -1,7 +1,0 @@
-﻿public class TestEntity
-{
-    public int Method()
-    {
-        return int.MaxValue;
-    }
-}
