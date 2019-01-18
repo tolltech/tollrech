@@ -79,19 +79,7 @@ namespace Tollrech.EFClass
                     continue;
                 }
 
-                var parameterType = parameterDeclaration.DeclaredElement.Type;
-                var parameterScalarType = parameterDeclaration.DeclaredElement.Type.GetScalarType();
-                var parameterTypeElement = parameterScalarType.GetTypeElement();
-
-                var file = parameterTypeElement.GetSingleOrDefaultSourceFile();
-                var attribures1 = parameterTypeElement.GetAttributeInstances(true).ToArray();
-                var attribures2 = parameterTypeElement.GetAttributeInstances(false).ToArray();
-
-                var context = parameterTypeElement.GetResolveContext();
-                var resolveResult = parameterScalarType.Resolve();
-
-                var declarations = resolveResult.DeclaredElement?.GetDeclarations().ToArray() ?? Array.Empty<IDeclaration>();
-                var classDeclaration1 = declarations.FirstOrDefault()?.GetAllDescendants().OfType<IClassDeclaration>();
+                var tableName = GetTableNameFromAttribute(parameterDeclaration);
 
                 var lambdaParameterName = parameterDeclaration.NameIdentifier.Name;
                 var referenceExpressions = childNodes.OfType<IReferenceExpression>().Where(x => x.NameIdentifier.Name == lambdaParameterName).Distinct().ToArray();
@@ -115,6 +103,24 @@ namespace Tollrech.EFClass
                    $"   CREATE INDEX[{indexName}] ON[OnlinePaymentSession] ({string.Join(", ", distinctedPropertyNames.Select(x => $"[{x}]"))})" +
                    "   with(online = on)" +
                    "GO";
+        }
+
+        [NotNull]
+        private static string GetTableNameFromAttribute([NotNull] ILambdaParameterDeclaration parameterDeclaration)
+        {
+            var parameterScalarType = parameterDeclaration.DeclaredElement.Type.GetScalarType();
+            var parameterTypeElement = parameterScalarType?.GetTypeElement();
+
+            var attribures = parameterTypeElement?.GetAttributeInstances(true).ToArray();
+            //todo: trye get table attributeValue
+
+            var resolveResult = parameterScalarType?.Resolve();
+            var declarations = resolveResult?.DeclaredElement?.GetDeclarations().ToArray() ?? Array.Empty<IDeclaration>();
+            var classDeclaration = declarations.FirstOrDefault();
+            //todo: trye get table attributeValue
+            //((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.CSharpExpressionBase)((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.CSharpArgument)((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.AttributeStub)((JetBrains.ReSharper.Psi.CSharp.Impl.Tree.ClassDeclarationStub)declarations[0]).Attributes.myNodes[0]).Arguments.myNodes[0]).Value).ConstantValue.Value
+
+            return string.Empty;
         }
 
         public override string Text => "Generate sql index script";
