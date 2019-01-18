@@ -84,6 +84,38 @@ namespace Tollrech.Common
 
             return classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes);
         }
+
+        public static IEnumerable<ITreeNode> GetAllDescendants([CanBeNull] this ITreeNode root, HashSet<ITreeNode> visitedNodes = null)
+        {
+            if (root == null)
+            {
+                yield break;
+            }
+
+            visitedNodes = visitedNodes ?? new HashSet<ITreeNode>();
+
+            foreach (var descendant in root.Descendants())
+            {
+                if (visitedNodes.Contains(descendant))
+                {
+                    continue;
+                }
+
+                visitedNodes.Add(descendant);
+                yield return descendant;
+
+                foreach (var child in descendant.GetAllDescendants())
+                {
+                    if (visitedNodes.Contains(child))
+                    {
+                        continue;
+                    }
+
+                    visitedNodes.Add(child);
+                    yield return child;
+                }
+            }
+        }
     }
 
     public class DummyHelper

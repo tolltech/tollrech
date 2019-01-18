@@ -33,6 +33,11 @@
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntityHalf.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\Await.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\NotHandler.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\SimpleWhereChain.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\UnresolvedTableName.cs.gold" />
+    <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\WhereWithIf.cs.gold" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold">
@@ -78,6 +83,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptGeneratorTests\SqlEntity3Property.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\SimpleWhereChain.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\NotHandler.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\Await.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\UnresolvedTableName.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\WhereWithIf.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -138,6 +158,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlScriptGeneratorTests\SqlEntity2.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\SimpleWhereChain.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\NotHandler.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\Await.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\UnresolvedTableName.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptIndexByMethodGeneratorTests\WhereWithIf.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
