@@ -24,6 +24,7 @@
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\Simple.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
@@ -47,6 +48,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\LogIntroducerTests\Simple.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold">
@@ -118,6 +122,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NUnit" Version="2.6.4" />
+    <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
@@ -127,6 +132,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\LogIntroducerTests\Simple.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\MockedClassCreateFixTests\BigTest.cs">

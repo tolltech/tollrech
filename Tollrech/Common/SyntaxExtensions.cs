@@ -116,6 +116,14 @@ namespace Tollrech.Common
                 }
             }
         }
+
+        public static void AddMemberDeclaration([NotNull] this IClassDeclaration classDeclaration, [NotNull] IType memberTyte, [NotNull] string memberName, [NotNull] CSharpElementFactory factory, Func<IEnumerable<ICSharpTypeMemberDeclaration>, bool> predicate = null)
+        {
+            if (predicate?.Invoke(classDeclaration.MemberDeclarations) ?? true)
+            {
+                classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(memberTyte, memberName));
+            }
+        }
     }
 
     public class DummyHelper
