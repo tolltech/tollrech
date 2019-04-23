@@ -29,6 +29,16 @@ namespace Tollrech.Common
                    };
         }
 
+        public static void AddUsing(this ICSharpFile file, string namespaceName, [NotNull] CSharpElementFactory factory)
+        {
+            var usingSymbolDirectives = file.ImportsEnumerable.OfType<IUsingSymbolDirective>().ToArray();
+            var taskUsing = factory.CreateUsingDirective(namespaceName);
+            if (usingSymbolDirectives.All(i => i.ImportedSymbolName.QualifiedName != namespaceName))
+            {
+                file.AddImport(taskUsing, true);
+            }
+        }
+
         public static void AddXmlComment(this ITypeMemberDeclaration declaration, string text, CSharpElementFactory factory)
         {
             var docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);

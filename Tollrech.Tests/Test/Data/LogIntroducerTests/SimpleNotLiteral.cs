@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using log4net;
 
 namespace Tollrech.Tests.Test.Data.LogIntroducerTests
 {
     public class Simple
     {
-      private static readonly ILog log = LogManager.GetLogger(typeof(Simple));
-
-      public void Some()
+        public void Some()
         {
-            log.Info("i want to log this"){caret}
+            Some2("i want to log this"{caret});
+        }
+
+        public void Some2(string s)
+        {
+
         }
     }
 }

@@ -9,11 +9,9 @@ namespace Tollrech.Tests.Test.Data.LogIntroducerTests
 {
     public class Simple
     {
-      private static readonly ILog log = LogManager.GetLogger(typeof(Simple));
-
-      public void Some()
+        public void Some()
         {
-            log.Info("i want to log this"){caret}
+            "i want to log this"{caret}
         }
     }
 }

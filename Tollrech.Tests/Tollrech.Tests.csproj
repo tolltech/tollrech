@@ -25,6 +25,9 @@
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold" />
     <None Remove="Test\Data\LogIntroducerTests\Simple.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\SimpleNotLiteral.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\SimpleVariable.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\SimpleWithUsing.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
@@ -48,6 +51,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\LogIntroducerTests\SimpleVariable.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\LogIntroducerTests\SimpleNotLiteral.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\LogIntroducerTests\SimpleWithUsing.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\LogIntroducerTests\Simple.cs.gold">
@@ -121,8 +133,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NUnit" Version="2.6.4" />
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="NUnit" Version="2.6.4" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
@@ -132,6 +144,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\LogIntroducerTests\SimpleVariable.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\LogIntroducerTests\SimpleNotLiteral.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\LogIntroducerTests\SimpleWithUsing.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\LogIntroducerTests\Simple.cs">

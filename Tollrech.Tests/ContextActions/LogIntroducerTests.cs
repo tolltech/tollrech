@@ -1,7 +1,9 @@
-﻿using Tollrech.Logging;
+﻿using JetBrains.ReSharper.TestFramework;
+using Tollrech.Logging;
 
 namespace Tollrech.Tests.ContextActions
 {
+    [TestPackages("log4net")]
     public class LogIntroducerTests : ContextActionBaseTests<LogIntroducerContextAction>
     {
         protected override string ExtraPath => "LogIntroducerTests";
