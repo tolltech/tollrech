@@ -60,9 +60,9 @@ namespace Tollrech.Factoring
                 properiesToInitialize.Add((Name: property.ShortName, Value: propertyDummyValue));
             }
 
-            foreach (var propertyInitializer in properiesToInitialize)
+            foreach (var (name, value) in properiesToInitialize)
             {
-                var initializer = factory.CreateObjectPropertyInitializer(propertyInitializer.Name, factory.CreateExpression("$0", propertyInitializer.Value));
+                var initializer = factory.CreateObjectPropertyInitializer(name, factory.CreateExpression("$0", value));
                 objectInitializer.AddMemberInitializerBefore(initializer, null);
             }
 

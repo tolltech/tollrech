@@ -4,8 +4,6 @@ using JetBrains.TestFramework;
 using JetBrains.TestFramework.Application.Zones;
 using NUnit.Framework;
 
-[assembly: RequiresSTA]
-
 [ZoneDefinition]
 public class TestEnvironmentZone : ITestsEnvZone, IRequire<PsiFeatureTestZone> { }
 
