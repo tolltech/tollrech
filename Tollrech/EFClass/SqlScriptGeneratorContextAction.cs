@@ -122,9 +122,16 @@ namespace Tollrech.EFClass
         private void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
         {
             sb.Append($" [{property.ColumnName}] [{property.GetColumnType()}]");
-            if (!string.IsNullOrWhiteSpace(property.MaxLength))
+            if (property.GetColumnType() == "nvarchar")
             {
-                sb.Append($" ({property.MaxLength})");
+                if (!string.IsNullOrWhiteSpace(property.MaxLength))
+                {
+                    sb.Append($" ({property.MaxLength})");
+                }
+                else
+                {
+                    sb.Append(" (MAX)");
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(property.Precision1) && !string.IsNullOrWhiteSpace(property.Precision2))

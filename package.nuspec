@@ -3,7 +3,7 @@
   <metadata>
     <id>Tolltech.Tollrech</id>
     <title>Tollrech</title>
-    <version>2018.3.1.2</version>
+    <version>2018.3.5</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
@@ -12,9 +12,10 @@
     <summary>Kontur.Billing Resharping</summary>
     <iconUrl>https://pp.userapi.com/c837734/v837734541/58885/1BTnIETQxB8.jpg</iconUrl>
     <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
+    <licenseUrl>https://bitbucket.org/tolltech/tollrech/src/master/eula/text-eula.txt</licenseUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
-      <dependency id="Wave" version="12.0" />
+      <dependency id="Wave" version="183.0.0" />
     </dependencies>
   </metadata>
   <files>

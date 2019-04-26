@@ -18,6 +18,9 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]
         public string Number { get; set; }
 
+        [Column("Number2", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck]
+        public string Number2 { get; set; }
+
         [Column("Type_New", TypeName = "int"), Required, ConcurrencyCheck]
         public MyEnum2 Type { get; set; }
 
