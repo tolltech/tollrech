@@ -130,10 +130,7 @@ namespace Tollrech.UnitTestMocks
 
             foreach (var mockInfo in mockInfos)
             {
-                if (classDeclaration.MemberDeclarations.All(x => x.DeclaredName != mockInfo.Name))
-                {
-                    classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(mockInfo.Type, mockInfo.Name));
-                }
+                classDeclaration.AddMemberDeclaration(mockInfo.Type, mockInfo.Name, factory, m => m.All(x => x.DeclaredName != mockInfo.Name));
 
                 var elementHasAssigned = methodDeclaration.Body.Statements.Any(x =>
                 {
