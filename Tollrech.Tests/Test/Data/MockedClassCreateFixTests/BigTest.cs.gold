@@ -22,7 +22,7 @@
           arrayeds21 = NewMock<IArrayed>();
           arrayeds22 = NewMock<IArrayed>();
           arrayeds2 = new[] {arrayeds21, arrayeds22};
-          mockedClass = new MockedClass({caret}QueryExecutorFactory, TODO, arrayeds, clas, clas2, arrayeds2, TODO);
+          mockedClass = new MockedClass(QueryExecutorFactory, TODO, arrayeds, clas, clas2, arrayeds2, TODO{caret});
         }
 
         public void Test()

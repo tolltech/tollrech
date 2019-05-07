@@ -9,7 +9,7 @@
       {
         m1 = NewMock<IMockedInterface1>();
         m2 = NewMock<IMockedInterface2>();
-        new MockingClass({caret}m1, m2);
+        new MockingClass(m1, m2{caret});
       }
     }
 
