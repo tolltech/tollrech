@@ -13,6 +13,9 @@
     <None Remove="Tollrech.Tests\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\package.nuspec" Link="package.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
     <PackageReference Include="jetbrains.resharper.sdk" Version="2019.1.1">
       <PrivateAssets>all</PrivateAssets>
