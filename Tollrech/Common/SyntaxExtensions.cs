@@ -29,6 +29,16 @@ namespace Tollrech.Common
                    };
         }
 
+        public static void AddUsing(this ICSharpFile file, string namespaceName, [NotNull] CSharpElementFactory factory)
+        {
+            var usingSymbolDirectives = file.ImportsEnumerable.OfType<IUsingSymbolDirective>().ToArray();
+            var taskUsing = factory.CreateUsingDirective(namespaceName);
+            if (usingSymbolDirectives.All(i => i.ImportedSymbolName.QualifiedName != namespaceName))
+            {
+                file.AddImport(taskUsing, true);
+            }
+        }
+
         public static void AddXmlComment(this ITypeMemberDeclaration declaration, string text, CSharpElementFactory factory)
         {
             var docCommentBlockOwnerNode = XmlDocTemplateUtil.FindDocCommentOwner(declaration);
@@ -114,6 +124,14 @@ namespace Tollrech.Common
                     visitedNodes.Add(child);
                     yield return child;
                 }
+            }
+        }
+
+        public static void AddMemberDeclaration([NotNull] this IClassDeclaration classDeclaration, [NotNull] IType memberTyte, [NotNull] string memberName, [NotNull] CSharpElementFactory factory, Func<IEnumerable<ICSharpTypeMemberDeclaration>, bool> predicate = null)
+        {
+            if (predicate?.Invoke(classDeclaration.MemberDeclarations) ?? true)
+            {
+                classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(memberTyte, memberName));
             }
         }
     }
