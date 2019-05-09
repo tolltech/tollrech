@@ -5,6 +5,7 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
 using JetBrains.ReSharper.Feature.Services.CSharp.CompleteStatement;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Impl.Tree;
 using JetBrains.ReSharper.Psi.CSharp.Parsing;
@@ -12,6 +13,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using Tollrech.Common;
@@ -38,18 +40,27 @@ namespace Tollrech.Logging
         {
             file.AddUsing("log4net", factory);
 
-            var fieldDeclaration = CreateFieldDeclaration("log4net.ILog");
-            if (fieldDeclaration == null)
+            var log4netType = CreateIType("log4net.ILog");
+            var logField = log4netType != null
+                ? classDeclaration.FieldDeclarations.FirstOrDefault(x => x.Type.IsSubtypeOf(log4netType))
+                : classDeclaration.FieldDeclarations.FirstOrDefault(x => x.Type.GetInterfaceType()?.ShortName == "ILog");
+
+            if (log4netType == null && logField == null)
             {
                 return null;
             }
 
-            AddKeywords(fieldDeclaration, CSharpTokenType.READONLY_KEYWORD, CSharpTokenType.STATIC_KEYWORD);
-            AddInitializer(fieldDeclaration, $"LogManager.GetLogger(typeof({classDeclaration.DeclaredName}))");
+            if (logField == null)
+            {
+                logField = CreateFieldDeclaration(log4netType);
 
-            classDeclaration.AddClassMemberDeclaration(fieldDeclaration);
+                AddKeywords(logField, CSharpTokenType.READONLY_KEYWORD, CSharpTokenType.STATIC_KEYWORD);
+                AddInitializer(logField, $"LogManager.GetLogger(typeof({classDeclaration.DeclaredName}))");
 
-            literalExpression.ReplaceBy(factory.CreateExpression("log.Info($0)", literalExpression));
+                classDeclaration.AddClassMemberDeclaration(logField);
+            }
+
+            literalExpression.ReplaceBy(factory.CreateExpression($"{logField.NameIdentifier.Name}.Info($0)", literalExpression));
 
             return null;
         }
@@ -71,18 +82,19 @@ namespace Tollrech.Logging
             }
         }
 
-        [CanBeNull]
-        private IFieldDeclaration CreateFieldDeclaration([NotNull] string fieldType)
+        [NotNull]
+        private IFieldDeclaration CreateFieldDeclaration([NotNull] IType fieldType)
         {
-            var lognetType = CSharpTypeFactory.CreateType(fieldType, classDeclaration);
-
-            if (!lognetType.IsResolved)
-            {
-                return null;
-            }
-
-            var fieldDeclaration = factory.CreateFieldDeclaration(lognetType, "log");
+            var fieldDeclaration = factory.CreateFieldDeclaration(fieldType, "log");
             return fieldDeclaration;
+        }
+
+        [CanBeNull]
+        private IType CreateIType([NotNull] string typeName)
+        {
+            var type = CSharpTypeFactory.CreateType(typeName, classDeclaration);
+
+            return !type.IsResolved ? null : type;
         }
 
         public override string Text => "Log this";

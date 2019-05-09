@@ -24,10 +24,12 @@
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\LogFieldExists.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\LogFieldExistsOther.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\NotLiteral.cs.gold" />
     <None Remove="Test\Data\LogIntroducerTests\Simple.cs.gold" />
-    <None Remove="Test\Data\LogIntroducerTests\SimpleNotLiteral.cs.gold" />
-    <None Remove="Test\Data\LogIntroducerTests\SimpleVariable.cs.gold" />
     <None Remove="Test\Data\LogIntroducerTests\SimpleWithUsing.cs.gold" />
+    <None Remove="Test\Data\LogIntroducerTests\StringVariable.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\BigTest.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
@@ -53,10 +55,16 @@
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Test\Data\LogIntroducerTests\SimpleVariable.cs.gold">
+    <Content Include="Test\Data\LogIntroducerTests\LogFieldExistsOther.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Test\Data\LogIntroducerTests\SimpleNotLiteral.cs.gold">
+    <Content Include="Test\Data\LogIntroducerTests\LogFieldExists.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\LogIntroducerTests\StringVariable.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\LogIntroducerTests\NotLiteral.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\LogIntroducerTests\SimpleWithUsing.cs.gold">
@@ -146,10 +154,16 @@
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Test\Data\LogIntroducerTests\SimpleVariable.cs">
+    <Content Update="Test\Data\LogIntroducerTests\LogFieldExistsOther.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Test\Data\LogIntroducerTests\SimpleNotLiteral.cs">
+    <Content Update="Test\Data\LogIntroducerTests\LogFieldExists.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\LogIntroducerTests\StringVariable.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\LogIntroducerTests\NotLiteral.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\LogIntroducerTests\SimpleWithUsing.cs">
