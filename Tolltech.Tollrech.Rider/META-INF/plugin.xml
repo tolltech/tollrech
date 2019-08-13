@@ -2,7 +2,7 @@
   <id>Tolltech.Tollrech</id>
   <name>Tollrech</name>
   <description>Kontur.Billing Resharping</description>
-  <version>2019.1.0</version>
+  <version>2019.1.1</version>
   <vendor url="https://bitbucket.org/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="191" until-build="191.*"/>
   <extensions defaultExtensionNs="com.intellij" />
