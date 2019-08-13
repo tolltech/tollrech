@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
@@ -142,7 +142,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="NUnit" Version="2.6.4" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
