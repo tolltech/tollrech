@@ -6,5 +6,9 @@ namespace Tollrech.Tests.ContextActions
     {
         protected override string ExtraPath => "SqlMapGeneratorTests";
         protected override string RelativeTestDataPath => "SqlMapGeneratorTests";
+        public override void TestAbstract(string fileName)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

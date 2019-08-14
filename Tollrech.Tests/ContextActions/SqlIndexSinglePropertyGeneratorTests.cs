@@ -6,5 +6,9 @@ namespace Tollrech.Tests.ContextActions
     {
         protected override string ExtraPath => "SqlIndexSinglePropertyGeneratorTests";
         protected override string RelativeTestDataPath => "SqlIndexSinglePropertyGeneratorTests";
+        public override void TestAbstract(string fileName)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
