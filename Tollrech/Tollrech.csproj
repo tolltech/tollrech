@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -13,14 +13,11 @@
     <None Remove="Tollrech.Tests\**" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Tolltech.Tollrech.Rider\META-INF\plugin.xml" Link="plugin.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\package.nuspec" Link="package.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
-    <PackageReference Include="jetbrains.rider.sdk" Version="2019.2.0">
+    <PackageReference Include="jetbrains.resharper.sdk" Version="2019.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
