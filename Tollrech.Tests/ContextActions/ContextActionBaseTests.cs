@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using JetBrains.Application.Settings;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
@@ -12,8 +13,9 @@ namespace Tollrech.Tests.ContextActions
     [TestNetFramework46]
     public abstract class ContextActionBaseTests<TQuickFix> : CSharpContextActionExecuteTestBase<TQuickFix> where TQuickFix : class, IContextAction
     {
-        [TestCaseSource(nameof(FileNames))]
-        public void Test(string fileName)
+        public abstract void TestAbstract(string fileName);
+
+        protected void Test(string fileName)
         {
             ExecuteWithinSettingsTransaction(store => TestTransaction(store, fileName));
         }
@@ -38,10 +40,12 @@ namespace Tollrech.Tests.ContextActions
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        protected TestCaseData[] FileNames()
+        [NotNull]
+        // ReSharper disable once MemberCanBeProtected.Global
+        public static TestCaseData[] FileNames([NotNull] string relativeTestDataPath)
         {
             return Directory
-                .GetFiles(Path.Combine(@".\Test\Data\", RelativeTestDataPath), "*.cs")
+                .GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, @"Test\Data\", relativeTestDataPath), "*.cs")
                 .Select(Path.GetFileName)
                 .Select(f => new TestCaseData(f))
                 .ToArray();
