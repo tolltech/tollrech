@@ -45,7 +45,7 @@ namespace Tollrech.Tests.ContextActions
         public static TestCaseData[] FileNames([NotNull] string relativeTestDataPath)
         {
             return Directory
-                .GetFiles(Path.Combine(@".\Test\Data\", relativeTestDataPath), "*.cs")
+                .GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, @"Test\Data\", relativeTestDataPath), "*.cs")
                 .Select(Path.GetFileName)
                 .Select(f => new TestCaseData(f))
                 .ToArray();
