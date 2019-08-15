@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
 using JetBrains.ReSharper.TestFramework;
@@ -12,7 +13,8 @@ namespace Tollrech.Tests.QuickFixes
     [TestNetFramework46]
     public abstract class QuickFixBaseTests<TQuickFix> : CSharpQuickFixTestBase<TQuickFix> where TQuickFix : IQuickFix
     {
-        [TestCaseSource(nameof(FileNames))]
+        public abstract void TestAbstract(string fileName);
+
         public void Test(string fileName)
         {
             ExecuteWithinSettingsTransaction(store => TestTransaction(store, fileName));
@@ -38,10 +40,11 @@ namespace Tollrech.Tests.QuickFixes
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        protected TestCaseData[] FileNames()
+        [NotNull]
+        protected static TestCaseData[] FileNames([NotNull] string relativeTestDataPath)
         {
             return Directory
-                .GetFiles(Path.Combine(@".\Test\Data\", RelativeTestDataPath), "*.cs")
+                .GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, @"Test\Data\", relativeTestDataPath), "*.cs")
                 .Select(Path.GetFileName)
                 .Select(f => new TestCaseData(f))
                 .ToArray();

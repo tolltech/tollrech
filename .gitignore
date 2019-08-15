@@ -7,6 +7,6 @@ Tolltech*.nupkg
 .vs
 **/packages
 **/*.tmp
-/Tolltech.Tollrech.Rider.zip
+*.zip
 /ReSharper.DotSettings
 *.DotSettings
