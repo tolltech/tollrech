@@ -3,7 +3,7 @@
   <metadata>
     <id>Tolltech.Tollrech</id>
     <title>Tollrech</title>
-    <version>2019.3.1</version>
+    <version>2019.3.2</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Tollrech\bin\Release\net461\Tollrech.dll" target="lib\net461\" />
-    <file src="Tollrech\bin\Release\net461\Tollrech.pdb" target="lib\net461\" />
+    <file src="Tollrech\bin\Release\net47\Tollrech.dll" target="lib\net47\" />
+    <file src="Tollrech\bin\Release\net47\Tollrech.pdb" target="lib\net47\" />
   </files>
 </package>
