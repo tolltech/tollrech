@@ -3,7 +3,7 @@
   <metadata>
     <id>Tolltech.Tollrech</id>
     <title>Tollrech</title>
-    <version>2019.2.1</version>
+    <version>2019.3.3</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
@@ -15,11 +15,11 @@
     <licenseUrl>https://bitbucket.org/tolltech/tollrech/src/master/eula/text-eula.txt</licenseUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
-      <dependency id="Wave" version="191.0.0" />
+      <dependency id="Wave" version="193.0.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Tollrech\bin\Release\net461\Tollrech.dll" target="lib\net461\" />
-    <file src="Tollrech\bin\Release\net461\Tollrech.pdb" target="lib\net461\" />
+    <file src="Tollrech\bin\Release\net47\Tollrech.dll" target="lib\net47\" />
+    <file src="Tollrech\bin\Release\net47\Tollrech.pdb" target="lib\net47\" />
   </files>
 </package>
