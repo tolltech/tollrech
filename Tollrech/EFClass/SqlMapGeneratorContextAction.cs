@@ -200,7 +200,7 @@ namespace Tollrech.EFClass
                 return;
             }
 
-            var tableName = MorphemToManies(classDeclaration.NameIdentifier.Name);
+            var tableName = classDeclaration.NameIdentifier.Name.MorphemToManies();
             var tableAttributeArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateStringLiteralExpression($"{tableName}"));
             tableAttribute.AddArgumentAfter(tableAttributeArgument, null);
 
@@ -245,27 +245,6 @@ namespace Tollrech.EFClass
             }
 
             return factory.CreateAttribute(attributeTypeElement);
-        }
-
-        [NotNull]
-        private static string MorphemToManies(string src)
-        {
-            if (src.EndsWith("Dbo", StringComparison.InvariantCultureIgnoreCase))
-            {
-                src = src.TrimFromEnd("Dbo", StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            if (src.EndsWith("s") || src.EndsWith("o"))
-            {
-                return $"{src}es";
-            }
-
-            if (src.EndsWith("y"))
-            {
-                return $"{src.TrimEnd('y')}ies";
-            }
-
-            return $"{src}s";
         }
 
         public override string Text => "Add data annotation mapping";
