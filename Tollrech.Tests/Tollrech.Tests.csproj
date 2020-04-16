@@ -37,6 +37,11 @@
     <None Remove="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntityHalf.cs.gold" />
+    <None Remove="Test\Data\SqlRepositoryGeneratorTests\DoubleTimestampEntity.cs.gold" />
+    <None Remove="Test\Data\SqlRepositoryGeneratorTests\EmptyEntity.cs.gold" />
+    <None Remove="Test\Data\SqlRepositoryGeneratorTests\IdBinaryEntity.cs.gold" />
+    <None Remove="Test\Data\SqlRepositoryGeneratorTests\IdEntity.cs.gold" />
+    <None Remove="Test\Data\SqlRepositoryGeneratorTests\IdTimestampEntity.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlScriptGeneratorTests\SqlEntity2Long.cs.gold" />
     <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\Await.cs.gold" />
@@ -92,6 +97,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlRepositoryGeneratorTests\EmptyEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlRepositoryGeneratorTests\DoubleTimestampEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlRepositoryGeneratorTests\IdBinaryEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlRepositoryGeneratorTests\IdEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlRepositoryGeneratorTests\IdTimestampEntity.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs.gold">
@@ -187,6 +207,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlMapGeneratorTests\SqlEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlRepositoryGeneratorTests\DoubleTimestampEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlRepositoryGeneratorTests\IdBinaryEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlRepositoryGeneratorTests\IdEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlRepositoryGeneratorTests\IdTimestampEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlRepositoryGeneratorTests\EmptyEntity.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs">
