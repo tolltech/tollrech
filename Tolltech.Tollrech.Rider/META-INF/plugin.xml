@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>Tolltech.Tollrech</id>
   <name>Tollrech</name>
-  <description>Kontur.Billing Resharping</description>
-  <version>2019.3.3</version>
+  <description>Kontur.Billing Rider</description>
+  <version>2019.3.5</version>
   <vendor url="https://bitbucket.org/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="193" until-build="193.*"/>
   <extensions defaultExtensionNs="com.intellij" />
