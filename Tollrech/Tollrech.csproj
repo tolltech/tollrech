@@ -13,6 +13,9 @@
     <None Remove="Tollrech.Tests\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Tolltech.Tollrech.Rider\META-INF\plugin.xml" Link="plugin.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\package.nuspec" Link="package.nuspec" />
   </ItemGroup>
   <ItemGroup>
