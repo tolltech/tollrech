@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.TextControl;
@@ -23,7 +26,6 @@ namespace Tollrech.EFClass
         {
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
-            ;
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
@@ -51,11 +53,49 @@ namespace Tollrech.EFClass
         [NotNull]
         private IClassLikeDeclaration CreateClassHandlerDeclaration([NotNull] string entityName, [NotNull] string handlerInterfaceName)
         {
+            var baseCtorArgs = new List<string>(2);
+
+
+            var propertyWithKeyAttribute = classDeclaration.PropertyDeclarations.FirstOrDefault(x => x.Attributes.HasAttribute(Constants.Key));
+            if (propertyWithKeyAttribute?.Type.IsGuid() ?? false)
+            {
+                baseCtorArgs.Add(propertyWithKeyAttribute.NameIdentifier.Name);
+            }
+
+            var timestampPropertyName = FindTimestampPropertyName();
+            if (!string.IsNullOrWhiteSpace(timestampPropertyName))
+            {
+                baseCtorArgs.Add(timestampPropertyName);
+            }
+
             var classHandlerName = $"{entityName}Handler";
+            var baseCtorArgsStr = string.Join(", ", new[]{ "dataContextProvider" }.Concat(baseCtorArgs.Select(x=>$"x => x.{x}")));
             var classHandlerDeclaration = (IClassLikeDeclaration)factory.CreateTypeMemberDeclaration($"public class $0 : EntityHandlerBase<{className}>, $1 {{" +
-                                                                                                     $"    public $0(IDataContextProvider dataContextProvider) : base(dataContextProvider){{}}" +
+                                                                                                     $"    public $0(IDataContextProvider dataContextProvider) : base({baseCtorArgsStr}){{}}" +
                                                                                                      $"}}", classHandlerName, handlerInterfaceName);
             return classHandlerDeclaration;
+        }
+
+        private static readonly HashSet<string> timestampPropertyNames = new HashSet<string>( new[] {"Timestamp", "Ticks", "TimeStamp"});
+        [CanBeNull]
+        private string FindTimestampPropertyName()
+        {
+            var timestampProperties = classDeclaration.PropertyDeclarations.Where(x => timestampPropertyNames.Contains(x.NameIdentifier.Name)).ToArray();
+            foreach (var property in timestampProperties)
+            {
+                var type = property.Type;
+                if (type.IsLong())
+                {
+                    return property.NameIdentifier.Name;
+                }
+
+                if (type is IArrayType && (type.GetScalarType()?.IsByte() ?? false))
+                {
+                    return property.NameIdentifier.Name;
+                }
+            }
+
+            return null;
         }
 
         [NotNull]
