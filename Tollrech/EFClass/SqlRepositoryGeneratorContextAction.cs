@@ -104,7 +104,7 @@ namespace Tollrech.EFClass
             var entityNameManies = entityName.MorphemToManies();
             var interfaceHandlerDeclaration = (IClassLikeDeclaration)factory.CreateTypeMemberDeclaration("public interface $0 {" +
                                                                                                             "    [NotNull]" +
-                                                                                                            $"    Task CreateAsync([NotNull] params {className}[] {entityNameManies.MakeFirsCharLowercase()});" +
+                                                                                                            $"    Task CreateAsync([NotNull, ItemNotNull] params {className}[] {entityNameManies.MakeFirsCharLowercase()});" +
                                                                                                             "}", handlerInterfaceName);
             return interfaceHandlerDeclaration;
         }
@@ -137,7 +137,7 @@ namespace Tollrech.EFClass
             var entityNameManies = entityName.MorphemToManies();
             var interfaceRepositoryDeclaration = (IClassLikeDeclaration)factory.CreateTypeMemberDeclaration("public interface $0 {" +
                                                                                                             "    [NotNull]" +
-                                                                                                            $"    Task CreateAsync([NotNull] params {className}[] {entityNameManies.MakeFirsCharLowercase()});" +
+                                                                                                            $"    Task CreateAsync([NotNull, ItemNotNull] params {className}[] {entityNameManies.MakeFirsCharLowercase()});" +
                                                                                                             "}", repositoryInterfaceName);
             return interfaceRepositoryDeclaration;
         }

@@ -53,7 +53,7 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
     public interface IInvoiceTransactionRepository
     {
       [NotNull]
-      Task CreateAsync([NotNull] params InvoiceTransactionDbo[] invoiceTransactions);
+      Task CreateAsync([NotNull, ItemNotNull] params InvoiceTransactionDbo[] invoiceTransactions);
     }
 
     public class InvoiceTransactionHandler : EntityHandlerBase<InvoiceTransactionDbo>, IInvoiceTransactionHandler
@@ -66,6 +66,6 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
     public interface IInvoiceTransactionHandler
     {
       [NotNull]
-      Task CreateAsync([NotNull] params InvoiceTransactionDbo[] invoiceTransactions);
+      Task CreateAsync([NotNull, ItemNotNull] params InvoiceTransactionDbo[] invoiceTransactions);
     }
 }
