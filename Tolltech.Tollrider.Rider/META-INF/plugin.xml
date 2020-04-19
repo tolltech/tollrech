@@ -1,8 +1,8 @@
 <idea-plugin>
-  <id>Tolltech.Tollrech</id>
-  <name>Tollrech</name>
+  <id>Tolltech.Tollrider</id>
+  <name>Tollrider</name>
   <description>Kontur.Billing Rider</description>
-  <version>2020.1.2</version>
+  <version>2020.1.1</version>
   <vendor url="https://bitbucket.org/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="201" until-build="201.*"/>
   <extensions defaultExtensionNs="com.intellij" />

@@ -22,10 +22,16 @@ WriteHeader "Build"
 &$dotnet build .\Tollrech\Tollrech.csproj -c Release
 
 WriteHeader "Make nuget package"
-&$nuget pack "package.nuspec" -OutputDirectory "Tolltech.Tollrech.Rider"
 
-$source = (Get-Item -Path ".\Tolltech.Tollrech.Rider" -Verbose).FullName
-$destination = Join-Path $source "..\Tolltech.Tollrech.Rider.zip"
+del Tolltech.Tollrider.Rider.zip
+del Tolltech.Tollrider.Rider\*.nupkg
+
+&$nuget pack "package.nuspec" -OutputDirectory "Tolltech.Tollrider.Rider"
+
+get-childitem -Path "./Tolltech.Tollrider.Rider" | where-object { $_.Name -like "Tolltech.Tollrider.*.nupkg" } | %{ rename-item -LiteralPath $_.FullName -NewName "Tolltech.Tollrider.nupkg" }
+
+$source = (Get-Item -Path ".\Tolltech.Tollrider.Rider" -Verbose).FullName
+$destination = Join-Path $source "..\Tolltech.Tollrider.Rider.zip"
 
 If (Test-path $destination) {
     Remove-item $destination
