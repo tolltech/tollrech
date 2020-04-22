@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>Tolltech.Tollrider</id>
   <name>Tollrider</name>
-  <description>Kontur.Billing Rider</description>
+  <description>Generate logging, sql mapping, sql scripts, mocked classes, mother objects in testing</description>
   <version>2020.1.1</version>
   <vendor url="https://bitbucket.org/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="201" until-build="201.*"/>
