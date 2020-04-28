@@ -40,6 +40,6 @@ If (Test-path $destination) {
 Add-Type -assembly "system.io.compression.filesystem"
 
 WriteHeader "Zipping"
-[io.compression.zipfile]::CreateFromDirectory($Source, $destination, 1, $false)
+[io.compression.zipfile]::CreateFromDirectory($Source, $destination, 1, $true)
 
 Write-Host "Done!" -ForegroundColor Green
