@@ -86,18 +86,19 @@ namespace SKBKontur.Billy.Core.Common.Quering
     }
 }
 
-namespace SKBKontur.Billy.Core.Common.Quering.Attributes
+namespace SKBKontur.Billy.Core.Database.Sql.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class DecimalPrecisionAttribute : Attribute
     {
         public DecimalPrecisionAttribute(byte precision, byte scale)
         {
-            Precision = precision;
-            Scale = scale;
+            this.Precision = precision;
+            this.Scale = scale;
         }
 
         public byte Precision { get; set; }
+
         public byte Scale { get; set; }
     }
 }
