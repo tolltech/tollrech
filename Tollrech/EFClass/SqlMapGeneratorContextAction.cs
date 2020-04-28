@@ -109,7 +109,7 @@ namespace Tollrech.EFClass
                                              factory.CreateExpression("2"),
                                          };
 
-                AddAnnotationAttribute(propertyDeclaration, $"SKBKontur.Billy.Core.Common.Quering.Attributes.{Constants.DecimalPrecision}", precisionArguments);
+                AddAnnotationAttribute(propertyDeclaration, $"SKBKontur.Billy.Core.Database.Sql.Attributes.{Constants.DecimalPrecision}", precisionArguments);
             }
 
             if (propertyType.IsString())
