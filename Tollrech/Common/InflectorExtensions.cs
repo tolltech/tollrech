@@ -3,6 +3,8 @@ using JetBrains.Annotations;
 
 namespace Tollrech.Common
 {
+	// Взято из https://github.com/Humanizr/Humanizer/blob/master/src/Humanizer/InflectorExtensions.cs
+
 	/// <summary>
 	/// Inflector extensions
 	/// </summary>
