@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
-using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
@@ -43,7 +41,7 @@ namespace Tollrech.Json.Base
         {
             foreach (var propertyDeclaration in classDeclaration.PropertyDeclarations)
             {
-                if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.JsonProperty))
+	            if (propertyDeclaration.HasAttribute(Constants.JsonProperty))
                 {
                     continue;
                 }
@@ -53,7 +51,7 @@ namespace Tollrech.Json.Base
                     continue;
                 }
 
-                var attribute = CreateAttribute();
+                var attribute = provider.CreateAttribute($"Newtonsoft.Json.{Constants.JsonProperty}Attribute");
 
                 if (attribute == null)
                 {
@@ -68,26 +66,6 @@ namespace Tollrech.Json.Base
             }
         }
 
-        private static readonly ConcurrentDictionary<string, IDeclaredType> cachedAttributes = new ConcurrentDictionary<string, IDeclaredType>();
-        private IDeclaredType GetCachedType()
-        {
-            return cachedAttributes.GetOrAdd(Constants.JsonProperty, x => TypeFactory.CreateTypeByCLRName(new ClrTypeName($"Newtonsoft.Json.{Constants.JsonProperty}Attribute"), provider.PsiModule));
-        }
-
-        [CanBeNull]
-        private IAttribute CreateAttribute()
-        {
-            var attributeType = GetCachedType();
-            var attributeTypeElement = attributeType.GetTypeElement();
-
-            if (attributeTypeElement == null)
-            {
-                return null;
-            }
-
-            return factory.CreateAttribute(attributeTypeElement);
-        }
-
-        public override bool IsAvailable(IUserDataHolder cache) => classDeclaration != null && classDeclaration.PropertyDeclarations.Any(x => x.HasGetSet());
+        public override bool IsAvailable(IUserDataHolder cache) => classDeclaration.HasAnyGetSetProperty();
     }
 }
