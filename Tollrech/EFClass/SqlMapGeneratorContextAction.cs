@@ -119,7 +119,7 @@ namespace Tollrech.EFClass
         [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
-            var columnTypeNameClass = provider.GetCachedType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
+            var columnTypeNameClass = provider.GetType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
             var columnTypeNameClassType = columnTypeNameClass.GetTypeElement();
 
             // ReSharper disable once InconsistentNaming

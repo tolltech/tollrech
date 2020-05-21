@@ -13,12 +13,10 @@ namespace Tollrech.Common
     {
 	    private static readonly ConcurrentDictionary<(string, string), IDeclaredType> cachedTypes = new ConcurrentDictionary<(string, string), IDeclaredType>();
 
-	    public static IDeclaredType GetCachedType([NotNull] this ICSharpContextActionDataProvider provider, [NotNull] string fullTypeName)
+	    [NotNull]
+	    public static IDeclaredType GetType([NotNull] this ICSharpContextActionDataProvider provider, [NotNull] string fullTypeName)
 	    {
-		    return cachedTypes.GetOrAdd(
-			    (provider.PsiModule.GetPersistentID(), fullTypeName),
-			    x => TypeFactory.CreateTypeByCLRName(new ClrTypeName(fullTypeName), NullableAnnotation.Unknown, provider.PsiModule)
-		    );
+		    return TypeFactory.CreateTypeByCLRName(new ClrTypeName(fullTypeName), NullableAnnotation.Unknown, provider.PsiModule);
 	    }
 
 	    [CanBeNull]
@@ -29,7 +27,7 @@ namespace Tollrech.Common
 			    throw new ArgumentException("Value cannot be null or whitespace.", nameof(attributeFullTypeName));
 		    }
 
-		    var attributeType = provider.GetCachedType(attributeFullTypeName);
+		    var attributeType = provider.GetType(attributeFullTypeName);
 		    var attributeTypeElement = attributeType.GetTypeElement();
 
 		    if (attributeTypeElement == null)
