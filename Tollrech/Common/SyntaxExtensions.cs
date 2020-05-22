@@ -14,7 +14,17 @@ namespace Tollrech.Common
 {
     public static class SyntaxExtensions
     {
-        public static PropertyInfo GetPropertyInfo([NotNull] this IPropertyDeclaration propertyDeclaration)
+	    public static bool HasAttribute([NotNull] this IPropertyDeclaration propertyDeclaration, string attributeName)
+	    {
+		    return propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == attributeName);
+	    }
+
+	    public static bool HasAnyGetSetProperty([CanBeNull] this IClassDeclaration classDeclaration)
+	    {
+		    return classDeclaration != null && classDeclaration.PropertyDeclarations.Any(x => x.HasGetSet());
+	    }
+
+	    public static PropertyInfo GetPropertyInfo([NotNull] this IPropertyDeclaration propertyDeclaration)
         {
             return new PropertyInfo
                    {
@@ -134,6 +144,7 @@ namespace Tollrech.Common
                 classDeclaration.AddClassMemberDeclaration(factory.CreateFieldDeclaration(memberTyte, memberName));
             }
         }
+
     }
 
     public class DummyHelper
