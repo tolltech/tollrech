@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using JetBrains.Application.Progress;
-using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
@@ -47,7 +45,7 @@ namespace Tollrech.EFClass
         {
             foreach (var propertyDeclaration in classDeclaration.PropertyDeclarations)
             {
-                if (propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == Constants.Column))
+                if (propertyDeclaration.HasAttribute(Constants.Column))
                 {
                     continue;
                 }
@@ -121,7 +119,7 @@ namespace Tollrech.EFClass
         [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
-            var columnTypeNameClass = GetCachedType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
+            var columnTypeNameClass = provider.GetType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
             var columnTypeNameClassType = columnTypeNameClass.GetTypeElement();
 
             // ReSharper disable once InconsistentNaming
@@ -207,51 +205,18 @@ namespace Tollrech.EFClass
             classDeclaration.AddAttributeBefore(tableAttribute, null);
         }
 
-        private static readonly ConcurrentDictionary<string, IDeclaredType> cachedAttributes = new ConcurrentDictionary<string, IDeclaredType>();
-        private IDeclaredType GetCachedType(string attributeName)
-        {
-            return cachedAttributes.GetOrAdd(attributeName, x => TypeFactory.CreateTypeByCLRName(new ClrTypeName(attributeName), provider.PsiModule));
-        }
-
-        [CanBeNull]
-        private IAttribute CreateSchemaAttribute(string attributeShortTypeName)
-        {
-            var attributeType = GetCachedType($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute");
-            var attributeTypeElement = attributeType.GetTypeElement();
-
-            if (attributeTypeElement == null)
-            {
-                return null;
-            }
-
-            return factory.CreateAttribute(attributeTypeElement);
-        }
+        private IAttribute CreateSchemaAttribute(string attributeShortTypeName) => provider.CreateAttribute($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute");
 
         [CanBeNull]
         private IAttribute CreateAnnotationAttribute(string attributeTypeName)
-        {
-            var attributeType = GetCachedType($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute");
-            var attributeTypeElement = attributeType.GetTypeElement();
-
-            if (attributeTypeElement == null)
-            {
-                attributeType = GetCachedType($"{attributeTypeName}Attribute");
-                attributeTypeElement = attributeType.GetTypeElement();
-
-                if (attributeTypeElement == null)
-                {
-                    return null;
-                }
-            }
-
-            return factory.CreateAttribute(attributeTypeElement);
-        }
+	        => provider.CreateAttribute($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute")
+		        ?? provider.CreateAttribute($"{attributeTypeName}Attribute");
 
         public override string Text => "Add data annotation mapping";
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            return classDeclaration != null && classDeclaration.PropertyDeclarations.Any(x => x.HasGetSet());
+	        return classDeclaration.HasAnyGetSetProperty();
         }
     }
 }

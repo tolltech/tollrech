@@ -24,6 +24,17 @@
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs.gold" />
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold" />
+    <None Remove="Test\Data\JsonPropertySnakeCaseGeneratorTests\JsonEntitySnakeCase.cs.gold" />
+    <None Remove="Test\Data\JsonPropertySnakeCaseGeneratorTests\JsonEntitySnakeCaseHalf.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\EmptyEntity.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntity.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityCamelCase.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityCamelCaseHalf.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityHalf.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityKebabCase.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityKebabCaseHalf.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityPascalCase.cs.gold" />
+    <None Remove="Test\Data\JsonPropertyGeneratorTests\JsonEntityPascalCaseHalf.cs.gold" />
     <None Remove="Test\Data\LogIntroducerTests\LogFieldExists.cs.gold" />
     <None Remove="Test\Data\LogIntroducerTests\LogFieldExistsOther.cs.gold" />
     <None Remove="Test\Data\LogIntroducerTests\NotLiteral.cs.gold" />
@@ -58,6 +69,39 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtorWithoutInitializer.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertySnakeCaseGeneratorTests\JsonEntitySnakeCase.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertySnakeCaseGeneratorTests\JsonEntitySnakeCaseHalf.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\EmptyEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityKebabCase.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityCamelCase.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityKebabCaseHalf.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityPascalCase.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityCamelCaseHalf.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityPascalCaseHalf.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\JsonPropertyGeneratorTests\JsonEntityHalf.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\LogIntroducerTests\LogFieldExistsOther.cs.gold">
@@ -171,6 +215,39 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\SimpleCtor.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertySnakeCaseGeneratorTests\JsonEntitySnakeCase.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertySnakeCaseGeneratorTests\JsonEntitySnakeCaseHalf.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\EmptyEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityKebabCase.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityCamelCase.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityKebabCaseHalf.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityPascalCase.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityCamelCaseHalf.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityPascalCaseHalf.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\JsonPropertyGeneratorTests\JsonEntityHalf.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\LogIntroducerTests\LogFieldExistsOther.cs">

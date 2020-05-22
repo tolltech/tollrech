@@ -1,0 +1,49 @@
+﻿using System;
+using Newtonsoft.Json;
+
+namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
+{
+    public class JsonEntityCamelCase{caret}
+    {
+        [JsonProperty("int")] public int Int { get; set; }
+        [JsonProperty("decimal")] public decimal Decimal { get; set; }
+        [JsonProperty("string")] public string String { get; set; }
+        [JsonProperty("nullableDecimal")] public decimal? NullableDecimal { get; set; }
+        [JsonProperty("myEnum")] public MyEnum? MyEnum { get; set; }
+        [JsonProperty("dateTime")] public DateTime DateTime { get; set; }
+        [JsonProperty("guid")] public Guid Guid { get; set; }
+        [JsonProperty("bool")] public bool Bool { get; set; }
+        [JsonProperty("long")] public long Long { get; set; }
+        [JsonProperty("snakeCase")] public string snake_case { get; set; }
+        [JsonProperty("camelCase")] public string camelCase { get; set; }
+        public long LongGet { get; }
+        public long LongSet { set; }
+        public long LongField;
+        public long LongFunction()
+        {
+
+        }
+        public long LongFunction() => 42L;
+    }
+
+    public enum MyEnum
+    {
+    }
+}
+
+#region Infra
+namespace Newtonsoft.Json
+{
+    public class JsonPropertyAttribute : Attribute
+    {
+        public JsonPropertyAttribute()
+        {
+        }
+
+        public JsonPropertyAttribute(string name)
+        {
+        }
+    }
+}
+
+#endregion
