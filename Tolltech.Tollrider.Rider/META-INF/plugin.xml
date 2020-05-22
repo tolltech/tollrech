@@ -2,7 +2,7 @@
   <id>Tolltech.Tollrider</id>
   <name>Tollrider</name>
   <description>Generate logging, sql mapping, sql scripts, mocked classes, mother objects in testing</description>
-  <version>2020.1.3</version>
+  <version>2020.1.4</version>
   <vendor url="https://bitbucket.org/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="201" until-build="201.*"/>
   <extensions defaultExtensionNs="com.intellij" />
