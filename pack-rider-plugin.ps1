@@ -15,6 +15,11 @@ function WriteMessage ($message, $color) {
 }
 
 $nuget = $path + "nuget.exe"
+$dotnet = $path + "dotnet.exe"
+
+WriteHeader "Build"
+&$nuget restore
+&$dotnet build .\Tollrech\Tollrech.csproj -c Release
 
 
 WriteHeader "Make nuget package"
