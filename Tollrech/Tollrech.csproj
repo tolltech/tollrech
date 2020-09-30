@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
@@ -16,9 +16,8 @@
     <None Include="..\package.nuspec" Link="package.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-	<PackageReference Include="jetbrains.resharper.sdk" Version="2020.2.1">
+	<PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+	<PackageReference Include="jetbrains.resharper.sdk" Version="2020.2.3">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
