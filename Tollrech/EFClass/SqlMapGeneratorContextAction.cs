@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -77,7 +76,7 @@ namespace Tollrech.EFClass
             }
         }
 
-        private void AddAnnotationAttributesIfNeed([NotNull] IPropertyDeclaration propertyDeclaration)
+        private void AddAnnotationAttributesIfNeed(IPropertyDeclaration propertyDeclaration)
         {
             var propertyType = propertyDeclaration.Type;
             if (propertyDeclaration.NameIdentifier.Name == Constants.Id)
@@ -116,7 +115,6 @@ namespace Tollrech.EFClass
             }
         }
 
-        [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
             var columnTypeNameClass = provider.GetType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
@@ -207,7 +205,6 @@ namespace Tollrech.EFClass
 
         private IAttribute CreateSchemaAttribute(string attributeShortTypeName) => provider.CreateAttribute($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute");
 
-        [CanBeNull]
         private IAttribute CreateAnnotationAttribute(string attributeTypeName)
 	        => provider.CreateAttribute($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute")
 		        ?? provider.CreateAttribute($"{attributeTypeName}Attribute");

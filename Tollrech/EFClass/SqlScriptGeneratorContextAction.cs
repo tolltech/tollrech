@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -53,7 +52,6 @@ namespace Tollrech.EFClass
             return null;
         }
 
-        [NotNull]
         private string GeneratePropertyScript()
         {
             var propertyInfo = propertyDeclaration.GetPropertyInfo();
@@ -81,8 +79,7 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        [NotNull]
-        private string GenerateTableScript([NotNull] IAttribute attribute)
+        private string GenerateTableScript(IAttribute attribute)
         {
             var tableName = attribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
             var properties = classDeclaration.PropertyDeclarations
@@ -119,7 +116,7 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        private void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private void AddPropertyTypeInfo(StringBuilder sb, PropertyInfo property)
         {
             sb.Append($" [{property.ColumnName}] [{property.GetColumnType()}]");
             if (property.GetColumnType() == "nvarchar")
@@ -140,7 +137,7 @@ namespace Tollrech.EFClass
             }
         }
 
-        private void AddRequiredInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private void AddRequiredInfo(StringBuilder sb, PropertyInfo property)
         {
             if (property.Required || property.IsTimestamp)
             {

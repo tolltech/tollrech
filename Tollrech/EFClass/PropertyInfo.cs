@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using Tollrech.Common;
 
@@ -30,7 +29,6 @@ namespace Tollrech.EFClass
                                                                             {Constants.VarBinary, "varbinary"},
                                                                         };
 
-        [NotNull]
         public string GetColumnType()
         {
             var typeNameExpression = Declaration.Attributes.FindAttribute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;

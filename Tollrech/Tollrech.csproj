@@ -16,7 +16,6 @@
     <None Include="..\package.nuspec" Link="package.nuspec" />
   </ItemGroup>
   <ItemGroup>
-	<PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
 	<PackageReference Include="jetbrains.resharper.sdk" Version="2020.2.3">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

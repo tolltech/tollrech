@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -22,7 +21,7 @@ namespace Tollrech.EFClass
         private readonly CSharpElementFactory factory;
         private string className;
 
-        public SqlRepositoryGeneratorContextAction([NotNull] ICSharpContextActionDataProvider provider)
+        public SqlRepositoryGeneratorContextAction(ICSharpContextActionDataProvider provider)
         {
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
@@ -50,8 +49,7 @@ namespace Tollrech.EFClass
             return null;
         }
 
-        [NotNull]
-        private IClassLikeDeclaration CreateClassHandlerDeclaration([NotNull] string entityName, [NotNull] string handlerInterfaceName)
+        private IClassLikeDeclaration CreateClassHandlerDeclaration(string entityName, string handlerInterfaceName)
         {
             var baseCtorArgs = new List<string>(2);
 
@@ -77,7 +75,6 @@ namespace Tollrech.EFClass
         }
 
         private static readonly HashSet<string> timestampPropertyNames = new HashSet<string>( new[] {"Timestamp", "Ticks", "TimeStamp"});
-        [CanBeNull]
         private string FindTimestampPropertyName()
         {
             var timestampProperties = classDeclaration.PropertyDeclarations.Where(x => timestampPropertyNames.Contains(x.NameIdentifier.Name)).ToArray();
@@ -98,8 +95,7 @@ namespace Tollrech.EFClass
             return null;
         }
 
-        [NotNull]
-        private IClassLikeDeclaration CreateInterfaceHandlerDeclaration([NotNull] string entityName, [NotNull] string handlerInterfaceName)
+        private IClassLikeDeclaration CreateInterfaceHandlerDeclaration(string entityName, string handlerInterfaceName)
         {
             var entityNameManies = entityName.MorphemToManies();
             var interfaceHandlerDeclaration = (IClassLikeDeclaration)factory.CreateTypeMemberDeclaration("public interface $0 {" +
@@ -109,8 +105,7 @@ namespace Tollrech.EFClass
             return interfaceHandlerDeclaration;
         }
 
-        [NotNull]
-        private IClassLikeDeclaration CreateClassRepositoryDeclaration([NotNull] string entityName, [NotNull] string repositoryInterfaceName, [NotNull] string handlerInterfaceName)
+        private IClassLikeDeclaration CreateClassRepositoryDeclaration(string entityName, string repositoryInterfaceName, string handlerInterfaceName)
         {
             var classHandlerName = handlerInterfaceName.Substring(1, handlerInterfaceName.Length - 1).MakeFirsCharLowercase();
             var entityNameManies = entityName.MorphemToManies();
@@ -131,8 +126,7 @@ namespace Tollrech.EFClass
             return classRepositoryDeclaration;
         }
 
-        [NotNull]
-        private IClassLikeDeclaration CreateInterfaceRepositoryDeclaration([NotNull] string entityName, [NotNull] string repositoryInterfaceName)
+        private IClassLikeDeclaration CreateInterfaceRepositoryDeclaration(string entityName, string repositoryInterfaceName)
         {
             var entityNameManies = entityName.MorphemToManies();
             var interfaceRepositoryDeclaration = (IClassLikeDeclaration)factory.CreateTypeMemberDeclaration("public interface $0 {" +
@@ -142,7 +136,7 @@ namespace Tollrech.EFClass
             return interfaceRepositoryDeclaration;
         }
 
-        private static void AddDeclaration([NotNull] IClassLikeDeclaration anchor, [NotNull] IClassLikeDeclaration declaration)
+        private static void AddDeclaration(IClassLikeDeclaration anchor, IClassLikeDeclaration declaration)
         {
             var holderDeclaration = (ICSharpTypeAndNamespaceHolderDeclaration)CSharpNamespaceDeclarationNavigator.GetByTypeDeclaration(anchor)
                                     ?? CSharpFileNavigator.GetByTypeDeclaration(anchor);

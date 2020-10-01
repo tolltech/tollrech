@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -14,17 +13,17 @@ namespace Tollrech.Common
 {
     public static class SyntaxExtensions
     {
-	    public static bool HasAttribute([NotNull] this IPropertyDeclaration propertyDeclaration, string attributeName)
+	    public static bool HasAttribute(this IPropertyDeclaration propertyDeclaration, string attributeName)
 	    {
 		    return propertyDeclaration.Attributes.Any(x => x.Name.NameIdentifier.Name == attributeName);
 	    }
 
-	    public static bool HasAnyGetSetProperty([CanBeNull] this IClassDeclaration classDeclaration)
+	    public static bool HasAnyGetSetProperty(this IClassDeclaration classDeclaration)
 	    {
 		    return classDeclaration != null && classDeclaration.PropertyDeclarations.Any(x => x.HasGetSet());
 	    }
 
-	    public static PropertyInfo GetPropertyInfo([NotNull] this IPropertyDeclaration propertyDeclaration)
+	    public static PropertyInfo GetPropertyInfo(this IPropertyDeclaration propertyDeclaration)
         {
             return new PropertyInfo
                    {
@@ -39,7 +38,7 @@ namespace Tollrech.Common
                    };
         }
 
-        public static void AddUsing(this ICSharpFile file, string namespaceName, [NotNull] CSharpElementFactory factory)
+        public static void AddUsing(this ICSharpFile file, string namespaceName, CSharpElementFactory factory)
         {
             var usingSymbolDirectives = file.ImportsEnumerable.OfType<IUsingSymbolDirective>().ToArray();
             var taskUsing = factory.CreateUsingDirective(namespaceName);
@@ -62,24 +61,22 @@ namespace Tollrech.Common
             docCommentBlockOwnerNode.SetDocCommentBlock(comment);
         }
 
-        [CanBeNull]
-        public static IAttribute FindAttribute([NotNull] this IEnumerable<IAttribute> src, string name)
+        public static IAttribute FindAttribute(this IEnumerable<IAttribute> src, string name)
         {
             return src.FirstOrDefault(x => x.Name.NameIdentifier.Name == name);
         }
 
-        public static bool HasAttribute([NotNull] this IEnumerable<IAttribute> src, string name)
+        public static bool HasAttribute(this IEnumerable<IAttribute> src, string name)
         {
             return src.Any(x => x.Name.NameIdentifier.Name == name);
         }
 
-        [CanBeNull]
-        public static string GetLiteralText([CanBeNull] this ICSharpArgument src)
+        public static string GetLiteralText(this ICSharpArgument src)
         {
             return (src?.Expression as ICSharpLiteralExpression)?.Literal.GetText().Trim('"');
         }
 
-        public static bool HasGetSet([NotNull] this IPropertyDeclaration src)
+        public static bool HasGetSet(this IPropertyDeclaration src)
         {
             if (src.AccessorDeclarations.All(x => x.Kind != AccessorKind.GETTER))
             {
@@ -94,8 +91,7 @@ namespace Tollrech.Common
             return true;
         }
 
-        [NotNull]
-        public static IEnumerable<IDeclaredType> GetAllSuperTypes([CanBeNull] this IClassDeclaration classDeclaration)
+        public static IEnumerable<IDeclaredType> GetAllSuperTypes(this IClassDeclaration classDeclaration)
         {
             if (classDeclaration == null)
             {
@@ -105,7 +101,7 @@ namespace Tollrech.Common
             return classDeclaration.SuperTypes.SelectMany(x => x.GetAllSuperTypes()).Concat(classDeclaration.SuperTypes);
         }
 
-        public static IEnumerable<ITreeNode> GetAllDescendants([CanBeNull] this ITreeNode root, HashSet<ITreeNode> visitedNodes = null)
+        public static IEnumerable<ITreeNode> GetAllDescendants(this ITreeNode root, HashSet<ITreeNode> visitedNodes = null)
         {
             if (root == null)
             {
@@ -137,7 +133,7 @@ namespace Tollrech.Common
             }
         }
 
-        public static void AddMemberDeclaration([NotNull] this IClassDeclaration classDeclaration, [NotNull] IType memberTyte, [NotNull] string memberName, [NotNull] CSharpElementFactory factory, Func<IEnumerable<ICSharpTypeMemberDeclaration>, bool> predicate = null)
+        public static void AddMemberDeclaration(this IClassDeclaration classDeclaration, IType memberTyte, string memberName, CSharpElementFactory factory, Func<IEnumerable<ICSharpTypeMemberDeclaration>, bool> predicate = null)
         {
             if (predicate?.Invoke(classDeclaration.MemberDeclarations) ?? true)
             {
@@ -155,8 +151,7 @@ namespace Tollrech.Common
         private double doubleValue = 42;
         private DateTime dateTimeValue = new DateTime(2010, 10, 10);
 
-        [NotNull]
-        public string GetParamValue(IType scalarType, [CanBeNull] string paramName = null)
+        public string GetParamValue(IType scalarType, string paramName = null)
         {
             if (scalarType.IsNullable())
             {

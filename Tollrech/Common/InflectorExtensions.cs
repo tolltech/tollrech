@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 
 namespace Tollrech.Common
 {
@@ -15,16 +14,14 @@ namespace Tollrech.Common
 		/// </summary>
 		/// <param name = "input"> </param>
 		/// <returns> </returns>
-		[NotNull]
-		public static string Pascalize([NotNull] this string input) => Regex.Replace(input, "(?:^|_| +)(.)", match => match.Groups[1].Value.ToUpper());
+		public static string Pascalize(this string input) => Regex.Replace(input, "(?:^|_| +)(.)", match => match.Groups[1].Value.ToUpper());
 
 		/// <summary>
 		/// Same as Pascalize except that the first character is lower case
 		/// </summary>
 		/// <param name = "input"> </param>
 		/// <returns> </returns>
-		[NotNull]
-		public static string Camelize([NotNull] this string input)
+		public static string Camelize(this string input)
 		{
 			var word = input.Pascalize();
 
@@ -36,8 +33,7 @@ namespace Tollrech.Common
 		/// </summary>
 		/// <param name = "input"> The string to be underscored </param>
 		/// <returns> </returns>
-		[NotNull]
-		public static string Underscore([NotNull] this string input) =>
+		public static string Underscore(this string input) =>
 			Regex.Replace(
 				Regex.Replace(
 					Regex.Replace(input, @"([\p{Lu}]+)([\p{Lu}][\p{Ll}])", "$1_$2"), @"([\p{Ll}\d])([\p{Lu}])", "$1_$2"), @"[-\s]", "_").ToLower();
@@ -47,15 +43,13 @@ namespace Tollrech.Common
 		/// </summary>
 		/// <param name = "input"> </param>
 		/// <returns> </returns>
-		[NotNull]
-		public static string Kebaberize([NotNull] this string input) => Underscore(input).Dasherize();
+		public static string Kebaberize(this string input) => Underscore(input).Dasherize();
 
 		/// <summary>
 		/// Replaces underscores with dashes in the string
 		/// </summary>
 		/// <param name = "underscoredWord"> </param>
 		/// <returns> </returns>
-		[NotNull]
-		private static string Dasherize([NotNull] this string underscoredWord) => underscoredWord.Replace('_', '-');
+		private static string Dasherize(this string underscoredWord) => underscoredWord.Replace('_', '-');
 	}
 }

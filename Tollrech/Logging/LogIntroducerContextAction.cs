@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -65,14 +64,14 @@ namespace Tollrech.Logging
             return null;
         }
 
-        private void AddInitializer([NotNull] IFieldDeclaration fieldDeclaration, [NotNull] string initializerExpression)
+        private void AddInitializer(IFieldDeclaration fieldDeclaration, string initializerExpression)
         {
             var logCreateExpression = factory.CreateExpression(initializerExpression);
             var logInitializer = factory.CreateExpressionInitializer(logCreateExpression);
             fieldDeclaration.SetInitial(logInitializer);
         }
 
-        private static void AddKeywords([NotNull] IFieldDeclaration fieldDeclaration, [NotNull] params TokenNodeType[] keywords)
+        private static void AddKeywords(IFieldDeclaration fieldDeclaration, params TokenNodeType[] keywords)
         {
             fieldDeclaration.SetModifiersList((IModifiersList)ElementType.MODIFIERS_LIST.Create());
 
@@ -82,15 +81,13 @@ namespace Tollrech.Logging
             }
         }
 
-        [NotNull]
-        private IFieldDeclaration CreateFieldDeclaration([NotNull] IType fieldType)
+        private IFieldDeclaration CreateFieldDeclaration(IType fieldType)
         {
             var fieldDeclaration = factory.CreateFieldDeclaration(fieldType, "log");
             return fieldDeclaration;
         }
 
-        [CanBeNull]
-        private IType CreateIType([NotNull] string typeName)
+        private IType CreateIType(string typeName)
         {
             var type = CSharpTypeFactory.CreateType(typeName, classDeclaration);
 

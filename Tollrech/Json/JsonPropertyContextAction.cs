@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.UI.Controls.BulbMenu.Anchors;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -16,7 +15,7 @@ namespace Tollrech.Json
 	{
 		private readonly ContextActionBase[] jsonActionsWithCasing;
 
-		public JsonPropertyContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider)
+		public JsonPropertyContextAction(ICSharpContextActionDataProvider provider) : base(provider)
 		{
 			jsonActionsWithCasing = new ContextActionBase[]
 			                        {

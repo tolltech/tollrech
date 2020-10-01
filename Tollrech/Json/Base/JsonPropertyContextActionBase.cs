@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -22,7 +21,7 @@ namespace Tollrech.Json.Base
         private readonly IClassDeclaration classDeclaration;
         private readonly CSharpElementFactory factory;
 
-        protected JsonPropertyContextActionBase([NotNull] ICSharpContextActionDataProvider provider, [CanBeNull] Func<string, string> propertyNameTransform = null)
+        protected JsonPropertyContextActionBase(ICSharpContextActionDataProvider provider, Func<string, string> propertyNameTransform = null)
         {
             this.provider = provider;
             factory = provider.ElementFactory;

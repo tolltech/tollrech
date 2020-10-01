@@ -1,13 +1,11 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JetBrains.Util;
 
 namespace Tollrech.Common
 {
     public static class StringExtensions
     {
-        [NotNull]
-        public static string MorphemToManies([NotNull] this string src)
+        public static string MorphemToManies(this string src)
         {
             if (src.EndsWith("Dbo", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -27,8 +25,7 @@ namespace Tollrech.Common
             return $"{src}s";
         }
 
-        [NotNull]
-        public static string MakeFirsCharLowercase([NotNull] this string src)
+        public static string MakeFirsCharLowercase(this string src)
         {
             if (src.Length < 1)
             {

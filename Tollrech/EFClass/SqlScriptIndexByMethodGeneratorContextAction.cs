@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -39,7 +38,6 @@ namespace Tollrech.EFClass
             return null;
         }
 
-        [NotNull]
         private string GetIndexScript()
         {
             var lambdas = methodDeclaration.Body.GetAllDescendants().OfType<ILambdaExpression>().ToArray();
@@ -89,8 +87,7 @@ namespace Tollrech.EFClass
                    "GO";
         }
 
-        [CanBeNull]
-        private static string GetTableNameFromAttribute([NotNull] ILambdaParameterDeclaration parameterDeclaration)
+        private static string GetTableNameFromAttribute(ILambdaParameterDeclaration parameterDeclaration)
         {
             const string tableNameAttribute = "Table";
 
