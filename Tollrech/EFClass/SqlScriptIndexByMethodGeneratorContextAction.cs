@@ -110,7 +110,7 @@ namespace Tollrech.EFClass
             var classIsHandler = classDeclaration?.NameIdentifier?.Name.Contains(handlerStr) ?? false;
             var baseTypeIsHandler = classDeclaration?.GetAllSuperTypes().Any(x => x.GetClrName().ShortName.Contains(handlerStr)) ?? false;
 
-            invocationsExpressions = methodDeclaration.Body.GetAllDescendants().OfType<IInvocationExpression>().ToArray();
+            invocationsExpressions = methodDeclaration?.Body?.GetAllDescendants().OfType<IInvocationExpression>().ToArray() ?? Array.Empty<IInvocationExpression>();
             var getTablePresented = invocationsExpressions.Any(x => (x.InvokedExpression as IReferenceExpression)?.NameIdentifier.Name == "GetTable");
 
             return methodDeclaration != null && (classIsHandler || baseTypeIsHandler || getTablePresented);
