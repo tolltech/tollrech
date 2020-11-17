@@ -11,8 +11,8 @@
     <description>Kontur.Billing Resharper</description>
     <summary>Kontur.Billing Resharper</summary>
     <iconUrl>https://pp.userapi.com/c837734/v837734541/58885/1BTnIETQxB8.jpg</iconUrl>
-    <projectUrl>https://bitbucket.org/tolltech/tollrech</projectUrl>
-    <licenseUrl>https://bitbucket.org/tolltech/tollrech/src/master/eula/text-eula.txt</licenseUrl>
+    <projectUrl>https://github.com/tolltech/tollrech</projectUrl>
+    <licenseUrl>https://github.com/tolltech/tollrech/blob/master/eula/text-eula.txt</licenseUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
       <dependency id="Wave" version="202.0.0" />
