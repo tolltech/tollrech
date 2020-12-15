@@ -20,8 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
-    <PackageReference Include="JetBrains.Lifetimes" Version="2020.2.3" />
-    <PackageReference Include="jetbrains.rider.sdk" Version="2020.2.4">
+    <PackageReference Include="JetBrains.Lifetimes" Version="2020.3.2" />
+    <PackageReference Include="jetbrains.rider.sdk" Version="2020.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
