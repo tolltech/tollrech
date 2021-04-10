@@ -3,7 +3,7 @@
   <metadata>
     <id>Tolltech.Tollrider</id>
     <title>Tollrider</title>
-    <version>2020.3.1</version>
+    <version>2021.1.0</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
@@ -15,7 +15,7 @@
     <licenseUrl>https://github.com/tolltech/tollrech/blob/master/eula/text-eula.txt</licenseUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
-      <dependency id="Wave" version="203.0.0" />
+      <dependency id="Wave" version="211.0.0" />
     </dependencies>
   </metadata>
   <files>
