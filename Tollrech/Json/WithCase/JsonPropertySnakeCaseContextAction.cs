@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
-using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
+using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using Tollrech.Common;
 using Tollrech.Json.Base;
 
