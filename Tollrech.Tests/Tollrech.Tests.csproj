@@ -200,6 +200,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
     <PackageReference Include="JetBrains.Lifetimes" Version="2021.1.0" />
     <PackageReference Include="JetBrains.ReSharper.SDK.Tests" Version="2021.1.0">
       <PrivateAssets>all</PrivateAssets>
