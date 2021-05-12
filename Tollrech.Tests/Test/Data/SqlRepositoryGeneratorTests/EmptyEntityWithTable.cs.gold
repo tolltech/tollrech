@@ -1,0 +1,47 @@
+﻿namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
+{
+    [Table("InvoiceTransactions")]
+    public class EmptyEntity{caret}
+    {
+        public int Field;
+        public int PropGetField => 42;
+        public int G { get; }
+        public int S { set; }
+    }
+
+    [SqlScope]
+    public class EmptyEntRepository : IEmptyEntRepository
+    {
+      private readonly IEmptyEntHandler emptyEntHandler;
+
+      public EmptyEntRepository(IEmptyEntHandler emptyEntHandler)
+      {
+        this.emptyEntHandler = emptyEntHandler;
+      }
+
+      [SqlScope(true)]
+      public Task CreateAsync(params EmptyEntity[] emptyEnts)
+      {
+        return emptyEntHandler.CreateAsync(emptyEnts);
+      }
+    }
+
+    public interface IEmptyEntRepository
+    {
+      [NotNull]
+      Task CreateAsync([NotNull, ItemNotNull] params EmptyEntity[] emptyEnts);
+    }
+
+    public class EmptyEntHandler : EntityHandlerBase<EmptyEntity>, IEmptyEntHandler
+    {
+      public EmptyEntHandler(IDataContextProvider dataContextProvider) : base(dataContextProvider)
+      {
+      }
+    }
+
+    public interface IEmptyEntHandler
+    {
+      [NotNull]
+      Task CreateAsync([NotNull, ItemNotNull] params EmptyEntity[] emptyEnts);
+    }
+}
