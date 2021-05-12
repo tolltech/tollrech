@@ -159,7 +159,13 @@ namespace Tollrech.EFClass
         public override bool IsAvailable(IUserDataHolder cache)
         {
             className = classDeclaration?.DeclaredName;
-            return !className.IsNullOrWhitespace() && className.EndsWith("Dbo") && className.Length > 3;
+            if (!className.IsNullOrWhitespace() && className.EndsWith("Dbo") && className.Length > 3)
+            {
+                return true;
+            }
+
+            var tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table);
+            return tableAttribute != null;
         }
 
         public override string Text => "Generate repository classes";
