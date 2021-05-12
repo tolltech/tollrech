@@ -2,7 +2,7 @@
   <id>Tolltech.Tollrider</id>
   <name>Tollrider</name>
   <description>Generate JSON, EF SQL schemas description attributes for data contract objects. Introduce ILog for strings. Generate ctor calling with dummy values for class properties.</description>
-  <version>2021.1.0</version>
+  <version>2021.1.1</version>
   <vendor url="https://github.com/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="211" until-build="211.*"/>
   <extensions defaultExtensionNs="com.intellij" />
