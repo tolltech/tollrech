@@ -1,3 +1,5 @@
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
 function WriteHeader {
     param([string]$header)
 
@@ -30,6 +32,12 @@ del Tolltech.Tollrider.Rider\*.nupkg
 &$nuget pack "package.nuspec" -OutputDirectory "Tolltech.Tollrider.Rider"
 
 get-childitem -Path "./Tolltech.Tollrider.Rider" | where-object { $_.Name -like "Tolltech.Tollrider.*.nupkg" } | %{ rename-item -LiteralPath $_.FullName -NewName "Tolltech.Tollrider.nupkg" }
+
+$PluginXml = [xml] (Get-Content "./Tolltech.Tollrider.Rider/META-INF/plugin.xml")
+$Version = $PluginXml.SelectSingleNode(".//idea-plugin/version").innerText
+
+Write-Host "Version is $Version"
+[System.IO.Compression.ZipFile]::CreateFromDirectory("./Tolltech.Tollrider.Rider/META-INF", "Tolltech.Tollrider-$Version.jar", [System.IO.Compression.CompressionLevel]::Optimal, $True)
 
 $source = (Get-Item -Path ".\Tolltech.Tollrider.Rider" -Verbose).FullName
 $destination = Join-Path $source "..\Tolltech.Tollrider.Rider.zip"

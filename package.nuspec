@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Tollrech\bin\Release\net461\Tollrech.dll" target="lib\net461\" />
-    <file src="Tollrech\bin\Release\net461\Tollrech.pdb" target="lib\net461\" />
+    <file src="Tollrech\bin\Release\net472\Tollrech.dll" target="lib\net472\" />
+    <file src="Tollrech\bin\Release\net472\Tollrech.pdb" target="lib\net472\" />
   </files>
 </package>
