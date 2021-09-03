@@ -28,16 +28,27 @@ WriteHeader "Make nuget package"
 
 del Tolltech.Tollrider.Rider.zip
 del Tolltech.Tollrider.Rider\*.nupkg
+del Tolltech.Tollrider.Rider\lib\*.jar
 
 &$nuget pack "package.nuspec" -OutputDirectory "Tolltech.Tollrider.Rider"
 
 get-childitem -Path "./Tolltech.Tollrider.Rider" | where-object { $_.Name -like "Tolltech.Tollrider.*.nupkg" } | %{ rename-item -LiteralPath $_.FullName -NewName "Tolltech.Tollrider.nupkg" }
 
-$PluginXml = [xml] (Get-Content "./Tolltech.Tollrider.Rider/META-INF/plugin.xml")
+class FixedEncoder : System.Text.UTF8Encoding {
+    FixedEncoder() : base($true) { }
+
+    [byte[]] GetBytes([string] $s)
+    {
+        $s = $s.Replace("\", "/");
+        return ([System.Text.UTF8Encoding]$this).GetBytes($s);
+    }
+}
+
+$PluginXml = [xml] (Get-Content "./META-INF/plugin.xml")
 $Version = $PluginXml.SelectSingleNode(".//idea-plugin/version").innerText
 
 Write-Host "Version is $Version"
-[System.IO.Compression.ZipFile]::CreateFromDirectory("./Tolltech.Tollrider.Rider/META-INF", "Tolltech.Tollrider-$Version.jar", [System.IO.Compression.CompressionLevel]::Optimal, $True)
+[System.IO.Compression.ZipFile]::CreateFromDirectory("./META-INF", "./Tolltech.Tollrider.Rider/lib/Tolltech.Tollrider-$Version.jar", [System.IO.Compression.CompressionLevel]::Optimal, $True, [FixedEncoder]::new())
 
 $source = (Get-Item -Path ".\Tolltech.Tollrider.Rider" -Verbose).FullName
 $destination = Join-Path $source "..\Tolltech.Tollrider.Rider.zip"
