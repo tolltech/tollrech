@@ -10,3 +10,4 @@ Tolltech*.nupkg
 *.zip
 /ReSharper.DotSettings
 *.DotSettings
+/Tolltech.Tollrider.Rider/lib/*.jar
