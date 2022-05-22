@@ -3,7 +3,7 @@ using Tollrech.Json;
 
 namespace Tollrech.Tests.ContextActions
 {
-    public class JsonPropertyGeneratorTests : ContextActionBaseTests<JsonPropertyContextAction>
+    public class JsonPropertyGeneratorTests : ContextActionBaseTests<DefaultJsonPropertyContextAction>
     {
         protected override string ExtraPath => "JsonPropertyGeneratorTests";
         protected override string RelativeTestDataPath => relativeTestDataPath;
