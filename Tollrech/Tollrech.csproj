@@ -19,9 +19,9 @@
     <None Include="..\package.nuspec" Link="package.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
     <PackageReference Include="JetBrains.Lifetimes" Version="2021.3.4" />
-    <PackageReference Include="jetbrains.rider.sdk" Version="2021.3.2">
+    <PackageReference Include="jetbrains.rider.sdk" Version="2022.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
