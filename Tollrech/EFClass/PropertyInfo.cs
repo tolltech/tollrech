@@ -38,9 +38,9 @@ namespace Tollrech.EFClass
                                                                             {Constants.DateTime2, "datetime2"},
                                                                             {Constants.Decimal, "decimal"},
                                                                             {Constants.Int, "int"},
-                                                                            {Constants.UniqueIdentifier, "uniqueidentifier"},
-                                                                            {Constants.NVarChar, "nvarchar"},
-                                                                            {Constants.Date, "date"},
+                                                                            {Constants.UniqueIdentifier, "uuid"},
+                                                                            {Constants.NVarChar, "varchar"},
+                                                                            {Constants.Date, "timestamp without time zone"},
                                                                             {Constants.Image, "image"},
                                                                             {Constants.VarBinary, "varbinary"},
                                                                         };

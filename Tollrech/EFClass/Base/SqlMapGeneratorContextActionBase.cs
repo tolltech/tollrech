@@ -13,18 +13,24 @@ using JetBrains.TextControl;
 using JetBrains.Util;
 using Tollrech.Common;
 
-namespace Tollrech.EFClass
+namespace Tollrech.EFClass.Base
 {
-    [ContextAction(Name = "SqlMapGenerate", Description = "Generate Sql map for class-entity", Group = "C#", Disabled = false, Priority = 1)]
-    public class SqlMapGeneratorContextAction : ContextActionBase
+    public abstract class SqlMapGeneratorContextActionBase : ContextActionBase
     {
         private readonly ICSharpContextActionDataProvider provider;
+        private readonly string columnTypeNameClassName;
+        private readonly Func<IType, string> GetDbColumnTypeName;
+        private readonly Func<string, string> convertCaseStyle;
         private readonly IClassDeclaration classDeclaration;
         private readonly CSharpElementFactory factory;
 
-        public SqlMapGeneratorContextAction(ICSharpContextActionDataProvider provider)
+        protected SqlMapGeneratorContextActionBase(ICSharpContextActionDataProvider provider, [NotNull] string columnTypeNameClassName, [NotNull] Func<IType, string> getDbColumnTypeName,
+                                                   [CanBeNull] Func<string, string> convertColumnName = null)
         {
             this.provider = provider;
+            this.columnTypeNameClassName = columnTypeNameClassName;
+            GetDbColumnTypeName = getDbColumnTypeName;
+            this.convertCaseStyle = convertColumnName ?? (x => x);
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
         }
@@ -62,7 +68,7 @@ namespace Tollrech.EFClass
                     return;
                 }
 
-                var columnName = propertyDeclaration.NameIdentifier.Name;
+                var columnName = convertCaseStyle(propertyDeclaration.NameIdentifier.Name);
 
                 var columnNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateStringLiteralExpression($"{columnName}"));
                 columnAttribute.AddArgumentBefore(columnNameArgument, null);
@@ -119,55 +125,21 @@ namespace Tollrech.EFClass
         [NotNull]
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
-            var columnTypeNameClass = provider.GetType($"SKBKontur.Billy.Core.Common.Quering.ColumnTypeNames");
+            var columnTypeNameClass = provider.GetType($"SKBKontur.Billy.Core.Database.Sql.{columnTypeNameClassName}");
             var columnTypeNameClassType = columnTypeNameClass.GetTypeElement();
 
             // ReSharper disable once InconsistentNaming
             ICSharpExpression createExpression(string x) => columnTypeNameClassType != null
                 ? factory.CreateReferenceExpression("$0.$1", columnTypeNameClassType.ShortName, x)
-                : factory.CreateExpression($"ColumnTypeNames.{x}");
+                : factory.CreateExpression($"{columnTypeNameClassName}.{x}");
 
             if (scalarType.IsNullable())
             {
                 scalarType = scalarType.GetNullableUnderlyingType();
             }
 
-            if (scalarType.IsInt() || scalarType.IsEnumType())
-            {
-                return createExpression(Constants.Int);
-            }
-
-            if (scalarType.IsGuid())
-            {
-                return createExpression(Constants.UniqueIdentifier);
-            }
-
-            if (scalarType.IsString())
-            {
-                return createExpression(Constants.NVarChar);
-            }
-
-            if (scalarType.IsBool())
-            {
-                return createExpression(Constants.Bit);
-            }
-
-            if (scalarType.IsDateTime())
-            {
-                return createExpression(Constants.DateTime2);
-            }
-
-            if (scalarType.IsLong())
-            {
-                return createExpression(Constants.BigInt);
-            }
-
-            if (scalarType.IsDecimal())
-            {
-                return createExpression(Constants.Decimal);
-            }
-
-            return factory.CreateExpression("TODO");
+            var dbColumnTypeName = GetDbColumnTypeName(scalarType);
+            return string.IsNullOrWhiteSpace(dbColumnTypeName) ? factory.CreateExpression("TODO") : createExpression(dbColumnTypeName);
         }
 
         private void AddAnnotationAttribute(IPropertyDeclaration propertyDeclaration, string attributeName, params ICSharpExpression[] argumentsExpressions)
@@ -198,7 +170,7 @@ namespace Tollrech.EFClass
                 return;
             }
 
-            var tableName = classDeclaration.NameIdentifier.Name.MorphemToManies();
+            var tableName = convertCaseStyle(classDeclaration.NameIdentifier.Name.MorphemToManies());
             var tableAttributeArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateStringLiteralExpression($"{tableName}"));
             tableAttribute.AddArgumentAfter(tableAttributeArgument, null);
 

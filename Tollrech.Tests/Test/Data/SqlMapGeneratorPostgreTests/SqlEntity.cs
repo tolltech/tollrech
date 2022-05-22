@@ -2,13 +2,26 @@
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    public class SqlEntity{caret:Add:ms:data:annotation:mapping}
+    public class SqlEntity{caret:Add:psql:data:annotation:mapping}
     {
-        [Column("Int", TypeName = ColumnTypeNames.Int)]
-        [ConcurrencyCheck]
-        [Required]
         public int Int { get; set; }
         public decimal Decimal { get; set; }
+        public string String { get; set; }
+        public decimal? NullableDecimal { get; set; }
+        public MyEnum? MyEnum { get; set; }
+        public DateTime DateTime { get; set; }
+        public Guid NotId { get; set; }
+        public Guid Id { get; set; }
+        public bool Bool { get; set; }
+        public long Long { get; set; }
+        public long LongGet { get; }
+        public long LongSet { set; }
+        public long LongField;
+        public long LongFunction()
+        {
+
+        }
+        public long LongFunction() => 42L;
     }
 
     public enum MyEnum

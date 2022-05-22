@@ -11,25 +11,19 @@ using Tollrech.EFClass.SpecialDb;
 
 namespace Tollrech.EFClass
 {
-    [ContextAction(Name = "SqlScriptGenerator", Description = "Generate Sql script for class-entity", Group = "C#", Disabled = false, Priority = 1)]
-    public class DefaultSqlScriptGeneratorContextAction : SqlScriptGeneratorContextActionBase
+    [ContextAction(Name = "SqlMapGenerate", Description = "Generate Sql map for class-entity", Group = "C#", Disabled = false, Priority = 1)]
+    public class DefaultSqlMapGeneratorContextAction : SqlMapGeneratorContextActionBase
     {
         [NotNull, ItemNotNull]
         private readonly ContextActionBase[] specialDbScriptActions;
 
-        public DefaultSqlScriptGeneratorContextAction(ICSharpContextActionDataProvider provider)
-            : base(provider,
-                SqlScriptGeneratorMsContextAction.GenerateCustomPropertyScript,
-                SqlScriptGeneratorMsContextAction.GenerateCustomTableScript)
+        public DefaultSqlMapGeneratorContextAction(ICSharpContextActionDataProvider provider) : base(provider, "ColumnTypeNames", SqlMapGeneratorMsContextAction.GetDbColumnTypeName)
         {
             specialDbScriptActions = new ContextActionBase[]
                                      {
-                                         new SqlScriptGeneratorMsContextAction(provider),
-                                         new SqlScriptGeneratorPostgreContextAction(provider)
+                                         new SqlMapGeneratorMsContextAction(provider)
                                      };
         }
-
-        public override string Text => "Generate sql script";
 
         public override IEnumerable<IntentionAction> CreateBulbItems()
         {
