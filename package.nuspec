@@ -3,7 +3,7 @@
   <metadata>
     <id>Tolltech.Tollrech</id>
     <title>Tollrech</title>
-    <version>2022.1.0</version>
+    <version>2022.1.1</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
@@ -19,7 +19,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Tollrech\bin\Release\net461\Tollrech.dll" target="lib\net461\" />
-    <file src="Tollrech\bin\Release\net461\Tollrech.pdb" target="lib\net461\" />
+    <file src="Tollrech\bin\Release\net48\Tollrech.dll" target="lib\net48\" />
+    <file src="Tollrech\bin\Release\net48\Tollrech.pdb" target="lib\net48\" />
   </files>
 </package>
