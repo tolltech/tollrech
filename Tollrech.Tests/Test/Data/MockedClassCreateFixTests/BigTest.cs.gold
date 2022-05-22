@@ -16,12 +16,12 @@
         {
           arrayed1 = NewMock<IArrayed>();
           arrayed2 = NewMock<IArrayed>();
-          arrayeds = new[] {arrayed1, arrayed2};
+          arrayeds = new[] { arrayed1, arrayed2 };
           clas = NewMock<IClass>();
           clas2 = NewMock<IClass>();
           arrayeds21 = NewMock<IArrayed>();
           arrayeds22 = NewMock<IArrayed>();
-          arrayeds2 = new[] {arrayeds21, arrayeds22};
+          arrayeds2 = new[] { arrayeds21, arrayeds22 };
           mockedClass = new MockedClass(QueryExecutorFactory, TODO, arrayeds, clas, clas2, arrayeds2, TODO{caret});
         }
 

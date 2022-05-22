@@ -11,7 +11,7 @@
       {
         m11 = NewMock<IMockedInterface1>();
         m12 = NewMock<IMockedInterface1>();
-        m1 = new[] {m11, m12};
+        m1 = new[] { m11, m12 };
         m2 = NewMock<IMockedInterface2>();
         new MockingClass(m1, m2{caret});
       }
