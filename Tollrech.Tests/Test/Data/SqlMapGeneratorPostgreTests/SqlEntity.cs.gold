@@ -1,14 +1,62 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using SKBKontur.Billy.Core.Database.Sql.Attributes;
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    public class SqlEntity{caret:Add:ms:data:annotation:mapping}
+    [Table("sql_entities")]
+    public class SqlEntity{caret}
     {
-        [Column("Int", TypeName = ColumnTypeNames.Int)]
+        [Column("int", TypeName = PostgreSqlColumnTypeNames.int4)]
         [ConcurrencyCheck]
         [Required]
         public int Int { get; set; }
+        [Column("decimal", TypeName = PostgreSqlColumnTypeNames.numeric)]
+        [ConcurrencyCheck]
+        [Required]
+        [DecimalPrecision(18, 2)]
         public decimal Decimal { get; set; }
+        [Column("string", TypeName = PostgreSqlColumnTypeNames.varchar)]
+        [ConcurrencyCheck]
+        [Required(AllowEmptyStrings = true)]
+        [MaxLength(TODO)]
+        public string String { get; set; }
+        [Column("nullable_decimal", TypeName = PostgreSqlColumnTypeNames.numeric)]
+        [ConcurrencyCheck]
+        public decimal? NullableDecimal { get; set; }
+        [Column("my_enum", TypeName = PostgreSqlColumnTypeNames.int4)]
+        [ConcurrencyCheck]
+        public MyEnum? MyEnum { get; set; }
+        [Column("date_time", TypeName = PostgreSqlColumnTypeNames.timestamp)]
+        [ConcurrencyCheck]
+        [Required]
+        public DateTime DateTime { get; set; }
+        [Column("not_id", TypeName = PostgreSqlColumnTypeNames.uuid)]
+        [ConcurrencyCheck]
+        [Required]
+        public Guid NotId { get; set; }
+        [Column("id", TypeName = PostgreSqlColumnTypeNames.uuid)]
+        [Key]
+        [ConcurrencyCheck]
+        [Required]
+        public Guid Id { get; set; }
+        [Column("bool", TypeName = PostgreSqlColumnTypeNames.boolean)]
+        [ConcurrencyCheck]
+        [Required]
+        public bool Bool { get; set; }
+        [Column("long", TypeName = PostgreSqlColumnTypeNames.int8)]
+        [ConcurrencyCheck]
+        [Required]
+        public long Long { get; set; }
+        public long LongGet { get; }
+        public long LongSet { set; }
+        public long LongField;
+        public long LongFunction()
+        {
+
+        }
+        public long LongFunction() => 42L;
     }
 
     public enum MyEnum

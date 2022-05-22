@@ -23,5 +23,12 @@
         public const string Date = "Date";
         public const string Image = "Image";
         public const string VarBinary = "VarBinary";
+        public const string uuid = "uuid";
+        public const string varchar = "varchar";
+        public const string int8 = "int8";
+        public const string int4 = "int4";
+        public const string timestamp = "timestamp";
+        public const string boolean = "boolean";
+        public const string numeric = "numeric";
     }
 }

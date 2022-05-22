@@ -16,7 +16,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         public decimal Amount { get; set; }
 
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), ConcurrencyCheck, MaxLength(50)]
-        public string Number{caret} { get; set; }
+        public string Number{caret:Generate:sql:script} { get; set; }
 
         [Column("Type_New", TypeName = "int"), Required, ConcurrencyCheck]
         public MyEnum2 Type { get; set; }

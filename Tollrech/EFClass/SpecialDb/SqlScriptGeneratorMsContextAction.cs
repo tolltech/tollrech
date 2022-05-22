@@ -1,64 +1,23 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using JetBrains.Application.Progress;
-using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
-using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.Tree;
-using JetBrains.TextControl;
-using JetBrains.Util;
-using Tollrech.Common;
+using Tollrech.EFClass.Base;
 
-namespace Tollrech.EFClass
+namespace Tollrech.EFClass.SpecialDb
 {
-    [ContextAction(Name = "SqlScriptGenerator", Description = "Generate Sql script for class-entity", Group = "C#", Disabled = false, Priority = 1)]
-    public class SqlScriptGeneratorContextAction : ContextActionBase
+    [ContextAction(Name = "MsSqlScriptGenerator", Description = "Generate MsSql script for class-entity", Group = "C#", Disabled = true, Priority = 1)]
+    public class SqlScriptGeneratorMsContextAction : SqlScriptGeneratorContextActionBase
     {
-        private readonly IClassDeclaration classDeclaration;
-        private readonly IPropertyDeclaration propertyDeclaration;
-        private readonly CSharpElementFactory factory;
-        private IAttribute propertyColumnAttribute;
-        private IAttribute tableAttribute;
-
-        public SqlScriptGeneratorContextAction(ICSharpContextActionDataProvider provider)
+        public SqlScriptGeneratorMsContextAction(ICSharpContextActionDataProvider provider) : base(provider, GenerateCustomPropertyScript, GenerateCustomTableScript)
         {
-            factory = provider.ElementFactory;
-            classDeclaration = provider.GetSelectedElement<IClassDeclaration>(); ;
-            propertyDeclaration = provider.GetSelectedElement<IPropertyDeclaration>();
-        }
-
-        protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
-        {
-            (string Script, ITypeMemberDeclaration Declaration) result;
-            if (propertyColumnAttribute != null)
-            {
-                result.Script = GeneratePropertyScript();
-                result.Declaration = propertyDeclaration;
-            }
-            else if (tableAttribute != null)
-            {
-                result.Script = GenerateTableScript(tableAttribute);
-                result.Declaration = classDeclaration;
-            }
-            else
-            {
-                return null;
-            }
-
-            result.Declaration.AddXmlComment(result.Script, factory);
-            return null;
         }
 
         [NotNull]
-        private string GeneratePropertyScript()
+        public static string GenerateCustomPropertyScript((string TableName, PropertyInfo PropertyInfo) arg)
         {
-            var propertyInfo = propertyDeclaration.GetPropertyInfo();
-            var tableName = tableAttribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
-
+            var (tableName, propertyInfo) = arg;
             var sb = new StringBuilder();
             sb.AppendLine($"IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME = '{propertyInfo.ColumnName}')");
             sb.Append($"    ALTER TABLE [{tableName}] ADD");
@@ -82,15 +41,9 @@ namespace Tollrech.EFClass
         }
 
         [NotNull]
-        private string GenerateTableScript([NotNull] IAttribute attribute)
+        public static string GenerateCustomTableScript((string TableName, PropertyInfo[] Properties) arg)
         {
-            var tableName = attribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
-            var properties = classDeclaration.PropertyDeclarations
-                .Where(x => x.HasGetSet())
-                .Where(x => x.Attributes.FindAttribute(Constants.Column) != null)
-                .Select(x => x.GetPropertyInfo())
-                .ToArray();
-
+            var (tableName, properties) = arg;
             var sb = new StringBuilder();
 
             sb.AppendLine($"IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{tableName}')");
@@ -99,7 +52,6 @@ namespace Tollrech.EFClass
             foreach (var property in properties)
             {
                 sb.Append($"   ");
-
 
                 AddPropertyTypeInfo(sb, property);
                 AddRequiredInfo(sb, property);
@@ -119,7 +71,7 @@ namespace Tollrech.EFClass
             return sb.ToString();
         }
 
-        private void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private static void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
         {
             sb.Append($" [{property.ColumnName}] [{property.GetColumnType()}]");
             if (property.GetColumnType() == "nvarchar")
@@ -140,7 +92,7 @@ namespace Tollrech.EFClass
             }
         }
 
-        private void AddRequiredInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private static void AddRequiredInfo([NotNull] StringBuilder sb, PropertyInfo property)
         {
             if (property.Required || property.IsTimestamp)
             {
@@ -150,14 +102,7 @@ namespace Tollrech.EFClass
             sb.Append(" NULL");
         }
 
-        public override string Text => "Generate sql script";
-
-        public override bool IsAvailable(IUserDataHolder cache)
-        {
-            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
-            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table);
-            return tableAttribute != null;
-        }
+        public override string Text => "Generate mssql script";
 
         //IF EXISTS(SELECT* FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TableName' AND COLUMN_NAME = 'ColumnName')
         //    ALTER TABLE[TableName] DROP COLUMN[ColumnName];

@@ -2,7 +2,7 @@
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    public class SqlEntity{caret}
+    public class SqlEntity{caret:Add:ms:data:annotation:mapping}
     {
         public int Int { get; set; }
         public decimal Decimal { get; set; }

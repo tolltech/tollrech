@@ -12,11 +12,11 @@ using Tollrech.Json.WithCase;
 namespace Tollrech.Json
 {
 	[ContextAction(Name = "AddJsonProperty", Description = "Generate JsonProperty attributes for class-entity", Group = "C#", Disabled = false, Priority = 1)]
-	public class JsonPropertyContextAction : JsonPropertyContextActionBase
+	public class DefaultJsonPropertyContextAction : JsonPropertyContextActionBase
 	{
 		private readonly ContextActionBase[] jsonActionsWithCasing;
 
-		public JsonPropertyContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider)
+		public DefaultJsonPropertyContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider)
 		{
 			jsonActionsWithCasing = new ContextActionBase[]
 			                        {

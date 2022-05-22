@@ -7,7 +7,7 @@ using SKBKontur.Billy.Core.Common.Quering.Attributes;
 namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
 {
     [Table("SqlEntities")]
-    public class SqlEntity2{caret}
+    public class SqlEntity2{caret:Generate:sql:script}
     {
         [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
         public Guid Id { get; set; }

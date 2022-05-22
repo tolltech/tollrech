@@ -16,7 +16,7 @@ namespace Tollrech.EFClass
         public string Precision2 { get; set; }
         public bool IsTimestamp { get; set; }
 
-        private static readonly Dictionary<string, string> codedTypes = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> mssqlCodedTypes = new Dictionary<string, string>
                                                                         {
                                                                             {Constants.BigInt, "bigint"},
                                                                             {Constants.Bit, "bit"},
@@ -30,8 +30,23 @@ namespace Tollrech.EFClass
                                                                             {Constants.VarBinary, "varbinary"},
                                                                         };
 
+        //todo: адаптировать
+        private static readonly Dictionary<string, string> postgresCodedTypes = new Dictionary<string, string>
+                                                                        {
+                                                                            {Constants.BigInt, "bigint"},
+                                                                            {Constants.Bit, "bit"},
+                                                                            {Constants.DateTime2, "datetime2"},
+                                                                            {Constants.Decimal, "decimal"},
+                                                                            {Constants.Int, "int"},
+                                                                            {Constants.UniqueIdentifier, "uuid"},
+                                                                            {Constants.NVarChar, "varchar"},
+                                                                            {Constants.Date, "timestamp without time zone"},
+                                                                            {Constants.Image, "image"},
+                                                                            {Constants.VarBinary, "varbinary"},
+                                                                        };
+
         [NotNull]
-        public string GetColumnType()
+        public string GetColumnType(DbType dbType = DbType.Ms)
         {
             var typeNameExpression = Declaration.Attributes.FindAttribute(Constants.Column)?.PropertyAssignments.FirstOrDefault(x => x.PropertyNameIdentifier.Name == Constants.TypeName)?.Source;
             if (typeNameExpression is ICSharpLiteralExpression literalExpression)
@@ -42,7 +57,8 @@ namespace Tollrech.EFClass
             if (typeNameExpression is IReferenceExpression referenceExpression)
             {
                 var codedType = referenceExpression.NameIdentifier.Name;
-                return codedTypes.TryGetValue(codedType, out var value) ? value : codedType.ToLower();
+                var codedTypeNames = dbType == DbType.Postgres ? postgresCodedTypes : mssqlCodedTypes;
+                return codedTypeNames.TryGetValue(codedType, out var value) ? value : codedType.ToLower();
             }
 
             if (Declaration.Attributes.FindAttribute(Constants.TimestampAttribute) != null)

@@ -2,9 +2,9 @@
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    public class SqlEntity{caret:Add:ms:data:annotation:mapping}
+    public class SqlEntity{caret:Add:psql:data:annotation:mapping}
     {
-        [Column("Int", TypeName = ColumnTypeNames.Int)]
+        [Column("int", TypeName = ColumnTypeNames.int4)]
         [ConcurrencyCheck]
         [Required]
         public int Int { get; set; }

@@ -45,6 +45,9 @@
     <None Remove="Test\Data\MockedClassCreateFixTests\MockArray.cs.gold" />
     <None Remove="Test\Data\MockedClassCreateFixTests\Simple.cs.gold" />
     <None Remove="Test\Data\SqlIndexSinglePropertyGeneratorTests\SqlEntity2Property.cs.gold" />
+    <None Remove="Test\Data\SqlMapGeneratorPostgreTests\EmptyEntity.cs.gold" />
+    <None Remove="Test\Data\SqlMapGeneratorPostgreTests\SqlEntity.cs.gold" />
+    <None Remove="Test\Data\SqlMapGeneratorPostgreTests\SqlEntityHalf.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntity.cs.gold" />
     <None Remove="Test\Data\SqlMapGeneratorTests\SqlEntityHalf.cs.gold" />
@@ -133,6 +136,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlIndexSinglePropertyGeneratorTests\SqlEntity2Property.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlMapGeneratorPostgreTests\EmptyEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlMapGeneratorPostgreTests\SqlEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlMapGeneratorPostgreTests\SqlEntityHalf.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs.gold">
@@ -283,6 +295,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlIndexSinglePropertyGeneratorTests\SqlEntity2Property.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlMapGeneratorPostgreTests\EmptyEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlMapGeneratorPostgreTests\SqlEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlMapGeneratorPostgreTests\SqlEntityHalf.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Test\Data\SqlMapGeneratorTests\EmptyEntity.cs">

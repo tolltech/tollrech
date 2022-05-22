@@ -1,13 +1,21 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using SKBKontur.Billy.Core.Database.Sql.Attributes;
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    public class SqlEntity{caret:Add:ms:data:annotation:mapping}
+    [Table("sql_entities")]
+    public class SqlEntity{caret}
     {
-        [Column("Int", TypeName = ColumnTypeNames.Int)]
+        [Column("int", TypeName = ColumnTypeNames.int4)]
         [ConcurrencyCheck]
         [Required]
         public int Int { get; set; }
+        [Column("decimal", TypeName = PostgreSqlColumnTypeNames.numeric)]
+        [ConcurrencyCheck]
+        [Required]
+        [DecimalPrecision(18, 2)]
         public decimal Decimal { get; set; }
     }
 
