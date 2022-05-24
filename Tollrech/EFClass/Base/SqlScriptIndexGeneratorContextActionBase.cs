@@ -9,19 +9,20 @@ using JetBrains.TextControl;
 using JetBrains.Util;
 using Tollrech.Common;
 
-namespace Tollrech.EFClass
+namespace Tollrech.EFClass.Base
 {
-    [ContextAction(Name = "SqlScriptIndexGenerator", Description = "Generate Sql script index for class-entity", Group = "C#", Disabled = false, Priority = 1)]
-    public class SqlScriptIndexGeneratorContextAction : ContextActionBase
+    public abstract class SqlScriptIndexGeneratorContextActionBase : ContextActionBase
     {
+        private readonly Func<(string tableName, string columnName), string> GenerateSqlIndex;
         private readonly CSharpElementFactory factory;
         private readonly IClassDeclaration classDeclaration;
         private readonly IPropertyDeclaration propertyDeclaration;
         private IAttribute propertyColumnAttribute;
         private IAttribute tableAttribute;
 
-        public SqlScriptIndexGeneratorContextAction(ICSharpContextActionDataProvider provider)
+        protected SqlScriptIndexGeneratorContextActionBase(ICSharpContextActionDataProvider provider, Func<(string tableName, string columnName), string> generateSqlIndex)
         {
+            GenerateSqlIndex = generateSqlIndex;
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
 
@@ -40,12 +41,7 @@ namespace Tollrech.EFClass
         {
             var columnName = propertyColumnAttribute?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName";
             var tableName = tableAttribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
-            var indexName = $"IX_{tableName}_{columnName}";
-
-            return $"IF NOT EXISTS(SELECT * FROM sys.indexes WHERE NAME ='{indexName}' AND object_id = OBJECT_ID('{tableName}'))\r\n" +
-            $"   CREATE INDEX[{indexName}] ON[{tableName}]([{columnName}])\r\n" +
-            "   with(online = on)\r\n" +
-            "GO";
+            return GenerateSqlIndex((tableName, columnName));
         }
 
         public override string Text => "Generate sql index script";

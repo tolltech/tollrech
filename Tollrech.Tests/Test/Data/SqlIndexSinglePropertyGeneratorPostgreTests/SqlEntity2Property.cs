@@ -13,7 +13,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         public Guid Id { get; set; }
 
         [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
-        public decimal Amount{caret:Generate:ms:sql:index:script} { get; set; }
+        public decimal Amount{caret} { get; set; }
 
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]
         public string Number { get; set; }
