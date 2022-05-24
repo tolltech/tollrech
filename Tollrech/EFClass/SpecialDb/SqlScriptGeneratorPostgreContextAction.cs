@@ -24,7 +24,7 @@ namespace Tollrech.EFClass.SpecialDb
         {
             var (tableName, propertyInfo) = arg;
             var sb = new StringBuilder();
-            sb.Append($"ALTER TABLE [{tableName}] ADD COLUMN IF NOT EXISTS ");
+            sb.Append($"ALTER TABLE {tableName} ADD COLUMN IF NOT EXISTS ");
             AddPropertyTypeInfo(sb, propertyInfo);
 
             sb.Append(!propertyInfo.Required ? " null" : $" not null default (0)");
@@ -55,7 +55,7 @@ namespace Tollrech.EFClass.SpecialDb
             var (tableName, properties) = arg;
             var sb = new StringBuilder();
 
-            sb.AppendLine($"CREATE TABLE IF NOT EXISTS [{tableName}](");
+            sb.AppendLine($"CREATE TABLE IF NOT EXISTS {tableName}(");
 
             foreach (var property in properties)
             {
@@ -76,7 +76,7 @@ namespace Tollrech.EFClass.SpecialDb
         private static void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
         {
             var columnType = property.GetColumnType(DbType.Postgres);
-            sb.Append($" [{property.ColumnName}] [{columnType}]");
+            sb.Append($" {property.ColumnName} {columnType}");
             if (columnType == "varchar")
             {
                 if (!string.IsNullOrWhiteSpace(property.MaxLength))

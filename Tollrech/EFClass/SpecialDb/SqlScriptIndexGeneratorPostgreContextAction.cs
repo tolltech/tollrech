@@ -16,7 +16,7 @@ namespace Tollrech.EFClass.SpecialDb
         private static string GenerateSqlIndex((string TableName, string ColumnName) arg)
         {
             var (tableName, columnName) = arg;
-            return $"CREATE INDEX [CONCURRENTLY] IF NOT EXISTS [ix_{tableName}_{columnName}] ON [{tableName}] ([{columnName}]);";
+            return $"CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_{tableName}_{columnName} ON {tableName} ({columnName});";
         }
 
 
