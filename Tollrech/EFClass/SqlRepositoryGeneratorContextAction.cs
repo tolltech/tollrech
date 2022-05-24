@@ -164,7 +164,7 @@ namespace Tollrech.EFClass
                 return true;
             }
 
-            var tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table);
+            var tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
             return tableAttribute != null;
         }
 

@@ -92,13 +92,11 @@ namespace Tollrech.EFClass
         [CanBeNull]
         private static string GetTableNameFromAttribute([NotNull] ILambdaParameterDeclaration parameterDeclaration)
         {
-            const string tableNameAttribute = "Table";
-
             var parameterScalarType = parameterDeclaration.DeclaredElement.Type.GetScalarType();
             var resolveResult = parameterScalarType?.Resolve();
             var declarations = resolveResult?.DeclaredElement?.GetDeclarations().ToArray() ?? Array.Empty<IDeclaration>();
             var classDeclaration = declarations.OfType<IAttributesOwnerDeclaration>().FirstOrDefault();
-            var tableAttribute = classDeclaration?.Attributes.FirstOrDefault(x => x.Name.NameIdentifier.Name == tableNameAttribute);
+            var tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
             return tableAttribute?.Arguments.FirstOrDefault()?.Value?.ConstantValue.Value?.ToString();
         }
 

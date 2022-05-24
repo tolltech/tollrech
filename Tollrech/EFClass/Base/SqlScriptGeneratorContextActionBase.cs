@@ -90,7 +90,7 @@ namespace Tollrech.EFClass.Base
         public override bool IsAvailable(IUserDataHolder cache)
         {
             propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
-            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table);
+            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
             return tableAttribute != null;
         }
     }

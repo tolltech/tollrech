@@ -21,7 +21,8 @@ namespace Tollrech.EFClass
         {
             specialDbScriptActions = new ContextActionBase[]
                                      {
-                                         new SqlMapGeneratorMsContextAction(provider)
+                                         new SqlMapGeneratorMsContextAction(provider),
+                                         new SqlMapGeneratorPostgreContextAction(provider)
                                      };
         }
 

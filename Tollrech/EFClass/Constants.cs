@@ -8,6 +8,7 @@
         public const string MaxLength = "MaxLength";
         public const string DecimalPrecision = "DecimalPrecision";
         public const string Table = "Table";
+        public const string PostgreSqlTable = "PostgreSqlTable";
         public const string Column = "Column";
         public const string TimestampAttribute = "Timestamp";
         public const string TypeName = "TypeName";
