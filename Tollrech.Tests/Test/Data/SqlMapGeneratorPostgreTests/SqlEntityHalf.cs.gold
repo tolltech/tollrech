@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SKBKontur.Billy.Core.Database.Sql;
 using SKBKontur.Billy.Core.Database.Sql.Attributes;
 
 namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 {
-    [Table("sql_entities")]
+    [PostgreSqlTable("sql_entities")]
     public class SqlEntity{caret}
     {
         [Column("int", TypeName = ColumnTypeNames.int4)]
@@ -25,6 +26,19 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 }
 
 #region Infra
+namespace SKBKontur.Billy.Core.Database.Sql
+{
+    public class PostgreSqlTableAttribute : System.ComponentModel.DataAnnotations.TableAttribute
+    {
+        private readonly string name;
+
+        public PostgreSqlTableAttribute(string name)
+        {
+            this.name = name;
+        }
+    }
+}
+
 namespace System.ComponentModel.DataAnnotations.Schema
 {
     public class TableAttribute : Attribute

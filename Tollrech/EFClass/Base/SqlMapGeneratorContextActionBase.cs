@@ -24,6 +24,13 @@ namespace Tollrech.EFClass.Base
         private readonly IClassDeclaration classDeclaration;
         private readonly CSharpElementFactory factory;
 
+        [NotNull]
+        protected virtual string tableAttributeName => Constants.Table;
+        [NotNull]
+        protected virtual string tableAttributeNamespace => DataAnnotationsNamespace;
+
+        private const string DataAnnotationsNamespace = "System.ComponentModel.DataAnnotations.Schema";
+
         protected SqlMapGeneratorContextActionBase(ICSharpContextActionDataProvider provider, [NotNull] string columnTypeNameClassName, [NotNull] Func<IType, string> getDbColumnTypeName,
                                                    [CanBeNull] Func<string, string> convertColumnName = null)
         {
@@ -37,7 +44,7 @@ namespace Tollrech.EFClass.Base
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
         {
-            if (classDeclaration.Attributes.FindAttribute(Constants.Table) == null)
+            if (classDeclaration.Attributes.FindAttribute(tableAttributeName) == null)
             {
                 AddTableAttribute();
             }
@@ -61,7 +68,7 @@ namespace Tollrech.EFClass.Base
                     continue;
                 }
 
-                var columnAttribute = CreateSchemaAttribute(Constants.Column);
+                var columnAttribute = CreateSchemaAttribute(Constants.Column, DataAnnotationsNamespace);
 
                 if (columnAttribute == null)
                 {
@@ -163,7 +170,7 @@ namespace Tollrech.EFClass.Base
 
         private void AddTableAttribute()
         {
-            var tableAttribute = CreateSchemaAttribute(Constants.Table);
+            var tableAttribute = CreateSchemaAttribute(tableAttributeName, tableAttributeNamespace);
 
             if (tableAttribute == null)
             {
@@ -177,7 +184,7 @@ namespace Tollrech.EFClass.Base
             classDeclaration.AddAttributeBefore(tableAttribute, null);
         }
 
-        private IAttribute CreateSchemaAttribute(string attributeShortTypeName) => provider.CreateAttribute($"System.ComponentModel.DataAnnotations.Schema.{attributeShortTypeName}Attribute");
+        private IAttribute CreateSchemaAttribute(string attributeShortTypeName, string attributeNamespace) => provider.CreateAttribute($"{attributeNamespace}.{attributeShortTypeName}Attribute");
 
         [CanBeNull]
         private IAttribute CreateAnnotationAttribute(string attributeTypeName)

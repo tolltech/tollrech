@@ -30,6 +30,20 @@ namespace Tollrech.Tests.Test.Data.SqlMapGeneratorTests
 }
 
 #region Infra
+
+namespace SKBKontur.Billy.Core.Database.Sql
+{
+    public class PostgreSqlTableAttribute : System.ComponentModel.DataAnnotations.TableAttribute
+    {
+        private readonly string name;
+
+        public PostgreSqlTableAttribute(string name)
+        {
+            this.name = name;
+        }
+    }
+}
+
 namespace System.ComponentModel.DataAnnotations.Schema
 {
     public class TableAttribute : Attribute
