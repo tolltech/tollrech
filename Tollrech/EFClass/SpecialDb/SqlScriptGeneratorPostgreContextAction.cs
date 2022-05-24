@@ -13,27 +13,29 @@ namespace Tollrech.EFClass.SpecialDb
         {
         }
 
+        //ALTER TABLE [TableName] ADD COLUMN IF NOT EXISTS [ColumnName] nvarchar(10) NULL;
+
+        //-- вариант 1 - создание с последующим удалением значения по умолчанию
+        //    alter table table_name add column if not exists column_name bigint not null default (0);
+        //alter table table_name alter column column_name drop default;
+
         [NotNull]
         private static string GenerateCustomPropertyScript((string TableName, PropertyInfo PropertyInfo) arg)
         {
             var (tableName, propertyInfo) = arg;
             var sb = new StringBuilder();
-            sb.AppendLine($"IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME = '{propertyInfo.ColumnName}')");
-            sb.Append($"    ALTER TABLE [{tableName}] ADD");
+            sb.Append($"ALTER TABLE [{tableName}] ADD COLUMN IF NOT EXISTS ");
             AddPropertyTypeInfo(sb, propertyInfo);
 
-            sb.Append(!propertyInfo.Required ? " NULL" : $" CONSTRAINT DF_{tableName}_{propertyInfo.ColumnName} default (0) NOT NULL");
+            sb.Append(!propertyInfo.Required ? " null" : $" not null default (0)");
 
             sb.AppendLine(";");
-            sb.AppendLine("GO");
             sb.AppendLine();
 
             if (propertyInfo.Required)
             {
                 sb.AppendLine("-- Put it in covertDb.sql, sir");
-                sb.AppendLine($"IF EXISTS(SELECT* FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME = '{propertyInfo.ColumnName}' and COLUMN_DEFAULT IS NOT NULL)");
-                sb.AppendLine($"    ALTER TABLE [{tableName}] DROP CONSTRAINT [DF_{tableName}_{propertyInfo.ColumnName}]");
-                sb.AppendLine("GO");
+                sb.AppendLine($"alter table {tableName} alter column {propertyInfo.ColumnName} drop default;");
             }
 
             return sb.ToString();
@@ -104,11 +106,8 @@ namespace Tollrech.EFClass.SpecialDb
             sb.Append(" NULL");
         }
 
-        public override string Text => "(doesn't work) Generate psql script";
-
+        public override string Text => "Generate psql script";
 
         //ALTER TABLE [TableName] DROP COLUMN IF EXISTS [ColumnName];
-
-        //ALTER TABLE [TableName] ADD COLUMN IF NOT EXISTS [ColumnName] nvarchar(10) NULL;
     }
 }

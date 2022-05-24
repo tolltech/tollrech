@@ -11,6 +11,9 @@ namespace Tollrech.EFClass.SpecialDb
     [ContextAction(Name = "MsSqlMapGenerate", Description = "Generate PSql map for class-entity", Group = "C#", Disabled = true, Priority = 1)]
     public class SqlMapGeneratorPostgreContextAction : SqlMapGeneratorContextActionBase
     {
+        protected override string tableAttributeName => Constants.PostgreSqlTable;
+        protected override string tableAttributeNamespace => "SKBKontur.Billy.Core.Database.Sql";
+
         public SqlMapGeneratorPostgreContextAction(ICSharpContextActionDataProvider provider) : base(provider, "PostgreSqlColumnTypeNames", GetDbColumnTypeName, InflectorExtensions.Underscore)
         {
 

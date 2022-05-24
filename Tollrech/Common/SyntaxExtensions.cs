@@ -63,9 +63,9 @@ namespace Tollrech.Common
         }
 
         [CanBeNull]
-        public static IAttribute FindAttribute([NotNull] this IEnumerable<IAttribute> src, string name)
+        public static IAttribute FindAttribute([NotNull] this IEnumerable<IAttribute> src, params string[] names)
         {
-            return src.FirstOrDefault(x => x.Name.NameIdentifier.Name == name);
+            return src.FirstOrDefault(x => names.Contains(x.Name.NameIdentifier.Name));
         }
 
         public static bool HasAttribute([NotNull] this IEnumerable<IAttribute> src, string name)
