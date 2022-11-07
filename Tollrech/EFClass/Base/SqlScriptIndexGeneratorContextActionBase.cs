@@ -25,8 +25,9 @@ namespace Tollrech.EFClass.Base
             GenerateSqlIndex = generateSqlIndex;
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
-
             propertyDeclaration = provider.GetSelectedElement<IPropertyDeclaration>();
+            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
+            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
@@ -40,7 +41,7 @@ namespace Tollrech.EFClass.Base
         private string GetIndexScript()
         {
             var columnName = propertyColumnAttribute?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOColumnName";
-            var tableName = tableAttribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
+            var tableName = tableAttribute?.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
             return GenerateSqlIndex((tableName, columnName));
         }
 
@@ -48,8 +49,7 @@ namespace Tollrech.EFClass.Base
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
-            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
+
             return tableAttribute != null && propertyColumnAttribute != null;
         }
     }

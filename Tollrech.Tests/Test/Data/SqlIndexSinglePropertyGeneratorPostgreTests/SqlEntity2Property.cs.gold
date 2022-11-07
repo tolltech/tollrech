@@ -12,7 +12,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
         public Guid Id { get; set; }
 
-        /// CREATE INDEX [CONCURRENTLY] IF NOT EXISTS [ix_SqlEntities_Amount] ON [SqlEntities] ([Amount]);
+        /// CREATE INDEX CONCURRENTLY IF NOT EXISTS ix_SqlEntities_Amount ON SqlEntities (Amount);
         [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
         public decimal Amount{caret} { get; set; }
 
