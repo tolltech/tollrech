@@ -3,7 +3,7 @@ using Tollrech.EFClass;
 
 namespace Tollrech.Tests.ContextActions
 {
-    public class SqlIndexSinglePropertyGeneratorTests : ContextActionBaseTests<SqlScriptIndexGeneratorContextAction>
+    public class SqlIndexSinglePropertyGeneratorTests : ContextActionBaseTests<DefaultSqlScriptIndexGeneratorContextAction>
     {
         protected override string ExtraPath => "SqlIndexSinglePropertyGeneratorTests";
         protected override string RelativeTestDataPath => relativeTestDataPath;
