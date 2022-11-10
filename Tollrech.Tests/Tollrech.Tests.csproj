@@ -19,6 +19,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test\Data\**\*.cs" />
+    <Content Update="Test\Data\SqlScriptGeneratorPostgreTests\EmptySqlEntity.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity2.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity2Long.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity2Property.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity3Property.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
@@ -176,6 +191,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlRepositoryGeneratorTests\IdTimestampEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptGeneratorPostgreTests\EmptySqlEntity.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity2.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity2Long.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity2Property.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity3Property.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptGeneratorTests\EmptySqlEntity.cs.gold">
