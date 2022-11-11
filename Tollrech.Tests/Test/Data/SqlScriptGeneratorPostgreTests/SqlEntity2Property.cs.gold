@@ -12,14 +12,10 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
         public Guid Id { get; set; }
 
-        /// IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'SqlEntities' AND COLUMN_NAME = 'Amount')
-        ///     ALTER TABLE [SqlEntities] ADD [Amount] [decimal] (18, 2) CONSTRAINT DF_SqlEntities_Amount default (0) NOT NULL;
-        /// GO
+        /// ALTER TABLE SqlEntities ADD COLUMN IF NOT EXISTS Amount numeric (18, 2) NOT NULL DEFAULT(0);
         /// -- Put it in covertDb.sql, sir
-        /// IF EXISTS(SELECT* FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'SqlEntities' AND COLUMN_NAME = 'Amount' and COLUMN_DEFAULT IS NOT NULL)
-        ///     ALTER TABLE [SqlEntities] DROP CONSTRAINT [DF_SqlEntities_Amount]
-        /// GO
-        [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        /// ALTER TABLE SqlEntities ALTER COLUMN Amount DROP DEFAULT;
+        [Column("Amount", TypeName = PostgreSqlColumnTypeNames.numeric), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
         public decimal Amount{caret} { get; set; }
 
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]

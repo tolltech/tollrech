@@ -15,9 +15,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
         public decimal Amount { get; set; }
 
-        /// IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'SqlEntities' AND COLUMN_NAME = 'Number')
-        ///     ALTER TABLE [SqlEntities] ADD [Number] [nvarchar] (50) NULL;
-        /// GO
+        /// ALTER TABLE SqlEntities ADD COLUMN IF NOT EXISTS Number varchar (50) NULL;
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), ConcurrencyCheck, MaxLength(50)]
         public string Number{caret} { get; set; }
 

@@ -6,16 +6,14 @@ using SKBKontur.Billy.Core.Common.Quering.Attributes;
 
 namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
 {
-  /// IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'SqlEntities')
-  /// CREATE TABLE [dbo].[SqlEntities](
-  ///     [Id] [uniqueidentifier] NOT NULL,
-  ///     [Amount] [decimal] (18, 2) NOT NULL,
-  ///     [Number] [nvarchar] (50) NOT NULL,
-  ///     [Type_New] [int] NOT NULL,
-  ///     [KbaIncomingDate] [datetime2] NULL,
-  ///     [TimeStamp] [bigint] NOT NULL,
-  ///     [IsDeleted] [bit] NOT NULL,
-  ///     CONSTRAINT[PK_SqlEntities] PRIMARY KEY CLUSTERED([Id] ASC)
+  /// CREATE TABLE IF NOT EXISTS SqlEntities(
+  ///     Id uuid PRIMARY KEY NOT NULL,
+  ///     Amount decimal (18, 2) NOT NULL,
+  ///     Number varchar (50) NOT NULL,
+  ///     Type_New int NOT NULL,
+  ///     KbaIncomingDate datetime2 NULL,
+  ///     TimeStamp bigint NOT NULL,
+  ///     IsDeleted bool NOT NULL,
   /// )
   [Table("SqlEntities")]
     public class SqlEntity2{caret}

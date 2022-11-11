@@ -12,7 +12,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
         public Guid Id { get; set; }
 
-        [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        [Column("Amount", TypeName = PostgreSqlColumnTypeNames.numeric), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
         public decimal Amount{caret:Generate:psql:script} { get; set; }
 
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]

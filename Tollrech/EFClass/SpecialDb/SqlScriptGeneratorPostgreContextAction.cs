@@ -24,10 +24,10 @@ namespace Tollrech.EFClass.SpecialDb
         {
             var (tableName, propertyInfo) = arg;
             var sb = new StringBuilder();
-            sb.Append($"ALTER TABLE {tableName} ADD COLUMN IF NOT EXISTS ");
+            sb.Append($"ALTER TABLE {tableName} ADD COLUMN IF NOT EXISTS");
             AddPropertyTypeInfo(sb, propertyInfo);
 
-            sb.Append(!propertyInfo.Required ? " null" : $" not null default (0)");
+            sb.Append(!propertyInfo.Required ? " NULL" : $" NOT NULL DEFAULT(0)");
 
             sb.AppendLine(";");
             sb.AppendLine();
@@ -35,7 +35,7 @@ namespace Tollrech.EFClass.SpecialDb
             if (propertyInfo.Required)
             {
                 sb.AppendLine("-- Put it in covertDb.sql, sir");
-                sb.AppendLine($"alter table {tableName} alter column {propertyInfo.ColumnName} drop default;");
+                sb.AppendLine($"ALTER TABLE {tableName} ALTER COLUMN {propertyInfo.ColumnName} DROP DEFAULT;");
             }
 
             return sb.ToString();

@@ -30,19 +30,16 @@ namespace Tollrech.EFClass
                                                                             {Constants.VarBinary, "varbinary"},
                                                                         };
 
-        //todo: адаптировать
         private static readonly Dictionary<string, string> postgresCodedTypes = new Dictionary<string, string>
                                                                         {
-                                                                            {Constants.BigInt, "bigint"},
-                                                                            {Constants.Bit, "bit"},
-                                                                            {Constants.DateTime2, "datetime2"},
-                                                                            {Constants.Decimal, "decimal"},
+                                                                            {Constants.BigInt, "int8"},
+                                                                            {Constants.Bit, "bool"},
+                                                                            {Constants.DateTime2, "timestamp"},
+                                                                            {Constants.Decimal, "numeric"},
                                                                             {Constants.Int, "int"},
                                                                             {Constants.UniqueIdentifier, "uuid"},
                                                                             {Constants.NVarChar, "varchar"},
-                                                                            {Constants.Date, "timestamp without time zone"},
-                                                                            {Constants.Image, "image"},
-                                                                            {Constants.VarBinary, "varbinary"},
+                                                                            {Constants.Date, "timestamp"}
                                                                         };
 
         [NotNull]

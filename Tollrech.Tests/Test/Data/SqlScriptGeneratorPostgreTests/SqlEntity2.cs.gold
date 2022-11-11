@@ -6,18 +6,17 @@ using SKBKontur.Billy.Core.Common.Quering.Attributes;
 
 namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
 {
-  /// IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'SqlEntities')
-  /// CREATE TABLE [dbo].[SqlEntities](
-  ///     [Id] [uniqueidentifier] NOT NULL,
-  ///     [Amount] [decimal] (18, 2) NOT NULL,
-  ///     [Number] [nvarchar] (50) NOT NULL,
-  ///     [Number2] [nvarchar] (MAX) NOT NULL,
-  ///     [Type_New] [int] NOT NULL,
-  ///     [KbaIncomingDate] [datetime2] NULL,
-  ///     [TimeStamp] [bigint] NOT NULL,
-  ///     [IsDeleted] [bit] NOT NULL,
-  ///     [Timestamp2] [rowversion] NOT NULL,
-  ///     CONSTRAINT[PK_SqlEntities] PRIMARY KEY CLUSTERED([Id] ASC)
+  /// CREATE TABLE IF NOT EXISTS SqlEntities(
+  ///     Id uuid PRIMARY KEY NOT NULL,
+  ///     Amount numeric (18, 2) NOT NULL,
+  ///     Amount2 numeric (18, 2) NOT NULL,
+  ///     Number varchar (50) NOT NULL,
+  ///     Number2 varchar NOT NULL,
+  ///     Type_New int NOT NULL,
+  ///     KbaIncomingDate datetime2 NULL,
+  ///     TimeStamp int8 NOT NULL,
+  ///     IsDeleted bool NOT NULL,
+  ///     Timestamp2 rowversion NOT NULL,
   /// )
   [Table("SqlEntities")]
     public class SqlEntity2{caret}
@@ -25,8 +24,11 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
         public Guid Id { get; set; }
 
-        [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        [Column("Amount", TypeName = ColumnTypeNames.Decimal), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
         public decimal Amount { get; set; }
+    
+        [Column("Amount2", TypeName = PostgreSqlColumnTypeNames.numeric), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        public decimal Amount2 { get; set; }
 
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]
         public string Number { get; set; }
@@ -40,7 +42,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("KbaIncomingDate", TypeName = "datetime2"), ConcurrencyCheck]
         public DateTime? KbaIncomingDate { get; set; }
 
-        [Column("TimeStamp", TypeName = "bigint"), Required, ConcurrencyCheck]
+        [Column("TimeStamp", TypeName = PostgreSqlColumnTypeNames.int8), Required, ConcurrencyCheck]
         public long TimeStamp { get; set; }
 
         [Column("IsDeleted", TypeName = ColumnTypeNames.Bit), Required, ConcurrencyCheck]

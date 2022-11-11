@@ -12,8 +12,11 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
         public Guid Id { get; set; }
 
-        [Column("Amount", TypeName = "decimal"), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        [Column("Amount", TypeName = ColumnTypeNames.Decimal), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
         public decimal Amount { get; set; }
+    
+        [Column("Amount2", TypeName = PostgreSqlColumnTypeNames.numeric), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        public decimal Amount2 { get; set; }
 
         [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]
         public string Number { get; set; }
@@ -27,7 +30,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
         [Column("KbaIncomingDate", TypeName = "datetime2"), ConcurrencyCheck]
         public DateTime? KbaIncomingDate { get; set; }
 
-        [Column("TimeStamp", TypeName = "bigint"), Required, ConcurrencyCheck]
+        [Column("TimeStamp", TypeName = PostgreSqlColumnTypeNames.int8), Required, ConcurrencyCheck]
         public long TimeStamp { get; set; }
 
         [Column("IsDeleted", TypeName = ColumnTypeNames.Bit), Required, ConcurrencyCheck]
