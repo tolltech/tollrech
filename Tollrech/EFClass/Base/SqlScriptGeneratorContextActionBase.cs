@@ -33,6 +33,9 @@ namespace Tollrech.EFClass.Base
             propertyDeclaration = provider.GetSelectedElement<IPropertyDeclaration>();
             GenerateCustomPropertyScript = generateCustomPropertyScript;
             GenerateCustomTableScript = generateCustomTableScript;
+
+            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
+            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
@@ -89,8 +92,6 @@ namespace Tollrech.EFClass.Base
 
         public override bool IsAvailable(IUserDataHolder cache)
         {
-            propertyColumnAttribute = propertyDeclaration?.Attributes.FindAttribute(Constants.Column);
-            tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
             return tableAttribute != null;
         }
     }
