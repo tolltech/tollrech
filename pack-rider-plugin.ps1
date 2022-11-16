@@ -61,3 +61,5 @@ WriteHeader "Zipping"
 7z a $destination $Source
 
 Write-Host "Done!" -ForegroundColor Green
+
+pause
