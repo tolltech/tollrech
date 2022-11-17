@@ -10,24 +10,25 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using Tollrech.Common;
+using Tollrech.Json;
 
-namespace Tollrech.Json.Base
+namespace Tollrech.Case.Base
 {
-    public abstract class JsonPropertyContextActionBase : ContextActionBase
+    public abstract class CaseContextActionBase : ContextActionBase
     {
         private readonly ICSharpContextActionDataProvider provider;
 
-        private readonly Func<string, string> propertyNameTransform;
+        private readonly Func<string, string> caseTransform;
 
         private readonly IClassDeclaration classDeclaration;
         private readonly CSharpElementFactory factory;
 
-        protected JsonPropertyContextActionBase([NotNull] ICSharpContextActionDataProvider provider, [CanBeNull] Func<string, string> propertyNameTransform = null)
+        protected CaseContextActionBase([NotNull] ICSharpContextActionDataProvider provider, [CanBeNull] Func<string, string> propertyNameTransform = null)
         {
             this.provider = provider;
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
-            this.propertyNameTransform = propertyNameTransform ?? (x=> x);
+            this.caseTransform = propertyNameTransform ?? (x=> x);
         }
 
         protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, IProgressIndicator progress)
@@ -60,7 +61,7 @@ namespace Tollrech.Json.Base
 
                 var propertyName = propertyDeclaration.NameIdentifier.Name;
 
-                var propertyNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateStringLiteralExpression($"{propertyNameTransform(propertyName)}"));
+                var propertyNameArgument = factory.CreateArgument(ParameterKind.VALUE, factory.CreateStringLiteralExpression($"{caseTransform(propertyName)}"));
                 attribute.AddArgumentBefore(propertyNameArgument, null);
                 propertyDeclaration.AddAttributeAfter(attribute, propertyDeclaration.Attributes.LastOrDefault());
             }

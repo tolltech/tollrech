@@ -1,15 +1,15 @@
 ﻿using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
+using Tollrech.Case.Base;
 using Tollrech.Common;
-using Tollrech.Json.Base;
 
-namespace Tollrech.Json.WithCase
+namespace Tollrech.Case.WithCase
 {
 	[ContextAction(Name = "AddJsonPropertyCamelCase", Description = "Generate JsonProperty attributes for class-entity with camelCase names", Group = "C#", Disabled = true, Priority = 1)]
-	public class JsonPropertyCamelCaseContextAction : JsonPropertyContextActionBase
+	public class CaseCamelCaseContextAction : CaseContextActionBase
 	{
-		public JsonPropertyCamelCaseContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider, InflectorExtensions.Camelize)
+		public CaseCamelCaseContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider, InflectorExtensions.Camelize)
 		{
 		}
 
