@@ -34,6 +34,30 @@
     <Content Update="Test\Data\SqlScriptGeneratorPostgreTests\SqlEntity3Property.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Test\Data\CaseChangerTests\LogFieldExists.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CaseChangerTests\LogFieldExistsOther.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CaseChangerTests\NotLiteral.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CaseChangerTests\Simple.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CaseChangerTests\SimpleWithUsing.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CaseChangerTests\StringVariable.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Test\Data\CaseChangerTests\LiteralPascal.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+	<Content Update="Test\Data\CaseChangerSnakeCaseTests\Literal2.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
@@ -82,6 +106,18 @@
     <None Remove="Test\Data\SqlScriptIndexByMethodGeneratorTests\WhereWithIf.cs.gold" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Test\Data\CaseChangerSnakeCaseTests\Literal2.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\CaseChangerTests\LiteralPascal.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\CaseChangerTests\NotLiteral.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\CaseChangerTests\StringVariable.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
