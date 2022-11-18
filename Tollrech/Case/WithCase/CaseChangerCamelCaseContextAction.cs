@@ -7,12 +7,12 @@ using Tollrech.Common;
 namespace Tollrech.Case.WithCase
 {
 	[ContextAction(Name = "AddJsonPropertyCamelCase", Description = "Generate JsonProperty attributes for class-entity with camelCase names", Group = "C#", Disabled = true, Priority = 1)]
-	public class CaseCamelCaseContextAction : CaseContextActionBase
+	public class CaseChangerCamelCaseContextAction : CaseContextActionBase
 	{
-		public CaseCamelCaseContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider, InflectorExtensions.Camelize)
+		public CaseChangerCamelCaseContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider, InflectorExtensions.Camelize)
 		{
 		}
 
-		public override string Text { get; } = "Add JsonProperty attributes camelCase";
+		public override string Text { get; } = "To camelCase";
 	}
 }

@@ -12,22 +12,22 @@ using Tollrech.Case.WithCase;
 namespace Tollrech.Case
 {
 	[ContextAction(Name = "ChangeCase", Description = "Change case", Group = "C#", Disabled = false, Priority = 1)]
-	public class DefaultCaseContextAction : CaseContextActionBase
+	public class DefaultCaseChangerContextAction : CaseContextActionBase
 	{
 		private readonly ContextActionBase[] caseActions;
 
-		public DefaultCaseContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider)
+		public DefaultCaseChangerContextAction([NotNull] ICSharpContextActionDataProvider provider) : base(provider)
 		{
 			caseActions = new ContextActionBase[]
 			                        {
-				                        new CasePascalCaseContextAction(provider),
-				                        new CaseCamelCaseContextAction(provider),
-				                        new CaseKebabCaseContextAction(provider),
-				                        new CaseSnakeCaseContextAction(provider)
+				                        new CaseChangerPascalCaseContextAction(provider),
+				                        new CaseChangerCamelCaseContextAction(provider),
+				                        new CaseChangerKebabCaseContextAction(provider),
+				                        new CaseChangerSnakeCaseContextAction(provider)
 			                        };
 		}
 
-		public override string Text { get; } = "Add Case attributes";
+		public override string Text { get; } = "To special case";
 
 		public override IEnumerable<IntentionAction> CreateBulbItems()
 		{
