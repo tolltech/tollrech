@@ -1,8 +1,8 @@
 <idea-plugin require-restart="true">
   <id>Tolltech.Tollrider</id>
   <name>Tollrider</name>
-  <description>Generate JSON, EF SQL schemas description attributes for data contract objects. Introduce ILog for strings. Generate ctor calling with dummy values for class properties.</description>
-  <version>2022.2.3</version>
+  <description>Generate JSON, EF SQL schemas description attributes for data contract objects. Introduce ILog for strings. Generate ctor calling with dummy values for class properties. Change case of string literals</description>
+  <version>2022.2.4</version>
   <vendor url="https://github.com/tolltech/tollrech">tolltech</vendor>
   <idea-version since-build="222" until-build="222.*"/>
   <extensions defaultExtensionNs="com.intellij" />

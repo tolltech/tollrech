@@ -3,12 +3,12 @@
   <metadata>
     <id>Tolltech.Tollrider</id>
     <title>Tollrider</title>
-    <version>2022.2.3</version>
+    <version>2022.2.4</version>
     <authors>Tolltech</authors>
     <copyright>Tolltech</copyright>
     <owners>Tolltech</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Generate JSON, EF SQL schemas description attributes for data contract objects. Introduce ILog for strings. Generate ctor calling with dummy values for class properties.</description>
+    <description>Generate JSON, EF SQL schemas description attributes for data contract objects. Introduce ILog for strings. Generate ctor calling with dummy values for class properties. Change case of string literals</description>
     <summary>Kontur.Billing Resharper</summary>
     <iconUrl>https://pp.userapi.com/c837734/v837734541/58885/1BTnIETQxB8.jpg</iconUrl>
     <projectUrl>https://github.com/tolltech/tollrech</projectUrl>
