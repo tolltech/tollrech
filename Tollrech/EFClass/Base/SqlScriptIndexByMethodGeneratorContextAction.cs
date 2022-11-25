@@ -16,16 +16,17 @@ using IReferenceExpression = JetBrains.ReSharper.Psi.CSharp.Tree.IReferenceExpre
 
 namespace Tollrech.EFClass
 {
-    [ContextAction(Name = "SqlScriptIndexByMethodGeneratorContextAction", Description = "Generate Sql script index for handler methods", Group = "C#", Disabled = false, Priority = 1)]
-    public class SqlScriptIndexByMethodGeneratorContextAction : ContextActionBase
+    public abstract class SqlScriptIndexByMethodGeneratorContextActionBase : ContextActionBase
     {
+        private readonly Func<string, string[], string> getIndexScript;
         private readonly CSharpElementFactory factory;
         private readonly IMethodDeclaration methodDeclaration;
         private readonly IClassDeclaration classDeclaration;
         private IInvocationExpression[] invocationsExpressions;
 
-        public SqlScriptIndexByMethodGeneratorContextAction(ICSharpContextActionDataProvider provider)
+        protected SqlScriptIndexByMethodGeneratorContextActionBase(ICSharpContextActionDataProvider provider, Func<string, string[], string> getIndexScript)
         {
+            this.getIndexScript = getIndexScript;
             factory = provider.ElementFactory;
             methodDeclaration = provider.GetSelectedElement<IMethodDeclaration>();
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();
@@ -80,13 +81,9 @@ namespace Tollrech.EFClass
                 }
             }
 
-            var distinctedPropertyNames = indexProperties.Distinct().ToArray();
+            var distinctPropertyNames = indexProperties.Distinct().ToArray();
             var realTableName = tableName ?? "TODOTableName";
-            var indexName = $"IX_{realTableName}_{string.Join("_", distinctedPropertyNames)}";
-            return $"IF NOT EXISTS(SELECT* FROM sys.indexes WHERE NAME = '{indexName}' AND object_id = OBJECT_ID('{realTableName}'))\r\n" +
-                   $"   CREATE INDEX[{indexName}] ON[{realTableName}] ({string.Join(", ", distinctedPropertyNames.Select(x => $"[{x}]"))})\r\n" +
-                   "   with(online = on)\r\n" +
-                   "GO";
+            return getIndexScript(realTableName, distinctPropertyNames);
         }
 
         [CanBeNull]

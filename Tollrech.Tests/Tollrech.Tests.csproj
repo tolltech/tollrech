@@ -58,6 +58,21 @@
 	<Content Update="Test\Data\CaseChangerSnakeCaseTests\Literal2.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	<Content Update="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\Await.cs">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Update="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\NotHandler.cs">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Update="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\SimpleWhereChain.cs">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Update="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\UnresolvedTableName.cs">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Update="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\WhereWithIf.cs">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
@@ -257,6 +272,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptGeneratorTests\SqlEntity3Property.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\Await.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\NotHandler.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\SimpleWhereChain.cs.gold">

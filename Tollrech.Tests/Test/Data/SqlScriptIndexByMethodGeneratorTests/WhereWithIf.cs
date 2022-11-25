@@ -35,7 +35,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
 
     public class MyHadnler : EntityHandlerBase<OnlinePaymentSessionDbo>
     {
-        public Task<OnlinePaymentSessionDbo[]> SelectAsync{caret}(DateTime exclusiveFromDate, PaymentState[] states, DateTime? exclusiveToDate = null)
+        public Task<OnlinePaymentSessionDbo[]> SelectAsync{caret:Generate:ms:sql:index:script}(DateTime exclusiveFromDate, PaymentState[] states, DateTime? exclusiveToDate = null)
         {
             var query = GetTable()
                 .Where(x => states.Contains(x.State));
