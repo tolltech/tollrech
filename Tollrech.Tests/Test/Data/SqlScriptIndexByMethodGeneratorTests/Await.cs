@@ -57,7 +57,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
                 .Where(x => agents.Contains(x.PaymentAgent));
         }
 
-        public async Task<(PaymentState PaymentState, int Count)[]> CountByPayment{caret}StateAsync(OnlinePaymentAgent paymentAgent, DateTime exclusiveFromDate)
+        public async Task<(PaymentState PaymentState, int Count)[]> CountByPayment{caret:Generate:ms:sql:index:script}StateAsync(OnlinePaymentAgent paymentAgent, DateTime exclusiveFromDate)
         {
             return (await GetTable()
                     .Where(x => x.Date > exclusiveFromDate)

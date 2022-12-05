@@ -49,7 +49,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
             return query.OrderBy(x => x.Date).ToArrayAsync();
         }
 
-        public Task<OnlinePaymentSessionDbo[]> SelectAsync{caret:Generate:ms:sql:index:script}(DateTime exclusiveFromDate, PaymentState state, OnlinePaymentAgent[] agents)
+        public Task<OnlinePaymentSessionDbo[]> SelectAsync(DateTime exclusiveFromDate, PaymentState state, OnlinePaymentAgent[] agents)
         {
             return GetTable()
                 .Where(x => x.State == state)
@@ -57,7 +57,8 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
                 .Where(x => agents.Contains(x.PaymentAgent));
         }
 
-        public async Task<(PaymentState PaymentState, int Count)[]> CountByPaymentStateAsync(OnlinePaymentAgent paymentAgent, DateTime exclusiveFromDate)
+        /// CREATE INDEX CONCURRENTLY IF NOT exists ix_OnlinePaymentSessionDbos_Date_PaymentAgent ON OnlinePaymentSessionDbos (Date, PaymentAgent);
+        public async Task<(PaymentState PaymentState, int Count)[]> CountByPayment{caret}StateAsync(OnlinePaymentAgent paymentAgent, DateTime exclusiveFromDate)
         {
             return (await GetTable()
                     .Where(x => x.Date > exclusiveFromDate)
