@@ -57,14 +57,19 @@ namespace Tollrech.EFClass.SpecialDb
 
             sb.AppendLine($"CREATE TABLE IF NOT EXISTS {tableName}(");
 
-            foreach (var property in properties)
+            for (var i = 0; i < properties.Length; i++)
             {
+                var property = properties[i];
                 sb.Append($"   ");
 
                 AddPropertyTypeInfo(sb, property);
                 AddRequiredInfo(sb, property);
 
-                sb.Append(',');
+                if (i != properties.Length - 1)
+                {
+                    sb.Append(',');
+                }
+
                 sb.AppendLine();
             }
 

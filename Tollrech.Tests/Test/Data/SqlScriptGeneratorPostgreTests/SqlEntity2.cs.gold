@@ -16,7 +16,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
   ///     KbaIncomingDate datetime2 NULL,
   ///     TimeStamp int8 NOT NULL,
   ///     IsDeleted bool NOT NULL,
-  ///     Timestamp2 rowversion NOT NULL,
+  ///     Timestamp2 rowversion NOT NULL
   /// )
   [Table("SqlEntities")]
     public class SqlEntity2{caret}

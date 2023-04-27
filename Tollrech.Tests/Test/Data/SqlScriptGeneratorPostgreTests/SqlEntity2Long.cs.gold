@@ -13,7 +13,7 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
   ///     Type_New int NOT NULL,
   ///     KbaIncomingDate datetime2 NULL,
   ///     TimeStamp bigint NOT NULL,
-  ///     IsDeleted bool NOT NULL,
+  ///     IsDeleted bool NOT NULL
   /// )
   [Table("SqlEntities")]
     public class SqlEntity2{caret}
