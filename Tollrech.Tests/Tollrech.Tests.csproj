@@ -73,6 +73,9 @@
 	<Content Update="Test\Data\SqlScriptIndexByMethodGeneratorPostgreTests\WhereWithIf.cs">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
+	<Content Update="Test\Data\NetworkProxySignatureTests\NetworkProxySignatureSample.cs">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs.gold" />
@@ -293,6 +296,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Test\Data\SqlScriptIndexByMethodGeneratorTests\WhereWithIf.cs.gold">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+	<Content Include="Test\Data\NetworkProxySignatureTests\NetworkProxySignatureSample.cs.gold">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
