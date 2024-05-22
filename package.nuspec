@@ -15,11 +15,11 @@
     <licenseUrl>https://github.com/tolltech/tollrech/blob/master/eula/text-eula.txt</licenseUrl>
     <tags>skbkontur,konturbilling,konturresharping</tags>
     <dependencies>
-      <dependency id="Wave" version="241.0.0" />
+      <dependency id="Wave" version="223.0.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Tollrech\bin\Release\net472\Tollrech.dll" target="lib\net472\" />
-    <file src="Tollrech\bin\Release\net472\Tollrech.pdb" target="lib\net472\" />
+    <file src="Tollrech\bin\Release\net48\Tollrech.dll" target="lib\net472\" />
+    <file src="Tollrech\bin\Release\net48\Tollrech.pdb" target="lib\net472\" />
   </files>
 </package>
