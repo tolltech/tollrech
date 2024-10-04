@@ -9,9 +9,14 @@ using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.VB.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using Tollrech.Common;
+using IAttributesOwnerDeclaration = JetBrains.ReSharper.Psi.CSharp.Tree.IAttributesOwnerDeclaration;
+using IClassDeclaration = JetBrains.ReSharper.Psi.CSharp.Tree.IClassDeclaration;
+using ILambdaExpression = JetBrains.ReSharper.Psi.CSharp.Tree.ILambdaExpression;
+using IMethodDeclaration = JetBrains.ReSharper.Psi.CSharp.Tree.IMethodDeclaration;
 using IReferenceExpression = JetBrains.ReSharper.Psi.CSharp.Tree.IReferenceExpression;
 
 namespace Tollrech.EFClass
@@ -66,7 +71,7 @@ namespace Tollrech.EFClass
 
                 tableName = currentTableName;
 
-                var lambdaParameterName = parameterDeclaration.NameIdentifier.Name;
+                var lambdaParameterName = parameterDeclaration.DeclaredName;
                 var referenceExpressions = childNodes.OfType<IReferenceExpression>().Where(x => x.NameIdentifier.Name == lambdaParameterName).Distinct().ToArray();
 
                 foreach (var referenceExpression in referenceExpressions)
