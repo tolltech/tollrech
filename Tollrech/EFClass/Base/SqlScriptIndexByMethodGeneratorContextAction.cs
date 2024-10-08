@@ -9,7 +9,6 @@ using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
-using JetBrains.ReSharper.Psi.VB.Tree;
 using JetBrains.TextControl;
 using JetBrains.Util;
 using Tollrech.Common;
@@ -57,7 +56,7 @@ namespace Tollrech.EFClass
             {
                 var childNodes = lambdaExpression.GetAllDescendants().Distinct().ToArray();
 
-                var parameterDeclaration = childNodes.OfType<ILambdaParameterDeclaration>().FirstOrDefault();
+                var parameterDeclaration = childNodes.OfType<ILocalRegularParameterDeclaration>().FirstOrDefault();
                 if (parameterDeclaration == null)
                 {
                     continue;
@@ -92,14 +91,16 @@ namespace Tollrech.EFClass
         }
 
         [CanBeNull]
-        private static string GetTableNameFromAttribute([NotNull] ILambdaParameterDeclaration parameterDeclaration)
+        private static string GetTableNameFromAttribute([NotNull] ILocalRegularParameterDeclaration parameterDeclaration)
         {
             var parameterScalarType = parameterDeclaration.DeclaredElement.Type.GetScalarType();
             var resolveResult = parameterScalarType?.Resolve();
             var declarations = resolveResult?.DeclaredElement?.GetDeclarations().ToArray() ?? Array.Empty<IDeclaration>();
             var classDeclaration = declarations.OfType<IAttributesOwnerDeclaration>().FirstOrDefault();
             var tableAttribute = classDeclaration?.Attributes.FindAttribute(Constants.Table, Constants.PostgreSqlTable);
+#pragma warning disable CS0618
             return tableAttribute?.Arguments.FirstOrDefault()?.Value?.ConstantValue.Value?.ToString();
+#pragma warning restore CS0618
         }
 
         public override string Text => "Generate sql index script";

@@ -315,7 +315,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Test\Data\CtorPropertyInitializerContextActionTests\CtorWithoutTestBase.cs">
