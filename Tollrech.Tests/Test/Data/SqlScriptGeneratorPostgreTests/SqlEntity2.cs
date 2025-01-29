@@ -9,35 +9,35 @@ namespace Tollrech.Tests.Test.Data.SqlScriptGeneratorTests
     [Table("SqlEntities")]
     public class SqlEntity2{caret:Generate:psql:script}
     {
-    [Column("id", TypeName = "uuid"), Key, Required]
-    public Guid Id { get; set; }
+        [Column("Id", TypeName = ColumnTypeNames.UniqueIdentifier), Key, Required, ConcurrencyCheck]
+        public Guid Id { get; set; }
 
-    [Column("food_id", TypeName = "varchar"), Required]
-    public string FoodId { get; set; }
+        [Column("Amount", TypeName = ColumnTypeNames.Decimal), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        public decimal Amount { get; set; }
+    
+        [Column("Amount2", TypeName = PostgreSqlColumnTypeNames.numeric), Required, ConcurrencyCheck, DecimalPrecision(18, 2)]
+        public decimal Amount2 { get; set; }
 
-    [Column("name", TypeName = "varchar"), Required]
-    public string Name { get; set; }
+        [Column("Number", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck, MaxLength(50)]
+        public string Number { get; set; }
 
-    [Column("chat_id", TypeName = "bigint"), Required]
-    public long ChatId { get; set; }
+        [Column("Number2", TypeName = ColumnTypeNames.NVarChar), Required(AllowEmptyStrings = true), ConcurrencyCheck]
+        public string Number2 { get; set; }
 
-    [Column("user_id", TypeName = "bigint"), Required]
-    public long UserId { get; set; }
+        [Column("Type_New", TypeName = "int"), Required, ConcurrencyCheck]
+        public MyEnum2 Type { get; set; }
 
-    [Column("message_date"), Required]
-    public DateTimeOffset MessageDate { get; set; }
+        [Column("KbaIncomingDate", TypeName = "datetime2"), ConcurrencyCheck]
+        public DateTime? KbaIncomingDate { get; set; }
 
-    [Column("kcal", TypeName = "int"), Required]
-    public int Kcal { get; set; }
+        [Column("TimeStamp", TypeName = PostgreSqlColumnTypeNames.int8), Required, ConcurrencyCheck]
+        public long TimeStamp { get; set; }
 
-    [Column("protein", TypeName = "int"), Required]
-    public int Protein { get; set; }
+        [Column("IsDeleted", TypeName = ColumnTypeNames.Bit), Required, ConcurrencyCheck]
+        public bool IsDeleted { get; set; }
 
-    [Column("fat", TypeName = "int"), Required]
-    public int Fat { get; set; }
-
-    [Column("carbohydrate", TypeName = "int"), Required]
-    public int Carbohydrate { get; set; }
+        [Column("Timestamp2"), Timestamp, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public byte[] Timestamp2 { get; set; }
     }
 
     public enum MyEnum2
