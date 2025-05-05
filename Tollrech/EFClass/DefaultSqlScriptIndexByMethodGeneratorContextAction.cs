@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.UI.Controls.BulbMenu.Anchors;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -13,7 +12,6 @@ namespace Tollrech.EFClass
     [ContextAction(Name = "SqlScriptIndexByMethodGeneratorContextAction", Description = "Generate Sql script index for handler methods", Group = "C#", Disabled = false, Priority = 1)]
     public class DefaultSqlScriptIndexByMethodGeneratorContextAction : SqlScriptIndexByMethodGeneratorContextActionBase
     {
-        [NotNull, ItemNotNull]
         private readonly ContextActionBase[] specialDbScriptActions;
 
         public DefaultSqlScriptIndexByMethodGeneratorContextAction(ICSharpContextActionDataProvider provider) : base(provider, SqlScriptIndexByMethodGeneratorMsContextAction.GetIndexScript)

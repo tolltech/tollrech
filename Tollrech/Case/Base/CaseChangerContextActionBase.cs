@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -19,7 +18,7 @@ namespace Tollrech.Case.Base
         private readonly ICSharpLiteralExpression literalExpression;
         private readonly CSharpElementFactory factory;
 
-        protected CaseContextActionBase([NotNull] ICSharpContextActionDataProvider provider, [CanBeNull] Func<string, string> propertyNameTransform = null)
+        protected CaseContextActionBase(ICSharpContextActionDataProvider provider,  Func<string, string> propertyNameTransform = null)
         {
             factory = provider.ElementFactory;
             classDeclaration = provider.GetSelectedElement<IClassDeclaration>();

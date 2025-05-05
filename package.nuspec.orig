@@ -1,0 +1,29 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Tolltech.Tollrider</id>
+    <title>Tollrider</title>
+    <version>2025.1.1</version>
+    <authors>Tolltech</authors>
+    <copyright>Tolltech</copyright>
+    <owners>Tolltech</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Generate JSON, EF SQL schemas description attributes for data contract objects. Introduce ILog for strings. Generate ctor calling with dummy values for class properties. Change case of string literals</description>
+    <summary>Kontur.Billing Resharper</summary>
+    <iconUrl>https://pp.userapi.com/c837734/v837734541/58885/1BTnIETQxB8.jpg</iconUrl>
+    <projectUrl>https://github.com/tolltech/tollrech</projectUrl>
+    <licenseUrl>https://github.com/tolltech/tollrech/blob/master/eula/text-eula.txt</licenseUrl>
+    <tags>skbkontur,konturbilling,konturresharping</tags>
+    <dependencies>
+<<<<<<< Updated upstream
+      <dependency id="Wave" version="251.0.0" />
+=======
+      <dependency id="Wave" version="243.0.0" />
+>>>>>>> Stashed changes
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Tollrech\bin\Release\net481\Tollrech.dll" target="lib\net472\" />
+    <file src="Tollrech\bin\Release\net481\Tollrech.pdb" target="lib\net472\" />
+  </files>
+</package>

@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JetBrains.ReSharper.Feature.Services.ContextActions;
+﻿using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Util;
@@ -19,7 +18,7 @@ namespace Tollrech.EFClass.SpecialDb
 
         }
 
-        [CanBeNull]
+
         private static string GetDbColumnTypeName(IType scalarType)
         {
             if (scalarType.IsInt() || scalarType.IsEnumType())

@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JetBrains.ReSharper.Feature.Services.ContextActions;
+﻿using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using Tollrech.EFClass.Base;
 
@@ -12,7 +11,7 @@ namespace Tollrech.EFClass.SpecialDb
         {
         }
 
-        [NotNull]
+
         private static string GenerateSqlIndex((string TableName, string ColumnName) arg)
         {
             var (tableName, columnName) = arg;

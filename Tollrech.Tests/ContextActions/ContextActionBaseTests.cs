@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.Settings;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
@@ -40,9 +39,9 @@ namespace Tollrech.Tests.ContextActions
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        [NotNull]
+
         // ReSharper disable once MemberCanBeProtected.Global
-        public static TestCaseData[] FileNames([NotNull] string relativeTestDataPath)
+        public static TestCaseData[] FileNames(string relativeTestDataPath)
         {
             return Directory
                 .GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, @"Test\Data\", relativeTestDataPath), "*.cs")

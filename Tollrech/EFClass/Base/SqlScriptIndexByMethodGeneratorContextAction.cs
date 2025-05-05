@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -44,7 +43,7 @@ namespace Tollrech.EFClass
             return null;
         }
 
-        [NotNull]
+
         private string GetIndexScript()
         {
             var lambdas = methodDeclaration.Body.GetAllDescendants().OfType<ILambdaExpression>().ToArray();
@@ -90,8 +89,8 @@ namespace Tollrech.EFClass
             return getIndexScript(realTableName, distinctPropertyNames);
         }
 
-        [CanBeNull]
-        private static string GetTableNameFromAttribute([NotNull] ILocalRegularParameterDeclaration parameterDeclaration)
+
+        private static string GetTableNameFromAttribute(ILocalRegularParameterDeclaration parameterDeclaration)
         {
             var parameterScalarType = parameterDeclaration.DeclaredElement.Type.GetScalarType();
             var resolveResult = parameterScalarType?.Resolve();

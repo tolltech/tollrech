@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using JetBrains.Annotations;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
@@ -13,14 +12,14 @@ namespace Tollrech.Common
     {
 	    private static readonly ConcurrentDictionary<(string, string), IDeclaredType> cachedTypes = new ConcurrentDictionary<(string, string), IDeclaredType>();
 
-	    [NotNull]
-	    public static IDeclaredType GetType([NotNull] this ICSharpContextActionDataProvider provider, [NotNull] string fullTypeName)
+
+	    public static IDeclaredType GetType(this ICSharpContextActionDataProvider provider, string fullTypeName)
 	    {
 		    return TypeFactory.CreateTypeByCLRName(new ClrTypeName(fullTypeName), NullableAnnotation.Unknown, provider.PsiModule);
 	    }
 
-	    [CanBeNull]
-	    public static IAttribute CreateAttribute([NotNull] this ICSharpContextActionDataProvider provider, [NotNull] string attributeFullTypeName)
+
+	    public static IAttribute CreateAttribute(this ICSharpContextActionDataProvider provider, string attributeFullTypeName)
 	    {
 		    if (string.IsNullOrWhiteSpace(attributeFullTypeName))
 		    {

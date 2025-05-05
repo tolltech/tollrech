@@ -28,7 +28,7 @@
 
     public interface IEmptyEntRepository
     {
-      [NotNull]
+      
       Task CreateAsync([NotNull, ItemNotNull] params EmptyEntity[] emptyEnts);
     }
 
@@ -41,7 +41,7 @@
 
     public interface IEmptyEntHandler
     {
-      [NotNull]
+      
       Task CreateAsync([NotNull, ItemNotNull] params EmptyEntity[] emptyEnts);
     }
 }

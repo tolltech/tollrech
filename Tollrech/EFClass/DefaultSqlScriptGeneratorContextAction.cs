@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.UI.Controls.BulbMenu.Anchors;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -14,7 +13,6 @@ namespace Tollrech.EFClass
     [ContextAction(Name = "SqlScriptGenerator", Description = "Generate Sql script for class-entity", Group = "C#", Disabled = false, Priority = 1)]
     public class DefaultSqlScriptGeneratorContextAction : SqlScriptGeneratorContextActionBase
     {
-        [NotNull, ItemNotNull]
         private readonly ContextActionBase[] specialDbScriptActions;
 
         public DefaultSqlScriptGeneratorContextAction(ICSharpContextActionDataProvider provider)

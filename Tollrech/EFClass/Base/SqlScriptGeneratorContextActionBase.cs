@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -23,8 +22,8 @@ namespace Tollrech.EFClass.Base
         private IAttribute tableAttribute;
 
         protected SqlScriptGeneratorContextActionBase(ICSharpContextActionDataProvider provider,
-                                                      [NotNull] Func<(string TableName, PropertyInfo PropertyInfo), string> generateCustomPropertyScript,
-                                                      [NotNull] Func<(string TableName, PropertyInfo[] PropertyInfos), string> generateCustomTableScript
+                                                      Func<(string TableName, PropertyInfo PropertyInfo), string> generateCustomPropertyScript,
+                                                      Func<(string TableName, PropertyInfo[] PropertyInfos), string> generateCustomTableScript
             )
         {
             factory = provider.ElementFactory;
@@ -60,7 +59,7 @@ namespace Tollrech.EFClass.Base
             return null;
         }
 
-        [NotNull]
+
         private string GeneratePropertyScript()
         {
             var propertyInfo = propertyDeclaration.GetPropertyInfo();
@@ -69,11 +68,11 @@ namespace Tollrech.EFClass.Base
             return GenerateCustomPropertyScript((tableName, propertyInfo));
         }
 
-        [NotNull]
+
         private readonly Func<(string TableName, PropertyInfo PropertyInfo), string> GenerateCustomPropertyScript;
 
-        [NotNull]
-        private string GenerateTableScript([NotNull] IAttribute attribute)
+
+        private string GenerateTableScript(IAttribute attribute)
         {
             var tableName = attribute.Arguments.FirstOrDefault().GetLiteralText() ?? "TODOTableName";
             var properties = classDeclaration.PropertyDeclarations
@@ -85,7 +84,7 @@ namespace Tollrech.EFClass.Base
             return GenerateCustomTableScript((tableName, properties));
         }
 
-        [NotNull]
+
         private readonly Func<(string TableName, PropertyInfo[] PropertyInfos), string> GenerateCustomTableScript;
 
         public override string Text => "Generate sql script";

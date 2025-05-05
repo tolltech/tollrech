@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.QuickFixes;
 using JetBrains.ReSharper.FeaturesTestFramework.Intentions;
 using JetBrains.ReSharper.TestFramework;
@@ -40,8 +39,8 @@ namespace Tollrech.Tests.QuickFixes
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        [NotNull]
-        protected static TestCaseData[] FileNames([NotNull] string relativeTestDataPath)
+
+        protected static TestCaseData[] FileNames(string relativeTestDataPath)
         {
             return Directory
                 .GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, @"Test\Data\", relativeTestDataPath), "*.cs")

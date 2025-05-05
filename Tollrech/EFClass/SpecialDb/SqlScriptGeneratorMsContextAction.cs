@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using Tollrech.EFClass.Base;
@@ -14,7 +13,7 @@ namespace Tollrech.EFClass.SpecialDb
         {
         }
 
-        [NotNull]
+
         public static string GenerateCustomPropertyScript((string TableName, PropertyInfo PropertyInfo) arg)
         {
             var (tableName, propertyInfo) = arg;
@@ -40,7 +39,7 @@ namespace Tollrech.EFClass.SpecialDb
             return sb.ToString();
         }
 
-        [NotNull]
+
         public static string GenerateCustomTableScript((string TableName, PropertyInfo[] Properties) arg)
         {
             var (tableName, properties) = arg;
@@ -71,7 +70,7 @@ namespace Tollrech.EFClass.SpecialDb
             return sb.ToString();
         }
 
-        private static void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private static void AddPropertyTypeInfo(StringBuilder sb, PropertyInfo property)
         {
             sb.Append($" [{property.ColumnName}] [{property.GetColumnType()}]");
             if (property.GetColumnType() == "nvarchar")
@@ -92,7 +91,7 @@ namespace Tollrech.EFClass.SpecialDb
             }
         }
 
-        private static void AddRequiredInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private static void AddRequiredInfo(StringBuilder sb, PropertyInfo property)
         {
             if (property.Required || property.IsTimestamp)
             {

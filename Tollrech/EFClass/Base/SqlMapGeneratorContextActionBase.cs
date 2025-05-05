@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
@@ -24,15 +23,15 @@ namespace Tollrech.EFClass.Base
         private readonly IClassDeclaration classDeclaration;
         private readonly CSharpElementFactory factory;
 
-        [NotNull]
+
         protected virtual string tableAttributeName => Constants.Table;
-        [NotNull]
+
         protected virtual string tableAttributeNamespace => DataAnnotationsNamespace;
 
         private const string DataAnnotationsNamespace = "System.ComponentModel.DataAnnotations.Schema";
 
-        protected SqlMapGeneratorContextActionBase(ICSharpContextActionDataProvider provider, [NotNull] string columnTypeNameClassName, [NotNull] Func<IType, string> getDbColumnTypeName,
-                                                   [CanBeNull] Func<string, string> convertColumnName = null)
+        protected SqlMapGeneratorContextActionBase(ICSharpContextActionDataProvider provider, string columnTypeNameClassName, Func<IType, string> getDbColumnTypeName,
+                                                    Func<string, string> convertColumnName = null)
         {
             this.provider = provider;
             this.columnTypeNameClassName = columnTypeNameClassName;
@@ -90,7 +89,7 @@ namespace Tollrech.EFClass.Base
             }
         }
 
-        private void AddAnnotationAttributesIfNeed([NotNull] IPropertyDeclaration propertyDeclaration)
+        private void AddAnnotationAttributesIfNeed(IPropertyDeclaration propertyDeclaration)
         {
             var propertyType = propertyDeclaration.Type;
             if (propertyDeclaration.NameIdentifier.Name == Constants.Id)
@@ -129,7 +128,7 @@ namespace Tollrech.EFClass.Base
             }
         }
 
-        [NotNull]
+
         private ICSharpExpression GetMappingTypeName(IType scalarType)
         {
             var columnTypeNameClass = provider.GetType($"SKBKontur.Billy.Core.Database.Sql.{columnTypeNameClassName}");
@@ -186,7 +185,7 @@ namespace Tollrech.EFClass.Base
 
         private IAttribute CreateSchemaAttribute(string attributeShortTypeName, string attributeNamespace) => provider.CreateAttribute($"{attributeNamespace}.{attributeShortTypeName}Attribute");
 
-        [CanBeNull]
+
         private IAttribute CreateAnnotationAttribute(string attributeTypeName)
 	        => provider.CreateAttribute($"System.ComponentModel.DataAnnotations.{attributeTypeName}Attribute")
 		        ?? provider.CreateAttribute($"{attributeTypeName}Attribute");

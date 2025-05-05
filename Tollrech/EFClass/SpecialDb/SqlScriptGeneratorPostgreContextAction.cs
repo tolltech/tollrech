@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using JetBrains.Annotations;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.ContextActions;
 using Tollrech.EFClass.Base;
@@ -19,7 +18,7 @@ namespace Tollrech.EFClass.SpecialDb
         //    alter table table_name add column if not exists column_name bigint not null default (0);
         //alter table table_name alter column column_name drop default;
 
-        [NotNull]
+
         private static string GenerateCustomPropertyScript((string TableName, PropertyInfo PropertyInfo) arg)
         {
             var (tableName, propertyInfo) = arg;
@@ -49,7 +48,7 @@ namespace Tollrech.EFClass.SpecialDb
         //    ticks int8 NOT NULL
         //);
 
-        [NotNull]
+
         private static string GenerateCustomTableScript((string TableName, PropertyInfo[] Properties) arg)
         {
             var (tableName, properties) = arg;
@@ -78,7 +77,7 @@ namespace Tollrech.EFClass.SpecialDb
             return sb.ToString();
         }
 
-        private static void AddPropertyTypeInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private static void AddPropertyTypeInfo(StringBuilder sb, PropertyInfo property)
         {
             var columnType = property.GetColumnType(DbType.Postgres);
             sb.Append($" {property.ColumnName} {columnType}");
@@ -101,7 +100,7 @@ namespace Tollrech.EFClass.SpecialDb
             }
         }
 
-        private static void AddRequiredInfo([NotNull] StringBuilder sb, PropertyInfo property)
+        private static void AddRequiredInfo(StringBuilder sb, PropertyInfo property)
         {
             if (property.Required || property.IsTimestamp)
             {
