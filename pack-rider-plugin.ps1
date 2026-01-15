@@ -49,7 +49,9 @@ $Version = $PluginXml.SelectSingleNode(".//idea-plugin/version").innerText
 
 Write-Host "Version is $Version"
 
-[System.IO.Compression.ZipFile]::CreateFromDirectory("./META-INF", "./Tolltech.Tollrider.Rider/lib/Tolltech.Tollrider-$Version.jar", [System.IO.Compression.CompressionLevel]::Optimal, $True, [FixedEncoder]::new())
+$jarPath = "./Tolltech.Tollrider.Rider/lib/Tolltech.Tollrider-$Version.jar"
+
+[System.IO.Compression.ZipFile]::CreateFromDirectory("./META-INF", $jarPath, [System.IO.Compression.CompressionLevel]::Optimal, $True, ([System.Text.Encoding][FixedEncoder]::new()))
 
 $source = (Get-Item -Path ".\Tolltech.Tollrider.Rider" -Verbose).FullName
 $destination = Join-Path $source "..\Tolltech.Tollrider.Rider.zip"
